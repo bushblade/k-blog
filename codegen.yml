@@ -1,0 +1,11 @@
+overwrite: true
+schema: ${GRAPHCMS_PUBLIC_URL}
+generates:
+  app/graphql/graphcmsTypes.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-resolvers"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
