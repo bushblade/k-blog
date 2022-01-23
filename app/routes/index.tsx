@@ -1,6 +1,7 @@
 import { json, LoaderFunction, useLoaderData } from 'remix'
 import { gql } from 'graphql-request'
 import { graphcms } from '~/graphql/graphcms.server'
+import { Post } from '~/graphql/graphcmsTypes'
 
 const postsQuery = gql`
   {
@@ -12,13 +13,13 @@ const postsQuery = gql`
 `
 
 export let loader: LoaderFunction = async () => {
-  const data = await graphcms.request(postsQuery)
+  const data: Post[] = await graphcms.request(postsQuery)
   return json(data)
 }
 
 export default function Index() {
-  const data = useLoaderData()
-  console.log(data)
+  const { posts }: { posts: Post[] } = useLoaderData()
+  console.log(posts)
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.4' }}>
       <h1>Welcome to Remix</h1>
