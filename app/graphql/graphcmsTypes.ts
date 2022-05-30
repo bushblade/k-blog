@@ -5,7 +5,7 @@ export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K]
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -4883,6 +4883,8 @@ export enum _MutationKind {
   DeleteMany = 'deleteMany',
   Publish = 'publish',
   PublishMany = 'publishMany',
+  SchedulePublish = 'schedulePublish',
+  ScheduleUnpublish = 'scheduleUnpublish',
   Unpublish = 'unpublish',
   UnpublishMany = 'unpublishMany',
   Update = 'update',
@@ -5359,6 +5361,7 @@ export type MarkDirectiveArgs = {
   isConnectInput?: Maybe<Scalars['Boolean']>;
   isListRichText?: Maybe<Scalars['Boolean']>;
   isMemberInput?: Maybe<Scalars['Boolean']>;
+  isPositionInput?: Maybe<Scalars['Boolean']>;
   isRequired?: Maybe<Scalars['Boolean']>;
   isRichTextType?: Maybe<Scalars['Boolean']>;
   isUnidirectional?: Maybe<Scalars['Boolean']>;
@@ -5381,7 +5384,8 @@ export type MarkDirectiveArgs = {
   stages?: Maybe<Scalars['Boolean']>;
   storageId?: Maybe<Scalars['String']>;
   systemDateTimeFieldVariation?: Maybe<_SystemDateTimeFieldVariation>;
-  unionType?: Maybe<Scalars['Boolean']>;
+  unionFieldDetailsForVirtualMemberSide?: Maybe<Scalars['String']>;
+  unionType?: Maybe<Scalars['String']>;
   updatedAtField?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['Boolean']>;
   validations?: Maybe<Scalars['String']>;
@@ -5400,25 +5404,32 @@ export type PermissionDirectiveArgs = {
 export type PermissionDirectiveResolver<Result, Parent, ContextType = any, Args = PermissionDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type PsqlDirectiveArgs = {
-  column?: Maybe<Array<Scalars['String']>>;
+  column?: Maybe<Scalars['String']>;
   componentParentFieldValue?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   idColumn?: Maybe<Scalars['String']>;
-  join?: Maybe<Array<Scalars['String']>>;
+  join?: Maybe<Scalars['String']>;
   localizationTable?: Maybe<Scalars['String']>;
   memberColumns?: Maybe<Array<Scalars['String']>>;
   prio?: Maybe<Scalars['String']>;
   table?: Maybe<Scalars['String']>;
   updatedAtColumn?: Maybe<Scalars['String']>;
+  versionTable?: Maybe<Scalars['String']>;
 };
 
 export type PsqlDirectiveResolver<Result, Parent, ContextType = any, Args = PsqlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type RemoteDirectiveArgs = {
+  debugEnabled: Scalars['Boolean'];
+  docPlaceholderFields: Array<Scalars['String']>;
+  forwardClientHeaders: Scalars['Boolean'];
+  gqlEntryPointPath?: Maybe<Array<Scalars['String']>>;
+  gqlOperationName?: Maybe<Scalars['String']>;
+  gqlQuery?: Maybe<Scalars['String']>;
   headers?: Maybe<Scalars['Json']>;
   method: Scalars['String'];
-  payloadFields: Array<Scalars['String']>;
-  requestParamFields: Array<Scalars['String']>;
+  sourceType: Scalars['String'];
+  ttlInSeconds?: Maybe<Scalars['Int']>;
   url: Scalars['String'];
 };
 
@@ -5430,10 +5441,10 @@ export type AggregateResolvers<ContextType = any, ParentType extends ResolversPa
 };
 
 export type AssetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Asset'] = ResolversParentTypes['Asset']> = {
-  authorAvatar?: Resolver<Array<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<AssetAuthorAvatarArgs, never>>;
-  coverImagePost?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<AssetCoverImagePostArgs, never>>;
+  authorAvatar?: Resolver<Array<ResolversTypes['Author']>, ParentType, ContextType, Partial<AssetAuthorAvatarArgs>>;
+  coverImagePost?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, Partial<AssetCoverImagePostArgs>>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType, RequireFields<AssetCreatedAtArgs, 'variation'>>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<AssetCreatedByArgs, never>>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<AssetCreatedByArgs>>;
   documentInStages?: Resolver<Array<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<AssetDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   handle?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -5444,13 +5455,13 @@ export type AssetResolvers<ContextType = any, ParentType extends ResolversParent
   localizations?: Resolver<Array<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<AssetLocalizationsArgs, 'includeCurrent' | 'locales'>>;
   mimeType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType, RequireFields<AssetPublishedAtArgs, 'variation'>>;
-  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<AssetPublishedByArgs, never>>;
-  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<AssetScheduledInArgs, never>>;
+  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<AssetPublishedByArgs>>;
+  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<AssetScheduledInArgs>>;
   size?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType, RequireFields<AssetUpdatedAtArgs, 'variation'>>;
-  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<AssetUpdatedByArgs, never>>;
-  url?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<AssetUrlArgs, never>>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<AssetUpdatedByArgs>>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType, Partial<AssetUrlArgs>>;
   width?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -5471,20 +5482,20 @@ export type AssetEdgeResolvers<ContextType = any, ParentType extends ResolversPa
 export type AuthorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Author'] = ResolversParentTypes['Author']> = {
   biography?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<AuthorCreatedByArgs, never>>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<AuthorCreatedByArgs>>;
   documentInStages?: Resolver<Array<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<AuthorDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<AuthorHistoryArgs, 'limit' | 'skip'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  picture?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<AuthorPictureArgs, never>>;
-  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<AuthorPostsArgs, never>>;
+  picture?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, Partial<AuthorPictureArgs>>;
+  posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, Partial<AuthorPostsArgs>>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<AuthorPublishedByArgs, never>>;
-  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<AuthorScheduledInArgs, never>>;
+  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<AuthorPublishedByArgs>>;
+  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<AuthorScheduledInArgs>>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<AuthorUpdatedByArgs, never>>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<AuthorUpdatedByArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -5508,19 +5519,19 @@ export type BatchPayloadResolvers<ContextType = any, ParentType extends Resolver
 
 export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<CategoryCreatedByArgs, never>>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<CategoryCreatedByArgs>>;
   documentInStages?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<CategoryDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<CategoryHistoryArgs, 'limit' | 'skip'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  post?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<CategoryPostArgs, never>>;
+  post?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, Partial<CategoryPostArgs>>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<CategoryPublishedByArgs, never>>;
-  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<CategoryScheduledInArgs, never>>;
+  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<CategoryPublishedByArgs>>;
+  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<CategoryScheduledInArgs>>;
   slug?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<CategoryUpdatedByArgs, never>>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<CategoryUpdatedByArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -5589,14 +5600,14 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationDeleteAssetArgs, 'where'>>;
   deleteAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationDeleteAuthorArgs, 'where'>>;
   deleteCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'where'>>;
-  deleteManyAssets?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationDeleteManyAssetsArgs, never>>;
-  deleteManyAssetsConnection?: Resolver<ResolversTypes['AssetConnection'], ParentType, ContextType, RequireFields<MutationDeleteManyAssetsConnectionArgs, never>>;
-  deleteManyAuthors?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationDeleteManyAuthorsArgs, never>>;
-  deleteManyAuthorsConnection?: Resolver<ResolversTypes['AuthorConnection'], ParentType, ContextType, RequireFields<MutationDeleteManyAuthorsConnectionArgs, never>>;
-  deleteManyCategories?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationDeleteManyCategoriesArgs, never>>;
-  deleteManyCategoriesConnection?: Resolver<ResolversTypes['CategoryConnection'], ParentType, ContextType, RequireFields<MutationDeleteManyCategoriesConnectionArgs, never>>;
-  deleteManyPosts?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationDeleteManyPostsArgs, never>>;
-  deleteManyPostsConnection?: Resolver<ResolversTypes['PostConnection'], ParentType, ContextType, RequireFields<MutationDeleteManyPostsConnectionArgs, never>>;
+  deleteManyAssets?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, Partial<MutationDeleteManyAssetsArgs>>;
+  deleteManyAssetsConnection?: Resolver<ResolversTypes['AssetConnection'], ParentType, ContextType, Partial<MutationDeleteManyAssetsConnectionArgs>>;
+  deleteManyAuthors?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, Partial<MutationDeleteManyAuthorsArgs>>;
+  deleteManyAuthorsConnection?: Resolver<ResolversTypes['AuthorConnection'], ParentType, ContextType, Partial<MutationDeleteManyAuthorsConnectionArgs>>;
+  deleteManyCategories?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, Partial<MutationDeleteManyCategoriesArgs>>;
+  deleteManyCategoriesConnection?: Resolver<ResolversTypes['CategoryConnection'], ParentType, ContextType, Partial<MutationDeleteManyCategoriesConnectionArgs>>;
+  deleteManyPosts?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, Partial<MutationDeleteManyPostsArgs>>;
+  deleteManyPostsConnection?: Resolver<ResolversTypes['PostConnection'], ParentType, ContextType, Partial<MutationDeleteManyPostsConnectionArgs>>;
   deletePost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'where'>>;
   deleteScheduledOperation?: Resolver<Maybe<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<MutationDeleteScheduledOperationArgs, 'where'>>;
   deleteScheduledRelease?: Resolver<Maybe<ResolversTypes['ScheduledRelease']>, ParentType, ContextType, RequireFields<MutationDeleteScheduledReleaseArgs, 'where'>>;
@@ -5667,24 +5678,24 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
-  author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<PostAuthorArgs, never>>;
-  categories?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<PostCategoriesArgs, never>>;
+  author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, Partial<PostAuthorArgs>>;
+  categories?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType, Partial<PostCategoriesArgs>>;
   content?: Resolver<ResolversTypes['RichText'], ParentType, ContextType>;
-  coverImage?: Resolver<ResolversTypes['Asset'], ParentType, ContextType, RequireFields<PostCoverImageArgs, never>>;
+  coverImage?: Resolver<ResolversTypes['Asset'], ParentType, ContextType, Partial<PostCoverImageArgs>>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<PostCreatedByArgs, never>>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<PostCreatedByArgs>>;
   documentInStages?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<PostDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<PostHistoryArgs, 'limit' | 'skip'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<PostPublishedByArgs, never>>;
-  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<PostScheduledInArgs, never>>;
+  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<PostPublishedByArgs>>;
+  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<PostScheduledInArgs>>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
   tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<PostUpdatedByArgs, never>>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<PostUpdatedByArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -5759,21 +5770,21 @@ export interface RichTextAstScalarConfig extends GraphQLScalarTypeConfig<Resolve
 }
 
 export type ScheduledOperationResolvers<ContextType = any, ParentType extends ResolversParentTypes['ScheduledOperation'] = ResolversParentTypes['ScheduledOperation']> = {
-  affectedDocuments?: Resolver<Array<ResolversTypes['ScheduledOperationAffectedDocument']>, ParentType, ContextType, RequireFields<ScheduledOperationAffectedDocumentsArgs, never>>;
+  affectedDocuments?: Resolver<Array<ResolversTypes['ScheduledOperationAffectedDocument']>, ParentType, ContextType, Partial<ScheduledOperationAffectedDocumentsArgs>>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<ScheduledOperationCreatedByArgs, never>>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<ScheduledOperationCreatedByArgs>>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   documentInStages?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<ScheduledOperationDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   errorMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<ScheduledOperationPublishedByArgs, never>>;
+  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<ScheduledOperationPublishedByArgs>>;
   rawPayload?: Resolver<ResolversTypes['Json'], ParentType, ContextType>;
-  release?: Resolver<Maybe<ResolversTypes['ScheduledRelease']>, ParentType, ContextType, RequireFields<ScheduledOperationReleaseArgs, never>>;
+  release?: Resolver<Maybe<ResolversTypes['ScheduledRelease']>, ParentType, ContextType, Partial<ScheduledOperationReleaseArgs>>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['ScheduledOperationStatus'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<ScheduledOperationUpdatedByArgs, never>>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<ScheduledOperationUpdatedByArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -5796,22 +5807,22 @@ export type ScheduledOperationEdgeResolvers<ContextType = any, ParentType extend
 
 export type ScheduledReleaseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ScheduledRelease'] = ResolversParentTypes['ScheduledRelease']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<ScheduledReleaseCreatedByArgs, never>>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<ScheduledReleaseCreatedByArgs>>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   documentInStages?: Resolver<Array<ResolversTypes['ScheduledRelease']>, ParentType, ContextType, RequireFields<ScheduledReleaseDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   errorMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isActive?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   isImplicit?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  operations?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<ScheduledReleaseOperationsArgs, never>>;
+  operations?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<ScheduledReleaseOperationsArgs>>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<ScheduledReleasePublishedByArgs, never>>;
+  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<ScheduledReleasePublishedByArgs>>;
   releaseAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['ScheduledReleaseStatus'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<ScheduledReleaseUpdatedByArgs, never>>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<ScheduledReleaseUpdatedByArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
