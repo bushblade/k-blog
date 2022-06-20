@@ -6,9 +6,8 @@ function randomGreeting() {
 }
 
 export default function Banner({ author }: { author: Author }) {
-  console.log(randomGreeting())
   return (
-    <header className='hero bg-base-200'>
+    <header className='hero bg-base-200 py-8'>
       <div className='hero-content text-center'>
         <div className='max-w-md'>
           <div
@@ -16,7 +15,7 @@ export default function Banner({ author }: { author: Author }) {
             data-tip="Yep that's me!"
           >
             <div className='w-24 rounded-full ring ring-primary'>
-              <img src={author.picture.url} alt={author.name} />
+              <img src={author.picture?.url} alt={author.name} />
             </div>
           </div>
           <h1 className='text-5xl font-bold'>Hi I'm {author.name}</h1>
