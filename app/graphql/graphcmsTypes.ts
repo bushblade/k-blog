@@ -721,7 +721,7 @@ export type Author = Node & {
   /** Enter the display name for authors */
   name: Scalars['String'];
   /** Add a profile picture for authors */
-  picture?: Maybe<Asset>;
+  picture: Asset;
   /** Connect blog posts to this author */
   posts: Array<Post>;
   /** The time the document was published. Null on documents in draft stage. */
@@ -817,7 +817,7 @@ export type AuthorCreateInput = {
   biography?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   name: Scalars['String'];
-  picture?: InputMaybe<AssetCreateOneInlineInput>;
+  picture: AssetCreateOneInlineInput;
   posts?: InputMaybe<PostCreateManyInlineInput>;
   title?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -1867,6 +1867,8 @@ export type Mutation = {
   createPost?: Maybe<Post>;
   /** Create one scheduledRelease */
   createScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Create one video */
+  createVideo?: Maybe<Video>;
   /** Delete one asset from _all_ existing stages. Returns deleted document. */
   deleteAsset?: Maybe<Asset>;
   /** Delete one author from _all_ existing stages. Returns deleted document. */
@@ -1901,12 +1903,21 @@ export type Mutation = {
   deleteManyPosts: BatchPayload;
   /** Delete many Post documents, return deleted documents */
   deleteManyPostsConnection: PostConnection;
+  /**
+   * Delete many Video documents
+   * @deprecated Please use the new paginated many mutation (deleteManyVideosConnection)
+   */
+  deleteManyVideos: BatchPayload;
+  /** Delete many Video documents, return deleted documents */
+  deleteManyVideosConnection: VideoConnection;
   /** Delete one post from _all_ existing stages. Returns deleted document. */
   deletePost?: Maybe<Post>;
   /** Delete and return scheduled operation */
   deleteScheduledOperation?: Maybe<ScheduledOperation>;
   /** Delete one scheduledRelease from _all_ existing stages. Returns deleted document. */
   deleteScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Delete one video from _all_ existing stages. Returns deleted document. */
+  deleteVideo?: Maybe<Video>;
   /** Publish one asset */
   publishAsset?: Maybe<Asset>;
   /** Publish one author */
@@ -1941,8 +1952,17 @@ export type Mutation = {
   publishManyPosts: BatchPayload;
   /** Publish many Post documents */
   publishManyPostsConnection: PostConnection;
+  /**
+   * Publish many Video documents
+   * @deprecated Please use the new paginated many mutation (publishManyVideosConnection)
+   */
+  publishManyVideos: BatchPayload;
+  /** Publish many Video documents */
+  publishManyVideosConnection: VideoConnection;
   /** Publish one post */
   publishPost?: Maybe<Post>;
+  /** Publish one video */
+  publishVideo?: Maybe<Video>;
   /** Schedule to publish one asset */
   schedulePublishAsset?: Maybe<Asset>;
   /** Schedule to publish one author */
@@ -1951,6 +1971,8 @@ export type Mutation = {
   schedulePublishCategory?: Maybe<Category>;
   /** Schedule to publish one post */
   schedulePublishPost?: Maybe<Post>;
+  /** Schedule to publish one video */
+  schedulePublishVideo?: Maybe<Video>;
   /** Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishAsset?: Maybe<Asset>;
   /** Unpublish one author from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -1959,6 +1981,8 @@ export type Mutation = {
   scheduleUnpublishCategory?: Maybe<Category>;
   /** Unpublish one post from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   scheduleUnpublishPost?: Maybe<Post>;
+  /** Unpublish one video from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  scheduleUnpublishVideo?: Maybe<Video>;
   /** Unpublish one asset from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishAsset?: Maybe<Asset>;
   /** Unpublish one author from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
@@ -1993,8 +2017,17 @@ export type Mutation = {
   unpublishManyPosts: BatchPayload;
   /** Find many Post documents that match criteria in specified stage and unpublish from target stages */
   unpublishManyPostsConnection: PostConnection;
+  /**
+   * Unpublish many Video documents
+   * @deprecated Please use the new paginated many mutation (unpublishManyVideosConnection)
+   */
+  unpublishManyVideos: BatchPayload;
+  /** Find many Video documents that match criteria in specified stage and unpublish from target stages */
+  unpublishManyVideosConnection: VideoConnection;
   /** Unpublish one post from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
   unpublishPost?: Maybe<Post>;
+  /** Unpublish one video from selected stages. Unpublish either the complete document with its relations, localizations and base data or specific localizations only. */
+  unpublishVideo?: Maybe<Video>;
   /** Update one asset */
   updateAsset?: Maybe<Asset>;
   /** Update one author */
@@ -2029,10 +2062,19 @@ export type Mutation = {
   updateManyPosts: BatchPayload;
   /** Update many Post documents */
   updateManyPostsConnection: PostConnection;
+  /**
+   * Update many videos
+   * @deprecated Please use the new paginated many mutation (updateManyVideosConnection)
+   */
+  updateManyVideos: BatchPayload;
+  /** Update many Video documents */
+  updateManyVideosConnection: VideoConnection;
   /** Update one post */
   updatePost?: Maybe<Post>;
   /** Update one scheduledRelease */
   updateScheduledRelease?: Maybe<ScheduledRelease>;
+  /** Update one video */
+  updateVideo?: Maybe<Video>;
   /** Upsert one asset */
   upsertAsset?: Maybe<Asset>;
   /** Upsert one author */
@@ -2041,6 +2083,8 @@ export type Mutation = {
   upsertCategory?: Maybe<Category>;
   /** Upsert one post */
   upsertPost?: Maybe<Post>;
+  /** Upsert one video */
+  upsertVideo?: Maybe<Video>;
 };
 
 
@@ -2066,6 +2110,11 @@ export type MutationCreatePostArgs = {
 
 export type MutationCreateScheduledReleaseArgs = {
   data: ScheduledReleaseCreateInput;
+};
+
+
+export type MutationCreateVideoArgs = {
+  data: VideoCreateInput;
 };
 
 
@@ -2144,6 +2193,21 @@ export type MutationDeleteManyPostsConnectionArgs = {
 };
 
 
+export type MutationDeleteManyVideosArgs = {
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
+export type MutationDeleteManyVideosConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
 export type MutationDeletePostArgs = {
   where: PostWhereUniqueInput;
 };
@@ -2156,6 +2220,11 @@ export type MutationDeleteScheduledOperationArgs = {
 
 export type MutationDeleteScheduledReleaseArgs = {
   where: ScheduledReleaseWhereUniqueInput;
+};
+
+
+export type MutationDeleteVideoArgs = {
+  where: VideoWhereUniqueInput;
 };
 
 
@@ -2258,9 +2327,33 @@ export type MutationPublishManyPostsConnectionArgs = {
 };
 
 
+export type MutationPublishManyVideosArgs = {
+  to?: Array<Stage>;
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
+export type MutationPublishManyVideosConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  from?: InputMaybe<Stage>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  to?: Array<Stage>;
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
 export type MutationPublishPostArgs = {
   to?: Array<Stage>;
   where: PostWhereUniqueInput;
+};
+
+
+export type MutationPublishVideoArgs = {
+  to?: Array<Stage>;
+  where: VideoWhereUniqueInput;
 };
 
 
@@ -2299,6 +2392,14 @@ export type MutationSchedulePublishPostArgs = {
 };
 
 
+export type MutationSchedulePublishVideoArgs = {
+  releaseAt?: InputMaybe<Scalars['DateTime']>;
+  releaseId?: InputMaybe<Scalars['String']>;
+  to?: Array<Stage>;
+  where: VideoWhereUniqueInput;
+};
+
+
 export type MutationScheduleUnpublishAssetArgs = {
   from?: Array<Stage>;
   locales?: InputMaybe<Array<Locale>>;
@@ -2330,6 +2431,14 @@ export type MutationScheduleUnpublishPostArgs = {
   releaseAt?: InputMaybe<Scalars['DateTime']>;
   releaseId?: InputMaybe<Scalars['String']>;
   where: PostWhereUniqueInput;
+};
+
+
+export type MutationScheduleUnpublishVideoArgs = {
+  from?: Array<Stage>;
+  releaseAt?: InputMaybe<Scalars['DateTime']>;
+  releaseId?: InputMaybe<Scalars['String']>;
+  where: VideoWhereUniqueInput;
 };
 
 
@@ -2429,9 +2538,33 @@ export type MutationUnpublishManyPostsConnectionArgs = {
 };
 
 
+export type MutationUnpublishManyVideosArgs = {
+  from?: Array<Stage>;
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
+export type MutationUnpublishManyVideosConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  first?: InputMaybe<Scalars['Int']>;
+  from?: Array<Stage>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: InputMaybe<Stage>;
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
 export type MutationUnpublishPostArgs = {
   from?: Array<Stage>;
   where: PostWhereUniqueInput;
+};
+
+
+export type MutationUnpublishVideoArgs = {
+  from?: Array<Stage>;
+  where: VideoWhereUniqueInput;
 };
 
 
@@ -2521,6 +2654,23 @@ export type MutationUpdateManyPostsConnectionArgs = {
 };
 
 
+export type MutationUpdateManyVideosArgs = {
+  data: VideoUpdateManyInput;
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
+export type MutationUpdateManyVideosConnectionArgs = {
+  after?: InputMaybe<Scalars['ID']>;
+  before?: InputMaybe<Scalars['ID']>;
+  data: VideoUpdateManyInput;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<VideoManyWhereInput>;
+};
+
+
 export type MutationUpdatePostArgs = {
   data: PostUpdateInput;
   where: PostWhereUniqueInput;
@@ -2530,6 +2680,12 @@ export type MutationUpdatePostArgs = {
 export type MutationUpdateScheduledReleaseArgs = {
   data: ScheduledReleaseUpdateInput;
   where: ScheduledReleaseWhereUniqueInput;
+};
+
+
+export type MutationUpdateVideoArgs = {
+  data: VideoUpdateInput;
+  where: VideoWhereUniqueInput;
 };
 
 
@@ -2554,6 +2710,12 @@ export type MutationUpsertCategoryArgs = {
 export type MutationUpsertPostArgs = {
   upsert: PostUpsertInput;
   where: PostWhereUniqueInput;
+};
+
+
+export type MutationUpsertVideoArgs = {
+  upsert: VideoUpsertInput;
+  where: VideoWhereUniqueInput;
 };
 
 /** An object with an ID */
@@ -2585,8 +2747,11 @@ export type Post = Node & {
   author?: Maybe<Author>;
   categories: Array<Category>;
   /** Write your blog post! */
-  content: RichText;
-  /** Upload or select a cover image to set as your Featured Image */
+  content: PostContentRichText;
+  /**
+   * Upload or select a cover image to set as your Featured Image.
+   * Ideally the image should be 16:9 and no bigger than 1000px wide.
+   */
   coverImage: Asset;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
@@ -2607,8 +2772,6 @@ export type Post = Node & {
   slug: Scalars['String'];
   /** System stage field */
   stage: Stage;
-  /** Add any relevant tags to this blog post */
-  tags: Array<Scalars['String']>;
   /** Name your blog post! */
   title: Scalars['String'];
   /** The time the document was updated */
@@ -2696,6 +2859,22 @@ export type PostConnection = {
   pageInfo: PageInfo;
 };
 
+export type PostContentRichText = {
+  __typename?: 'PostContentRichText';
+  /** Returns HTMl representation */
+  html: Scalars['String'];
+  json: Scalars['RichTextAST'];
+  /** Returns Markdown representation */
+  markdown: Scalars['String'];
+  /** @deprecated Please use the 'json' field */
+  raw: Scalars['RichTextAST'];
+  references: Array<PostContentRichTextEmbeddedTypes>;
+  /** Returns plain-text contents of RichText */
+  text: Scalars['String'];
+};
+
+export type PostContentRichTextEmbeddedTypes = Video;
+
 export type PostCreateInput = {
   author?: InputMaybe<AuthorCreateOneInlineInput>;
   categories?: InputMaybe<CategoryCreateManyInlineInput>;
@@ -2703,7 +2882,6 @@ export type PostCreateInput = {
   coverImage: AssetCreateOneInlineInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   slug: Scalars['String'];
-  tags?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -2819,16 +2997,6 @@ export type PostManyWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']>;
-  /** Matches if the field array contains *all* items provided to the filter and order does match */
-  tags?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array contains *all* items provided to the filter */
-  tags_contains_all?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array does not contain any of the items provided to the filter */
-  tags_contains_none?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array contains at least one item provided to the filter */
-  tags_contains_some?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array does not contains *all* items provided to the filter or order does not match */
-  tags_not?: InputMaybe<Array<Scalars['String']>>;
   title?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   title_contains?: InputMaybe<Scalars['String']>;
@@ -2875,8 +3043,6 @@ export enum PostOrderByInput {
   PublishedAtDesc = 'publishedAt_DESC',
   SlugAsc = 'slug_ASC',
   SlugDesc = 'slug_DESC',
-  TagsAsc = 'tags_ASC',
-  TagsDesc = 'tags_DESC',
   TitleAsc = 'title_ASC',
   TitleDesc = 'title_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -2889,7 +3055,6 @@ export type PostUpdateInput = {
   content?: InputMaybe<Scalars['RichTextAST']>;
   coverImage?: InputMaybe<AssetUpdateOneInlineInput>;
   slug?: InputMaybe<Scalars['String']>;
-  tags?: InputMaybe<Array<Scalars['String']>>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -2912,7 +3077,6 @@ export type PostUpdateManyInlineInput = {
 
 export type PostUpdateManyInput = {
   content?: InputMaybe<Scalars['RichTextAST']>;
-  tags?: InputMaybe<Array<Scalars['String']>>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -3047,16 +3211,6 @@ export type PostWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']>;
-  /** Matches if the field array contains *all* items provided to the filter and order does match */
-  tags?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array contains *all* items provided to the filter */
-  tags_contains_all?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array does not contain any of the items provided to the filter */
-  tags_contains_none?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array contains at least one item provided to the filter */
-  tags_contains_some?: InputMaybe<Array<Scalars['String']>>;
-  /** Matches if the field array does not contains *all* items provided to the filter or order does not match */
-  tags_not?: InputMaybe<Array<Scalars['String']>>;
   title?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   title_contains?: InputMaybe<Scalars['String']>;
@@ -3161,6 +3315,14 @@ export type Query = {
   users: Array<User>;
   /** Retrieve multiple users using the Relay connection interface */
   usersConnection: UserConnection;
+  /** Retrieve a single video */
+  video?: Maybe<Video>;
+  /** Retrieve document version */
+  videoVersion?: Maybe<DocumentVersion>;
+  /** Retrieve multiple videos */
+  videos: Array<Video>;
+  /** Retrieve multiple videos using the Relay connection interface */
+  videosConnection: VideoConnection;
 };
 
 
@@ -3421,6 +3583,44 @@ export type QueryUsersConnectionArgs = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+
+export type QueryVideoArgs = {
+  locales?: Array<Locale>;
+  stage?: Stage;
+  where: VideoWhereUniqueInput;
+};
+
+
+export type QueryVideoVersionArgs = {
+  where: VersionWhereInput;
+};
+
+
+export type QueryVideosArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<VideoOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: Stage;
+  where?: InputMaybe<VideoWhereInput>;
+};
+
+
+export type QueryVideosConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: Array<Locale>;
+  orderBy?: InputMaybe<VideoOrderByInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  stage?: Stage;
+  where?: InputMaybe<VideoWhereInput>;
+};
+
 /** Representing a RGBA color value: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#rgb()_and_rgba() */
 export type Rgba = {
   __typename?: 'RGBA';
@@ -3528,7 +3728,7 @@ export type ScheduledOperationUpdatedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
 
-export type ScheduledOperationAffectedDocument = Asset | Author | Category | Post;
+export type ScheduledOperationAffectedDocument = Asset | Author | Category | Post | Video;
 
 export type ScheduledOperationConnectInput = {
   /** Allow to specify document position in list of connected documents, will default to appending at end of list */
@@ -4839,6 +5039,414 @@ export type VersionWhereInput = {
   stage: Stage;
 };
 
+/** Embed a YouTube video in your post */
+export type Video = Node & {
+  __typename?: 'Video';
+  /** The time the document was created */
+  createdAt: Scalars['DateTime'];
+  /** User that created this document */
+  createdBy?: Maybe<User>;
+  /** Get the document in other stages */
+  documentInStages: Array<Video>;
+  /** List of Video versions */
+  history: Array<Version>;
+  /** The unique identifier */
+  id: Scalars['ID'];
+  /** The time the document was published. Null on documents in draft stage. */
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  /** User that last published this document */
+  publishedBy?: Maybe<User>;
+  scheduledIn: Array<ScheduledOperation>;
+  /** System stage field */
+  stage: Stage;
+  /** The time the document was updated */
+  updatedAt: Scalars['DateTime'];
+  /** User that last updated this document */
+  updatedBy?: Maybe<User>;
+  /** Insert the YouTube share url to your video. */
+  youTubeShareUrl: Scalars['String'];
+};
+
+
+/** Embed a YouTube video in your post */
+export type VideoCreatedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+/** Embed a YouTube video in your post */
+export type VideoDocumentInStagesArgs = {
+  includeCurrent?: Scalars['Boolean'];
+  inheritLocale?: Scalars['Boolean'];
+  stages?: Array<Stage>;
+};
+
+
+/** Embed a YouTube video in your post */
+export type VideoHistoryArgs = {
+  limit?: Scalars['Int'];
+  skip?: Scalars['Int'];
+  stageOverride?: InputMaybe<Stage>;
+};
+
+
+/** Embed a YouTube video in your post */
+export type VideoPublishedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
+/** Embed a YouTube video in your post */
+export type VideoScheduledInArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  locales?: InputMaybe<Array<Locale>>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<ScheduledOperationWhereInput>;
+};
+
+
+/** Embed a YouTube video in your post */
+export type VideoUpdatedByArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+export type VideoConnectInput = {
+  /** Allow to specify document position in list of connected documents, will default to appending at end of list */
+  position?: InputMaybe<ConnectPositionInput>;
+  /** Document to connect */
+  where: VideoWhereUniqueInput;
+};
+
+/** A connection to a list of items. */
+export type VideoConnection = {
+  __typename?: 'VideoConnection';
+  aggregate: Aggregate;
+  /** A list of edges. */
+  edges: Array<VideoEdge>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+};
+
+export type VideoCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  youTubeShareUrl: Scalars['String'];
+};
+
+export type VideoCreateManyInlineInput = {
+  /** Connect multiple existing Video documents */
+  connect?: InputMaybe<Array<VideoWhereUniqueInput>>;
+  /** Create and connect multiple existing Video documents */
+  create?: InputMaybe<Array<VideoCreateInput>>;
+};
+
+export type VideoCreateOneInlineInput = {
+  /** Connect one existing Video document */
+  connect?: InputMaybe<VideoWhereUniqueInput>;
+  /** Create and connect one Video document */
+  create?: InputMaybe<VideoCreateInput>;
+};
+
+/** An edge in a connection. */
+export type VideoEdge = {
+  __typename?: 'VideoEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge. */
+  node: Video;
+};
+
+/** Identifies documents */
+export type VideoManyWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<VideoWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<VideoWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<VideoWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values that are not equal to given value. */
+  id_not?: InputMaybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+  youTubeShareUrl?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  youTubeShareUrl_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  youTubeShareUrl_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  youTubeShareUrl_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  youTubeShareUrl_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  youTubeShareUrl_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  youTubeShareUrl_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  youTubeShareUrl_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  youTubeShareUrl_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  youTubeShareUrl_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+export enum VideoOrderByInput {
+  CreatedAtAsc = 'createdAt_ASC',
+  CreatedAtDesc = 'createdAt_DESC',
+  IdAsc = 'id_ASC',
+  IdDesc = 'id_DESC',
+  PublishedAtAsc = 'publishedAt_ASC',
+  PublishedAtDesc = 'publishedAt_DESC',
+  UpdatedAtAsc = 'updatedAt_ASC',
+  UpdatedAtDesc = 'updatedAt_DESC',
+  YouTubeShareUrlAsc = 'youTubeShareUrl_ASC',
+  YouTubeShareUrlDesc = 'youTubeShareUrl_DESC'
+}
+
+export type VideoUpdateInput = {
+  youTubeShareUrl?: InputMaybe<Scalars['String']>;
+};
+
+export type VideoUpdateManyInlineInput = {
+  /** Connect multiple existing Video documents */
+  connect?: InputMaybe<Array<VideoConnectInput>>;
+  /** Create and connect multiple Video documents */
+  create?: InputMaybe<Array<VideoCreateInput>>;
+  /** Delete multiple Video documents */
+  delete?: InputMaybe<Array<VideoWhereUniqueInput>>;
+  /** Disconnect multiple Video documents */
+  disconnect?: InputMaybe<Array<VideoWhereUniqueInput>>;
+  /** Override currently-connected documents with multiple existing Video documents */
+  set?: InputMaybe<Array<VideoWhereUniqueInput>>;
+  /** Update multiple Video documents */
+  update?: InputMaybe<Array<VideoUpdateWithNestedWhereUniqueInput>>;
+  /** Upsert multiple Video documents */
+  upsert?: InputMaybe<Array<VideoUpsertWithNestedWhereUniqueInput>>;
+};
+
+export type VideoUpdateManyInput = {
+  youTubeShareUrl?: InputMaybe<Scalars['String']>;
+};
+
+export type VideoUpdateManyWithNestedWhereInput = {
+  /** Update many input */
+  data: VideoUpdateManyInput;
+  /** Document search */
+  where: VideoWhereInput;
+};
+
+export type VideoUpdateOneInlineInput = {
+  /** Connect existing Video document */
+  connect?: InputMaybe<VideoWhereUniqueInput>;
+  /** Create and connect one Video document */
+  create?: InputMaybe<VideoCreateInput>;
+  /** Delete currently connected Video document */
+  delete?: InputMaybe<Scalars['Boolean']>;
+  /** Disconnect currently connected Video document */
+  disconnect?: InputMaybe<Scalars['Boolean']>;
+  /** Update single Video document */
+  update?: InputMaybe<VideoUpdateWithNestedWhereUniqueInput>;
+  /** Upsert single Video document */
+  upsert?: InputMaybe<VideoUpsertWithNestedWhereUniqueInput>;
+};
+
+export type VideoUpdateWithNestedWhereUniqueInput = {
+  /** Document to update */
+  data: VideoUpdateInput;
+  /** Unique document search */
+  where: VideoWhereUniqueInput;
+};
+
+export type VideoUpsertInput = {
+  /** Create document if it didn't exist */
+  create: VideoCreateInput;
+  /** Update document if it exists */
+  update: VideoUpdateInput;
+};
+
+export type VideoUpsertWithNestedWhereUniqueInput = {
+  /** Upsert data */
+  data: VideoUpsertInput;
+  /** Unique document search */
+  where: VideoWhereUniqueInput;
+};
+
+/** Identifies documents */
+export type VideoWhereInput = {
+  /** Logical AND on all given filters. */
+  AND?: InputMaybe<Array<VideoWhereInput>>;
+  /** Logical NOT on all given filters combined by AND. */
+  NOT?: InputMaybe<Array<VideoWhereInput>>;
+  /** Logical OR on all given filters. */
+  OR?: InputMaybe<Array<VideoWhereInput>>;
+  /** Contains search across all appropriate fields. */
+  _search?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  createdAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  createdAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  createdAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  createdAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  createdAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  createdAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdBy?: InputMaybe<UserWhereInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  /** All values containing the given string. */
+  id_contains?: InputMaybe<Scalars['ID']>;
+  /** All values ending with the given string. */
+  id_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are contained in given list. */
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values that are not equal to given value. */
+  id_not?: InputMaybe<Scalars['ID']>;
+  /** All values not containing the given string. */
+  id_not_contains?: InputMaybe<Scalars['ID']>;
+  /** All values not ending with the given string */
+  id_not_ends_with?: InputMaybe<Scalars['ID']>;
+  /** All values that are not contained in given list. */
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  /** All values not starting with the given string. */
+  id_not_starts_with?: InputMaybe<Scalars['ID']>;
+  /** All values starting with the given string. */
+  id_starts_with?: InputMaybe<Scalars['ID']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  publishedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  publishedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  publishedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  publishedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  publishedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  publishedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  publishedBy?: InputMaybe<UserWhereInput>;
+  scheduledIn_every?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_none?: InputMaybe<ScheduledOperationWhereInput>;
+  scheduledIn_some?: InputMaybe<ScheduledOperationWhereInput>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than the given value. */
+  updatedAt_gt?: InputMaybe<Scalars['DateTime']>;
+  /** All values greater than or equal the given value. */
+  updatedAt_gte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are contained in given list. */
+  updatedAt_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  /** All values less than the given value. */
+  updatedAt_lt?: InputMaybe<Scalars['DateTime']>;
+  /** All values less than or equal the given value. */
+  updatedAt_lte?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not equal to given value. */
+  updatedAt_not?: InputMaybe<Scalars['DateTime']>;
+  /** All values that are not contained in given list. */
+  updatedAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
+  updatedBy?: InputMaybe<UserWhereInput>;
+  youTubeShareUrl?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  youTubeShareUrl_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  youTubeShareUrl_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  youTubeShareUrl_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  youTubeShareUrl_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  youTubeShareUrl_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  youTubeShareUrl_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  youTubeShareUrl_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  youTubeShareUrl_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  youTubeShareUrl_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+/** References Video record uniquely */
+export type VideoWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export enum _FilterKind {
   And = 'AND',
   Not = 'NOT',
@@ -5080,11 +5688,13 @@ export type ResolversTypes = {
   LocationInput: LocationInput;
   Long: ResolverTypeWrapper<Scalars['Long']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Node: ResolversTypes['Asset'] | ResolversTypes['Author'] | ResolversTypes['Category'] | ResolversTypes['Post'] | ResolversTypes['ScheduledOperation'] | ResolversTypes['ScheduledRelease'] | ResolversTypes['User'];
+  Node: ResolversTypes['Asset'] | ResolversTypes['Author'] | ResolversTypes['Category'] | ResolversTypes['Post'] | ResolversTypes['ScheduledOperation'] | ResolversTypes['ScheduledRelease'] | ResolversTypes['User'] | ResolversTypes['Video'];
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Post: ResolverTypeWrapper<Post>;
   PostConnectInput: PostConnectInput;
   PostConnection: ResolverTypeWrapper<PostConnection>;
+  PostContentRichText: ResolverTypeWrapper<Omit<PostContentRichText, 'references'> & { references: Array<ResolversTypes['PostContentRichTextEmbeddedTypes']> }>;
+  PostContentRichTextEmbeddedTypes: ResolversTypes['Video'];
   PostCreateInput: PostCreateInput;
   PostCreateManyInlineInput: PostCreateManyInlineInput;
   PostCreateOneInlineInput: PostCreateOneInlineInput;
@@ -5110,7 +5720,7 @@ export type ResolversTypes = {
   RichText: ResolverTypeWrapper<RichText>;
   RichTextAST: ResolverTypeWrapper<Scalars['RichTextAST']>;
   ScheduledOperation: ResolverTypeWrapper<Omit<ScheduledOperation, 'affectedDocuments'> & { affectedDocuments: Array<ResolversTypes['ScheduledOperationAffectedDocument']> }>;
-  ScheduledOperationAffectedDocument: ResolversTypes['Asset'] | ResolversTypes['Author'] | ResolversTypes['Category'] | ResolversTypes['Post'];
+  ScheduledOperationAffectedDocument: ResolversTypes['Asset'] | ResolversTypes['Author'] | ResolversTypes['Category'] | ResolversTypes['Post'] | ResolversTypes['Video'];
   ScheduledOperationConnectInput: ScheduledOperationConnectInput;
   ScheduledOperationConnection: ResolverTypeWrapper<ScheduledOperationConnection>;
   ScheduledOperationCreateManyInlineInput: ScheduledOperationCreateManyInlineInput;
@@ -5162,6 +5772,25 @@ export type ResolversTypes = {
   UserWhereUniqueInput: UserWhereUniqueInput;
   Version: ResolverTypeWrapper<Version>;
   VersionWhereInput: VersionWhereInput;
+  Video: ResolverTypeWrapper<Video>;
+  VideoConnectInput: VideoConnectInput;
+  VideoConnection: ResolverTypeWrapper<VideoConnection>;
+  VideoCreateInput: VideoCreateInput;
+  VideoCreateManyInlineInput: VideoCreateManyInlineInput;
+  VideoCreateOneInlineInput: VideoCreateOneInlineInput;
+  VideoEdge: ResolverTypeWrapper<VideoEdge>;
+  VideoManyWhereInput: VideoManyWhereInput;
+  VideoOrderByInput: VideoOrderByInput;
+  VideoUpdateInput: VideoUpdateInput;
+  VideoUpdateManyInlineInput: VideoUpdateManyInlineInput;
+  VideoUpdateManyInput: VideoUpdateManyInput;
+  VideoUpdateManyWithNestedWhereInput: VideoUpdateManyWithNestedWhereInput;
+  VideoUpdateOneInlineInput: VideoUpdateOneInlineInput;
+  VideoUpdateWithNestedWhereUniqueInput: VideoUpdateWithNestedWhereUniqueInput;
+  VideoUpsertInput: VideoUpsertInput;
+  VideoUpsertWithNestedWhereUniqueInput: VideoUpsertWithNestedWhereUniqueInput;
+  VideoWhereInput: VideoWhereInput;
+  VideoWhereUniqueInput: VideoWhereUniqueInput;
   _FilterKind: _FilterKind;
   _MutationInputFieldKind: _MutationInputFieldKind;
   _MutationKind: _MutationKind;
@@ -5261,11 +5890,13 @@ export type ResolversParentTypes = {
   LocationInput: LocationInput;
   Long: Scalars['Long'];
   Mutation: {};
-  Node: ResolversParentTypes['Asset'] | ResolversParentTypes['Author'] | ResolversParentTypes['Category'] | ResolversParentTypes['Post'] | ResolversParentTypes['ScheduledOperation'] | ResolversParentTypes['ScheduledRelease'] | ResolversParentTypes['User'];
+  Node: ResolversParentTypes['Asset'] | ResolversParentTypes['Author'] | ResolversParentTypes['Category'] | ResolversParentTypes['Post'] | ResolversParentTypes['ScheduledOperation'] | ResolversParentTypes['ScheduledRelease'] | ResolversParentTypes['User'] | ResolversParentTypes['Video'];
   PageInfo: PageInfo;
   Post: Post;
   PostConnectInput: PostConnectInput;
   PostConnection: PostConnection;
+  PostContentRichText: Omit<PostContentRichText, 'references'> & { references: Array<ResolversParentTypes['PostContentRichTextEmbeddedTypes']> };
+  PostContentRichTextEmbeddedTypes: ResolversParentTypes['Video'];
   PostCreateInput: PostCreateInput;
   PostCreateManyInlineInput: PostCreateManyInlineInput;
   PostCreateOneInlineInput: PostCreateOneInlineInput;
@@ -5290,7 +5921,7 @@ export type ResolversParentTypes = {
   RichText: RichText;
   RichTextAST: Scalars['RichTextAST'];
   ScheduledOperation: Omit<ScheduledOperation, 'affectedDocuments'> & { affectedDocuments: Array<ResolversParentTypes['ScheduledOperationAffectedDocument']> };
-  ScheduledOperationAffectedDocument: ResolversParentTypes['Asset'] | ResolversParentTypes['Author'] | ResolversParentTypes['Category'] | ResolversParentTypes['Post'];
+  ScheduledOperationAffectedDocument: ResolversParentTypes['Asset'] | ResolversParentTypes['Author'] | ResolversParentTypes['Category'] | ResolversParentTypes['Post'] | ResolversParentTypes['Video'];
   ScheduledOperationConnectInput: ScheduledOperationConnectInput;
   ScheduledOperationConnection: ScheduledOperationConnection;
   ScheduledOperationCreateManyInlineInput: ScheduledOperationCreateManyInlineInput;
@@ -5334,6 +5965,24 @@ export type ResolversParentTypes = {
   UserWhereUniqueInput: UserWhereUniqueInput;
   Version: Version;
   VersionWhereInput: VersionWhereInput;
+  Video: Video;
+  VideoConnectInput: VideoConnectInput;
+  VideoConnection: VideoConnection;
+  VideoCreateInput: VideoCreateInput;
+  VideoCreateManyInlineInput: VideoCreateManyInlineInput;
+  VideoCreateOneInlineInput: VideoCreateOneInlineInput;
+  VideoEdge: VideoEdge;
+  VideoManyWhereInput: VideoManyWhereInput;
+  VideoUpdateInput: VideoUpdateInput;
+  VideoUpdateManyInlineInput: VideoUpdateManyInlineInput;
+  VideoUpdateManyInput: VideoUpdateManyInput;
+  VideoUpdateManyWithNestedWhereInput: VideoUpdateManyWithNestedWhereInput;
+  VideoUpdateOneInlineInput: VideoUpdateOneInlineInput;
+  VideoUpdateWithNestedWhereUniqueInput: VideoUpdateWithNestedWhereUniqueInput;
+  VideoUpsertInput: VideoUpsertInput;
+  VideoUpsertWithNestedWhereUniqueInput: VideoUpsertWithNestedWhereUniqueInput;
+  VideoWhereInput: VideoWhereInput;
+  VideoWhereUniqueInput: VideoWhereUniqueInput;
 };
 
 export type DefaultOverrideDirectiveArgs = {
@@ -5487,7 +6136,7 @@ export type AuthorResolvers<ContextType = any, ParentType extends ResolversParen
   history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<AuthorHistoryArgs, 'limit' | 'skip'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  picture?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, Partial<AuthorPictureArgs>>;
+  picture?: Resolver<ResolversTypes['Asset'], ParentType, ContextType, Partial<AuthorPictureArgs>>;
   posts?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, Partial<AuthorPostsArgs>>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<AuthorPublishedByArgs>>;
@@ -5597,6 +6246,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'data'>>;
   createPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationCreatePostArgs, 'data'>>;
   createScheduledRelease?: Resolver<Maybe<ResolversTypes['ScheduledRelease']>, ParentType, ContextType, RequireFields<MutationCreateScheduledReleaseArgs, 'data'>>;
+  createVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationCreateVideoArgs, 'data'>>;
   deleteAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationDeleteAssetArgs, 'where'>>;
   deleteAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationDeleteAuthorArgs, 'where'>>;
   deleteCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'where'>>;
@@ -5608,9 +6258,12 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteManyCategoriesConnection?: Resolver<ResolversTypes['CategoryConnection'], ParentType, ContextType, Partial<MutationDeleteManyCategoriesConnectionArgs>>;
   deleteManyPosts?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, Partial<MutationDeleteManyPostsArgs>>;
   deleteManyPostsConnection?: Resolver<ResolversTypes['PostConnection'], ParentType, ContextType, Partial<MutationDeleteManyPostsConnectionArgs>>;
+  deleteManyVideos?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, Partial<MutationDeleteManyVideosArgs>>;
+  deleteManyVideosConnection?: Resolver<ResolversTypes['VideoConnection'], ParentType, ContextType, Partial<MutationDeleteManyVideosConnectionArgs>>;
   deletePost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'where'>>;
   deleteScheduledOperation?: Resolver<Maybe<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, RequireFields<MutationDeleteScheduledOperationArgs, 'where'>>;
   deleteScheduledRelease?: Resolver<Maybe<ResolversTypes['ScheduledRelease']>, ParentType, ContextType, RequireFields<MutationDeleteScheduledReleaseArgs, 'where'>>;
+  deleteVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationDeleteVideoArgs, 'where'>>;
   publishAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationPublishAssetArgs, 'publishBase' | 'to' | 'where' | 'withDefaultLocale'>>;
   publishAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationPublishAuthorArgs, 'to' | 'where'>>;
   publishCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationPublishCategoryArgs, 'to' | 'where'>>;
@@ -5622,15 +6275,20 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   publishManyCategoriesConnection?: Resolver<ResolversTypes['CategoryConnection'], ParentType, ContextType, RequireFields<MutationPublishManyCategoriesConnectionArgs, 'from' | 'to'>>;
   publishManyPosts?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationPublishManyPostsArgs, 'to'>>;
   publishManyPostsConnection?: Resolver<ResolversTypes['PostConnection'], ParentType, ContextType, RequireFields<MutationPublishManyPostsConnectionArgs, 'from' | 'to'>>;
+  publishManyVideos?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationPublishManyVideosArgs, 'to'>>;
+  publishManyVideosConnection?: Resolver<ResolversTypes['VideoConnection'], ParentType, ContextType, RequireFields<MutationPublishManyVideosConnectionArgs, 'from' | 'to'>>;
   publishPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationPublishPostArgs, 'to' | 'where'>>;
+  publishVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationPublishVideoArgs, 'to' | 'where'>>;
   schedulePublishAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationSchedulePublishAssetArgs, 'publishBase' | 'to' | 'where' | 'withDefaultLocale'>>;
   schedulePublishAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationSchedulePublishAuthorArgs, 'to' | 'where'>>;
   schedulePublishCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationSchedulePublishCategoryArgs, 'to' | 'where'>>;
   schedulePublishPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationSchedulePublishPostArgs, 'to' | 'where'>>;
+  schedulePublishVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationSchedulePublishVideoArgs, 'to' | 'where'>>;
   scheduleUnpublishAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationScheduleUnpublishAssetArgs, 'from' | 'unpublishBase' | 'where'>>;
   scheduleUnpublishAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationScheduleUnpublishAuthorArgs, 'from' | 'where'>>;
   scheduleUnpublishCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationScheduleUnpublishCategoryArgs, 'from' | 'where'>>;
   scheduleUnpublishPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationScheduleUnpublishPostArgs, 'from' | 'where'>>;
+  scheduleUnpublishVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationScheduleUnpublishVideoArgs, 'from' | 'where'>>;
   unpublishAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationUnpublishAssetArgs, 'from' | 'unpublishBase' | 'where'>>;
   unpublishAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationUnpublishAuthorArgs, 'from' | 'where'>>;
   unpublishCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUnpublishCategoryArgs, 'from' | 'where'>>;
@@ -5642,7 +6300,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   unpublishManyCategoriesConnection?: Resolver<ResolversTypes['CategoryConnection'], ParentType, ContextType, RequireFields<MutationUnpublishManyCategoriesConnectionArgs, 'from' | 'stage'>>;
   unpublishManyPosts?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationUnpublishManyPostsArgs, 'from'>>;
   unpublishManyPostsConnection?: Resolver<ResolversTypes['PostConnection'], ParentType, ContextType, RequireFields<MutationUnpublishManyPostsConnectionArgs, 'from' | 'stage'>>;
+  unpublishManyVideos?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationUnpublishManyVideosArgs, 'from'>>;
+  unpublishManyVideosConnection?: Resolver<ResolversTypes['VideoConnection'], ParentType, ContextType, RequireFields<MutationUnpublishManyVideosConnectionArgs, 'from' | 'stage'>>;
   unpublishPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationUnpublishPostArgs, 'from' | 'where'>>;
+  unpublishVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationUnpublishVideoArgs, 'from' | 'where'>>;
   updateAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationUpdateAssetArgs, 'data' | 'where'>>;
   updateAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationUpdateAuthorArgs, 'data' | 'where'>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'data' | 'where'>>;
@@ -5654,16 +6315,20 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateManyCategoriesConnection?: Resolver<ResolversTypes['CategoryConnection'], ParentType, ContextType, RequireFields<MutationUpdateManyCategoriesConnectionArgs, 'data'>>;
   updateManyPosts?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationUpdateManyPostsArgs, 'data'>>;
   updateManyPostsConnection?: Resolver<ResolversTypes['PostConnection'], ParentType, ContextType, RequireFields<MutationUpdateManyPostsConnectionArgs, 'data'>>;
+  updateManyVideos?: Resolver<ResolversTypes['BatchPayload'], ParentType, ContextType, RequireFields<MutationUpdateManyVideosArgs, 'data'>>;
+  updateManyVideosConnection?: Resolver<ResolversTypes['VideoConnection'], ParentType, ContextType, RequireFields<MutationUpdateManyVideosConnectionArgs, 'data'>>;
   updatePost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationUpdatePostArgs, 'data' | 'where'>>;
   updateScheduledRelease?: Resolver<Maybe<ResolversTypes['ScheduledRelease']>, ParentType, ContextType, RequireFields<MutationUpdateScheduledReleaseArgs, 'data' | 'where'>>;
+  updateVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationUpdateVideoArgs, 'data' | 'where'>>;
   upsertAsset?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, RequireFields<MutationUpsertAssetArgs, 'upsert' | 'where'>>;
   upsertAuthor?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, RequireFields<MutationUpsertAuthorArgs, 'upsert' | 'where'>>;
   upsertCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpsertCategoryArgs, 'upsert' | 'where'>>;
   upsertPost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationUpsertPostArgs, 'upsert' | 'where'>>;
+  upsertVideo?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<MutationUpsertVideoArgs, 'upsert' | 'where'>>;
 };
 
 export type NodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Node'] = ResolversParentTypes['Node']> = {
-  __resolveType: TypeResolveFn<'Asset' | 'Author' | 'Category' | 'Post' | 'ScheduledOperation' | 'ScheduledRelease' | 'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Asset' | 'Author' | 'Category' | 'Post' | 'ScheduledOperation' | 'ScheduledRelease' | 'User' | 'Video', ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
 };
@@ -5680,7 +6345,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, Partial<PostAuthorArgs>>;
   categories?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType, Partial<PostCategoriesArgs>>;
-  content?: Resolver<ResolversTypes['RichText'], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['PostContentRichText'], ParentType, ContextType>;
   coverImage?: Resolver<ResolversTypes['Asset'], ParentType, ContextType, Partial<PostCoverImageArgs>>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<PostCreatedByArgs>>;
@@ -5692,7 +6357,6 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
   scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<PostScheduledInArgs>>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
-  tags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<PostUpdatedByArgs>>;
@@ -5704,6 +6368,20 @@ export type PostConnectionResolvers<ContextType = any, ParentType extends Resolv
   edges?: Resolver<Array<ResolversTypes['PostEdge']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PostContentRichTextResolvers<ContextType = any, ParentType extends ResolversParentTypes['PostContentRichText'] = ResolversParentTypes['PostContentRichText']> = {
+  html?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  json?: Resolver<ResolversTypes['RichTextAST'], ParentType, ContextType>;
+  markdown?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  raw?: Resolver<ResolversTypes['RichTextAST'], ParentType, ContextType>;
+  references?: Resolver<Array<ResolversTypes['PostContentRichTextEmbeddedTypes']>, ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PostContentRichTextEmbeddedTypesResolvers<ContextType = any, ParentType extends ResolversParentTypes['PostContentRichTextEmbeddedTypes'] = ResolversParentTypes['PostContentRichTextEmbeddedTypes']> = {
+  __resolveType: TypeResolveFn<'Video', ParentType, ContextType>;
 };
 
 export type PostEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['PostEdge'] = ResolversParentTypes['PostEdge']> = {
@@ -5739,6 +6417,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'locales' | 'stage' | 'where'>>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUsersArgs, 'locales' | 'stage'>>;
   usersConnection?: Resolver<ResolversTypes['UserConnection'], ParentType, ContextType, RequireFields<QueryUsersConnectionArgs, 'locales' | 'stage'>>;
+  video?: Resolver<Maybe<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<QueryVideoArgs, 'locales' | 'stage' | 'where'>>;
+  videoVersion?: Resolver<Maybe<ResolversTypes['DocumentVersion']>, ParentType, ContextType, RequireFields<QueryVideoVersionArgs, 'where'>>;
+  videos?: Resolver<Array<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<QueryVideosArgs, 'locales' | 'stage'>>;
+  videosConnection?: Resolver<ResolversTypes['VideoConnection'], ParentType, ContextType, RequireFields<QueryVideosConnectionArgs, 'locales' | 'stage'>>;
 };
 
 export type RgbaResolvers<ContextType = any, ParentType extends ResolversParentTypes['RGBA'] = ResolversParentTypes['RGBA']> = {
@@ -5789,7 +6471,7 @@ export type ScheduledOperationResolvers<ContextType = any, ParentType extends Re
 };
 
 export type ScheduledOperationAffectedDocumentResolvers<ContextType = any, ParentType extends ResolversParentTypes['ScheduledOperationAffectedDocument'] = ResolversParentTypes['ScheduledOperationAffectedDocument']> = {
-  __resolveType: TypeResolveFn<'Asset' | 'Author' | 'Category' | 'Post', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Asset' | 'Author' | 'Category' | 'Post' | 'Video', ParentType, ContextType>;
 };
 
 export type ScheduledOperationConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ScheduledOperationConnection'] = ResolversParentTypes['ScheduledOperationConnection']> = {
@@ -5874,6 +6556,35 @@ export type VersionResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type VideoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Video'] = ResolversParentTypes['Video']> = {
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<VideoCreatedByArgs>>;
+  documentInStages?: Resolver<Array<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<VideoDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
+  history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<VideoHistoryArgs, 'limit' | 'skip'>>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<VideoPublishedByArgs>>;
+  scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<VideoScheduledInArgs>>;
+  stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<VideoUpdatedByArgs>>;
+  youTubeShareUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VideoConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['VideoConnection'] = ResolversParentTypes['VideoConnection']> = {
+  aggregate?: Resolver<ResolversTypes['Aggregate'], ParentType, ContextType>;
+  edges?: Resolver<Array<ResolversTypes['VideoEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VideoEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['VideoEdge'] = ResolversParentTypes['VideoEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['Video'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Aggregate?: AggregateResolvers<ContextType>;
   Asset?: AssetResolvers<ContextType>;
@@ -5899,6 +6610,8 @@ export type Resolvers<ContextType = any> = {
   PageInfo?: PageInfoResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   PostConnection?: PostConnectionResolvers<ContextType>;
+  PostContentRichText?: PostContentRichTextResolvers<ContextType>;
+  PostContentRichTextEmbeddedTypes?: PostContentRichTextEmbeddedTypesResolvers<ContextType>;
   PostEdge?: PostEdgeResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   RGBA?: RgbaResolvers<ContextType>;
@@ -5917,6 +6630,9 @@ export type Resolvers<ContextType = any> = {
   UserConnection?: UserConnectionResolvers<ContextType>;
   UserEdge?: UserEdgeResolvers<ContextType>;
   Version?: VersionResolvers<ContextType>;
+  Video?: VideoResolvers<ContextType>;
+  VideoConnection?: VideoConnectionResolvers<ContextType>;
+  VideoEdge?: VideoEdgeResolvers<ContextType>;
 };
 
 export type DirectiveResolvers<ContextType = any> = {
