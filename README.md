@@ -1,6 +1,9 @@
-# Welcome to Remix!
+# Website for my girls
 
 - [Remix Docs](https://remix.run/docs)
+- [Graph CMS](https://graphcms.com/docs)
+- [Graph CMS React renderer](https://graphcms.com/blog/graphcms-react-rich-text-renderer)
+- [OpenEmoji](https://openmoji.org/)
 
 ## Deployment
 
