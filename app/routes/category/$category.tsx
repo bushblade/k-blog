@@ -1,5 +1,10 @@
 import { gql } from 'graphql-request'
 import { LoaderFunction, useLoaderData } from 'remix'
+import BackArrow from '~/components/BackArrow'
+import CategoryIcon from '~/components/CategoryIcon'
+import MainContent from '~/components/MainContent'
+import NoPostsToShow from '~/components/NoPostsToShow'
+import PostsGrid from '~/components/PostsGrid'
 import { graphcms } from '~/graphql/graphcms.server'
 import { Post } from '~/graphql/graphcmsTypes'
 
@@ -19,7 +24,7 @@ const query = gql`
         url(
           transformation: {
             document: { output: { format: webp } }
-            image: { resize: { width: 400, fit: clip } }
+            image: { resize: { fit: crop, height: 337, width: 600 } }
           }
         )
         fileName
@@ -38,15 +43,23 @@ export let loader: LoaderFunction = async ({ params: { category } }) => {
 
 export default function Category() {
   let { posts, category }: { posts: Post[]; category: string } = useLoaderData()
+
   return (
-    <div>
-      <h1>Posts matching category: {category}</h1>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h2>{post.title}</h2>
-          <img src={post.coverImage.url} alt={post.coverImage.fileName} />
+    <>
+      <BackArrow />
+      <header className='hero bg-base-200 py-28'>
+        <div className='hero-content flex content-center align-center'>
+          <CategoryIcon category={category} />
+          <h1 className='text-5xl font-bold inline-block'>{category}</h1>
         </div>
-      ))}
-    </div>
+      </header>
+      <MainContent>
+        {posts.length > 0 ? (
+          <PostsGrid posts={posts} />
+        ) : (
+          <NoPostsToShow category={category} />
+        )}
+      </MainContent>
+    </>
   )
 }
