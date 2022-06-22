@@ -65,7 +65,7 @@ export default function PostPage() {
   return (
     <>
       <BackArrow />
-      <header className='hero bg-base-200 py-28'>
+      <header className='hero bg-base-200 py-32'>
         <div className='hero-content flex content-center align-center'>
           <h1 className='text-5xl font-bold inline-block'>{post.title}</h1>
         </div>
@@ -73,7 +73,7 @@ export default function PostPage() {
       <img
         src={post.coverImage.url}
         alt={post.coverImage.fileName}
-        className='m-auto'
+        className='m-auto lg:rounded-lg -translate-y-12 lg:shadow-2xl shadow-current'
       />
       <MainContent>
         <RichText
@@ -102,11 +102,14 @@ export default function PostPage() {
                 </div>
               )
             },
-            a: ({ children, openInNewTab, ...rest }) => (
+            a: ({ children, openInNewTab, title, ...rest }) => (
               <a
                 target={openInNewTab ? '_blank' : '_self'}
                 {...rest}
-                className='link link-hover link-primary'
+                className={`link link-hover link-primary ${
+                  title ? 'tooltip tooltip-primary' : null
+                }`}
+                data-tip={title}
               >
                 {children}
               </a>
