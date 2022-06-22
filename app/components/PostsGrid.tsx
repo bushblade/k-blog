@@ -6,7 +6,7 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
         <Link
-          to={post.slug}
+          to={`/${post.slug}`}
           className='card bg-base-100 shadow-xl max-w-lg hover:scale-105 transition-transform'
           key={post.id}
         >
