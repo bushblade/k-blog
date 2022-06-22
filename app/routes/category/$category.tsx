@@ -19,6 +19,11 @@ const query = gql`
       id
       slug
       title
+      categories {
+        id
+        title
+        slug
+      }
       coverImage {
         id
         url(
