@@ -1,7 +1,16 @@
 import { Link } from 'remix'
-import { Post } from '~/graphql/graphcmsTypes'
+import { Asset, Post } from '~/graphql/graphcmsTypes'
+import Picture from './Picture'
 
-export default function PostsGrid({ posts }: { posts: Post[] }) {
+interface WithThumbnail extends Asset {
+  thumbnail: string
+}
+
+interface PostWithThumbnail extends Post {
+  coverImage: WithThumbnail
+}
+
+export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
   return (
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
@@ -11,7 +20,14 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
           key={post.id}
         >
           <figure>
-            <img src={post.coverImage.url} alt={post.title} />
+            {
+              // <img src={post.coverImage.url} alt={post.title} />
+            }
+            <Picture
+              smallSrc={post.coverImage.thumbnail}
+              largeSrc={post.coverImage.url}
+              alt={post.title}
+            />
           </figure>
           <div className='card-body justify-between'>
             <h2 className='card-title'>
