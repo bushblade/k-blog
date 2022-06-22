@@ -3,6 +3,7 @@ const iconfile = {
   blender: 'blender',
   story: 'book-open',
   animation: 'film-camera',
+  youtube: 'youtube',
 }
 
 interface FileName {
@@ -10,7 +11,10 @@ interface FileName {
   blender: 'blender-logo'
   story: 'book-vol-2'
   animation: 'film-camera'
+  youtube: 'youtube'
 }
+
+// TODO: add icons to schema
 
 export default function CategoryIcon({ category }: { category: string }) {
   const file = category.toLowerCase() as keyof FileName
