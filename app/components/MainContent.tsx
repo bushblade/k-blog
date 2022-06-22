@@ -3,12 +3,20 @@
  */
 export default function MainContent({
   children,
+  narrow = false,
 }: {
   children: React.ReactNode
+  narrow?: boolean
 }) {
   return (
     <div className='flex justify-center'>
-      <main className='container lg:max-w-screen-lg p-3'>{children}</main>
+      <main
+        className={`container p-3 ${
+          narrow ? 'max-w-4xl' : 'lg:max-w-screen-lg'
+        }`}
+      >
+        {children}
+      </main>
     </div>
   )
 }
