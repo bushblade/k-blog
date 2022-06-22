@@ -12,6 +12,7 @@
     "codegen": "graphql-codegen --config codegen.yml -r dotenv/config"
   },
   "dependencies": {
+    "@graphcms/rich-text-react-renderer": "^0.5.0",
     "@remix-run/react": "^1.5.1",
     "@remix-run/serve": "^1.5.1",
     "@remix-run/vercel": "^1.5.1",
