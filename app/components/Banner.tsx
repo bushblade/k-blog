@@ -14,7 +14,7 @@ export default function Banner({ author }: { author: Author }) {
             className='avatar tooltip tooltip-left tooltip-primary'
             data-tip="Yep that's me!"
           >
-            <div className='w-24 rounded-full ring ring-primary'>
+            <div className='w-28 rounded-full ring ring-primary'>
               <img src={author.picture?.url} alt={author.name} />
             </div>
           </div>
