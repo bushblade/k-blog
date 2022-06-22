@@ -7,6 +7,7 @@ import { Post, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import BackArrow from '~/components/BackArrow'
+import { getWebPsrc } from '~/utils'
 
 // TODO: progressivly load coverimage
 
@@ -75,14 +76,20 @@ export default function PostPage() {
         alt={post.coverImage.fileName}
         className='m-auto lg:rounded-lg -translate-y-12 lg:shadow-2xl shadow-current'
       />
-      <MainContent>
+      <MainContent narrow={true}>
         <RichText
           content={post.content.json}
           references={post.content.references}
           renderers={{
-            h1: ({ children }) => <h1 className='text-5xl py-2'>{children}</h1>,
-            h2: ({ children }) => <h2 className='text-4xl py-2'>{children}</h2>,
-            h3: ({ children }) => <h3 className='text-3xl py-2'>{children}</h3>,
+            h1: ({ children }) => (
+              <h1 className='text-5xl py-2 font-bold'>{children}</h1>
+            ),
+            h2: ({ children }) => (
+              <h2 className='text-4xl py-2 font-bold'>{children}</h2>
+            ),
+            h3: ({ children }) => (
+              <h3 className='text-3xl py-2 font-bold'>{children}</h3>
+            ),
             p: ({ children }) => <p className='py-2'>{children}</p>,
             ol: ({ children }) => (
               <ol className='list-decimal list-inside'>{children}</ol>
@@ -137,8 +144,8 @@ export default function PostPage() {
                 const videoId = video.youTubeShareUrl.split('/').reverse()[0]
                 return (
                   <iframe
-                    width='560'
-                    height='315'
+                    width='800'
+                    height='450'
                     src={`https://www.youtube.com/embed/${videoId}`}
                     title='YouTube video player'
                     frameBorder='0'
@@ -154,9 +161,4 @@ export default function PostPage() {
       </MainContent>
     </>
   )
-}
-
-function getWebPsrc(src: string, width = 800) {
-  const id = src.split('/').reverse()[0]
-  return `https://media.graphassets.com/resize=fit:crop,width:${width}/output=format:webp/${id}`
 }
