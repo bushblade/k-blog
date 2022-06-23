@@ -9,11 +9,19 @@ import {
 } from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
 import MainContent from '~/components/MainContent'
-import { Post, Video } from '~/graphql/graphcmsTypes'
+import { Asset, Post, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import BackArrow from '~/components/BackArrow'
 // import { getWebPsrc } from '~/utils'
+
+interface WithThumbnail extends Asset {
+  thumbnail: string
+}
+
+export interface PostWithThumbnail extends Post {
+  coverImage: WithThumbnail
+}
 
 // TODO: progressivly load coverimage
 
@@ -61,7 +69,9 @@ const pageQuery = gql`
 `
 
 export let loader: LoaderFunction = async ({ params: { post } }) => {
-  const data: { post: Post } = await graphcms.request(pageQuery, { slug: post })
+  const data: { post: PostWithThumbnail } = await graphcms.request(pageQuery, {
+    slug: post,
+  })
   return json(data)
 }
 
@@ -74,14 +84,13 @@ export const links: LinksFunction = () => {
   ]
 }
 
-// the meta function gets the loader data available in function args
+// NOTE: the meta function gets the loader data available in function args
 export const meta: MetaFunction = ({ data: { post } }) => {
   return { title: post.title }
 }
 
 export default function PostPage() {
-  const { post }: { post: Post } = useLoaderData()
-  console.log(post.coverImage.thumbnail)
+  const { post }: { post: PostWithThumbnail } = useLoaderData()
   return (
     <>
       <BackArrow />
@@ -164,16 +173,19 @@ export default function PostPage() {
                   )
                 const videoId = video.youTubeShareUrl.split('/').reverse()[0]
                 return (
-                  <iframe
-                    width='800'
-                    height='450'
-                    src={`https://www.youtube.com/embed/${videoId}`}
-                    title='YouTube video player'
-                    frameBorder='0'
-                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                    allowFullScreen
-                    className='m-auto rounded-lg my-3'
-                  ></iframe>
+                  <div
+                    className='w-full relative h-0 my-3'
+                    style={{ paddingBottom: '56.25%' }}
+                  >
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}`}
+                      title='YouTube video player'
+                      frameBorder='0'
+                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                      allowFullScreen
+                      className='m-auto rounded-lg left-0 top-0 absolute w-full h-full'
+                    ></iframe>
+                  </div>
                 )
               },
             },
