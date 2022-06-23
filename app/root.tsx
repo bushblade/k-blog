@@ -1,5 +1,6 @@
 import {
   Links,
+  LinksFunction,
   LiveReload,
   Meta,
   Outlet,
@@ -10,10 +11,10 @@ import type { MetaFunction } from 'remix'
 
 import styles from './tailwind.css'
 
-export function links() {
+export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: styles },
-    { rel: 'icon', href: '/girl.svg', type: 'image/svg' },
+    { rel: 'icon', href: '/girl-icon.svg', type: 'image/svg' },
   ]
 }
 

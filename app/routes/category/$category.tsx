@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request'
-import { LoaderFunction, useLoaderData } from 'remix'
+import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
 import BackArrow from '~/components/BackArrow'
 import CategoryIcon from '~/components/CategoryIcon'
 import MainContent from '~/components/MainContent'
@@ -45,6 +45,10 @@ export let loader: LoaderFunction = async ({ params: { category } }) => {
 
   return { posts: data.posts, category: data.category.title }
 }
+
+export let meta: MetaFunction = ({ data }) => ({
+  title: `Koyah's ${data.category} posts`,
+})
 
 export default function Category() {
   let { posts, category }: { posts: Post[]; category: string } = useLoaderData()

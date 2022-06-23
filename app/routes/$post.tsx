@@ -1,17 +1,23 @@
 import { EmbedProps } from '@graphcms/rich-text-types'
 import { gql } from 'graphql-request'
-import { json, LoaderFunction, useLoaderData } from 'remix'
+import {
+  json,
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  useLoaderData,
+} from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
 import MainContent from '~/components/MainContent'
 import { Post, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import BackArrow from '~/components/BackArrow'
-import { getWebPsrc } from '~/utils'
+// import { getWebPsrc } from '~/utils'
 
 // TODO: progressivly load coverimage
 
-const query = gql`
+const pageQuery = gql`
   query GetPostsBySlug($slug: String!) {
     post(where: { slug: $slug }) {
       id
@@ -28,6 +34,13 @@ const query = gql`
           transformation: {
             document: { output: { format: webp } }
             image: { resize: { fit: clip, width: 1000 } }
+            validateOptions: true
+          }
+        )
+        thumbnail: url(
+          transformation: {
+            document: { output: { format: webp } }
+            image: { resize: { fit: clip, width: 200 } }
             validateOptions: true
           }
         )
@@ -48,11 +61,11 @@ const query = gql`
 `
 
 export let loader: LoaderFunction = async ({ params: { post } }) => {
-  const data: { post: Post } = await graphcms.request(query, { slug: post })
+  const data: { post: Post } = await graphcms.request(pageQuery, { slug: post })
   return json(data)
 }
 
-export function links() {
+export const links: LinksFunction = () => {
   return [
     {
       rel: 'stylesheet',
@@ -61,8 +74,14 @@ export function links() {
   ]
 }
 
+// the meta function gets the loader data available in function args
+export const meta: MetaFunction = ({ data: { post } }) => {
+  return { title: post.title }
+}
+
 export default function PostPage() {
   const { post }: { post: Post } = useLoaderData()
+  console.log(post.coverImage.thumbnail)
   return (
     <>
       <BackArrow />
@@ -121,9 +140,11 @@ export default function PostPage() {
                 {children}
               </a>
             ),
-            img: ({ src, title, altText }) => (
+            img: ({ title, altText, handle }) => (
               <img
-                src={getWebPsrc(src ? src : '')}
+                // src={getWebPsrc(src ? src : '')}
+                // NOTE: seems I can use image.handle to get image id
+                src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
                 alt={altText || title}
                 className='m-auto rounded-lg'
               />
