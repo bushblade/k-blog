@@ -12,7 +12,7 @@ import MainContent from '~/components/MainContent'
 import { Asset, Post, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
-import BackArrow from '~/components/BackArrow'
+import HomeButton from '~/components/HomeButton'
 // import { getWebPsrc } from '~/utils'
 
 interface WithThumbnail extends Asset {
@@ -93,7 +93,7 @@ export default function PostPage() {
   const { post }: { post: PostWithThumbnail } = useLoaderData()
   return (
     <>
-      <BackArrow />
+      <HomeButton />
       <header className='hero bg-base-200 py-32'>
         <div className='hero-content flex content-center align-center'>
           <h1 className='text-5xl font-bold inline-block'>{post.title}</h1>
@@ -173,17 +173,14 @@ export default function PostPage() {
                   )
                 const videoId = video.youTubeShareUrl.split('/').reverse()[0]
                 return (
-                  <div
-                    className='w-full relative h-0 my-3'
-                    style={{ paddingBottom: '56.25%' }}
-                  >
+                  <div className='max-w-[800px] mx-auto'>
                     <iframe
                       src={`https://www.youtube.com/embed/${videoId}`}
                       title='YouTube video player'
                       frameBorder='0'
                       allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
-                      className='m-auto rounded-lg left-0 top-0 absolute w-full h-full'
+                      className='m-auto rounded-lg w-full aspect-video'
                     ></iframe>
                   </div>
                 )

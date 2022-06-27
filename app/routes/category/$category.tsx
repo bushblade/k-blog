@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request'
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
-import BackArrow from '~/components/BackArrow'
+import HomeButton from '~/components/HomeButton'
 import CategoryIcon from '~/components/CategoryIcon'
 import MainContent from '~/components/MainContent'
 import NoPostsToShow from '~/components/NoPostsToShow'
@@ -23,6 +23,9 @@ const query = gql`
         id
         title
         slug
+      }
+      content {
+        text
       }
       coverImage {
         id
@@ -55,7 +58,7 @@ export default function Category() {
 
   return (
     <>
-      <BackArrow />
+      <HomeButton />
       <header className='hero bg-base-200 py-28'>
         <div className='hero-content flex content-center align-center'>
           <CategoryIcon category={category} />
