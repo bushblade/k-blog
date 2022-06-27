@@ -20,9 +20,12 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
                 // <div className='badge badge-secondary'>NEW</div>
               }
             </h2>
-            {
-              // <p>If a dog chews shoes whose shoes does he choose?</p>
-            }
+            <p
+              style={{ whiteSpace: 'pre-wrap' }}
+              className='text-sm text-neutral'
+            >
+              {trimText(post.content.text)}
+            </p>
             <div className='card-actions justify-end'>
               {post.categories?.length > 0
                 ? post.categories.map((category) => (
@@ -37,4 +40,15 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
       ))}
     </section>
   )
+}
+
+function trimText(text: string, length: number = 13) {
+  const t = text
+    .replace(/[0-9]\\n|\\n|\/\/|\n/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .split(' ')
+    .slice(0, length)
+    .join(' ')
+    .trim()
+  return t
 }

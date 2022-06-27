@@ -37,6 +37,9 @@ const query = gql`
         title
         slug
       }
+      content {
+        text
+      }
       coverImage {
         fileName
         url(
