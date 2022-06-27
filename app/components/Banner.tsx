@@ -18,8 +18,8 @@ export default function Banner({ author }: { author: Author }) {
               <img src={author.picture?.url} alt={author.name} />
             </div>
           </div>
-          <h1 className='text-5xl font-bold'>Hi I'm {author.name}</h1>
-          <p className='pt-6'>A {author.title}</p>
+          <h1 className='text-5xl'>Hi I'm {author.name}</h1>
+          <p className='pt-6 font-bold'>A {author.title}</p>
           <p className='pb-6'>Welcome to my website</p>
         </div>
       </div>
