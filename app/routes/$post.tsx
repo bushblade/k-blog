@@ -1,12 +1,7 @@
 import { EmbedProps } from '@graphcms/rich-text-types'
 import { gql } from 'graphql-request'
-import {
-  json,
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-  useLoaderData,
-} from 'remix'
+import { json, useLoaderData } from 'remix'
+import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
 import MainContent from '~/components/MainContent'
 import { Asset, Post, Video } from '~/graphql/graphcmsTypes'
@@ -72,6 +67,7 @@ export let loader: LoaderFunction = async ({ params: { post } }) => {
   const data: { post: PostWithThumbnail } = await graphcms.request(pageQuery, {
     slug: post,
   })
+  if (!data.post) throw new Error(`No posts found for ${post}`)
   return json(data)
 }
 
@@ -85,8 +81,9 @@ export const links: LinksFunction = () => {
 }
 
 // NOTE: the meta function gets the loader data available in function args
-export const meta: MetaFunction = ({ data: { post } }) => {
-  return { title: post.title }
+export const meta: MetaFunction = ({ data }) => {
+  if (data) return { title: data.post.title }
+  return {}
 }
 
 export default function PostPage() {

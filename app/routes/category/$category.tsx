@@ -44,18 +44,22 @@ const query = gql`
 
 export let loader: LoaderFunction = async ({ params: { category } }) => {
   const data = await graphcms.request(query, { category })
-  console.log(data)
   if (!data.category) {
-    console.log('We have no data')
     throw new Error(`No matching category for ${category}`)
   }
 
   return { posts: data.posts, category: data.category.title }
 }
 
-export let meta: MetaFunction = ({ data }) => ({
-  title: `Koyah's ${data.category} posts`,
-})
+export let meta: MetaFunction = ({ data }) => {
+  // NOTE: need to check if we have data otherwise ErrorBoundry will not catch
+  // error thrown in loader
+  if (data)
+    return {
+      title: `Koyah's ${data.category} posts`,
+    }
+  return {}
+}
 
 export default function Category() {
   let { posts, category }: { posts: Post[]; category: string } = useLoaderData()
