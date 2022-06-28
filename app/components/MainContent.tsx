@@ -12,7 +12,7 @@ export default function MainContent({
     <div className='flex justify-center'>
       <main
         className={`container p-3 ${
-          narrow ? 'max-w-4xl' : 'lg:max-w-screen-lg'
+          narrow ? 'max-w-5xl' : 'md:max-w-screen-lg'
         }`}
       >
         {children}

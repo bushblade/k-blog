@@ -42,9 +42,9 @@ const query = gql`
 `
 
 export let loader: LoaderFunction = async ({ params: { category } }) => {
-  if (!category) throw new Error(`No categories match: ${category}`)
-
   const data = await graphcms.request(query, { category })
+  console.log(data)
+  if (!data.category) throw new Error(`No matching category for ${category}`)
 
   return { posts: data.posts, category: data.category.title }
 }

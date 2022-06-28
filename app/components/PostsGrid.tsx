@@ -5,38 +5,42 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
   return (
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
-        <Link
-          to={`/${post.slug}`}
-          className='card bg-base-100 shadow-xl max-w-lg hover:scale-105 transition-transform'
+        <div
+          className='card bg-base-100 shadow-xl max-w-lg group'
           key={post.id}
         >
-          <figure>
-            <img src={post.coverImage.url} alt={post.title} />
-          </figure>
+          <Link to={`/${post.slug}`}>
+            <figure>
+              <img src={post.coverImage.url} alt={post.title} />
+            </figure>
+          </Link>
           <div className='card-body justify-between'>
-            <h2 className='card-title'>
-              {post.title}
-              {
-                // <div className='badge badge-secondary'>NEW</div>
-              }
-            </h2>
-            <p
-              style={{ whiteSpace: 'pre-wrap' }}
-              className='text-sm text-neutral'
-            >
-              {trimText(post.content.text)}
-            </p>
+            <Link to={`/${post.slug}`} className=''>
+              <h2 className='card-title group-hover:link'>{post.title}</h2>
+              <p
+                style={{ whiteSpace: 'pre-wrap' }}
+                className='text-sm text-neutral'
+              >
+                {trimText(post.content.text)}
+              </p>
+            </Link>
             <div className='card-actions justify-end'>
               {post.categories?.length > 0
                 ? post.categories.map((category) => (
-                    <div className='badge badge-outline' key={category.id}>
-                      {category.title}
-                    </div>
+                    <Link
+                      to={`/category/${category.slug}`}
+                      className='hover:text-info-content'
+                      key={category.id}
+                    >
+                      <div className='badge badge-outline hover:bg-info'>
+                        {category.title}
+                      </div>
+                    </Link>
                   ))
                 : null}
             </div>
           </div>
-        </Link>
+        </div>
       ))}
     </section>
   )

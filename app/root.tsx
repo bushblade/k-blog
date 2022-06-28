@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from 'remix'
 import type { MetaFunction } from 'remix'
 
@@ -40,3 +41,41 @@ export default function App() {
     </html>
   )
 }
+
+// 404 pages
+export function CatchBoundary() {
+  const caught = useCatch()
+  return (
+    <html lang='en' data-theme='garden'>
+      <head>
+        <title>Oops!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1>This is the CatchBoundry</h1>
+        <p>
+          {caught.status} {caught.statusText}
+        </p>
+        <Scripts />
+      </body>
+    </html>
+  )
+}
+
+// export function ErrorBoundary({ error }: { error: Error }) {
+//   console.error(error)
+//   return (
+//     <html>
+//       <head>
+//         <title>Oh no!</title>
+//         <Meta />
+//         <Links />
+//       </head>
+//       <body>
+//         <h1>This is the ErrorBoundry</h1>
+//         <Scripts />
+//       </body>
+//     </html>
+//   )
+// }
