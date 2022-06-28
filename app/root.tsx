@@ -63,19 +63,19 @@ export function CatchBoundary() {
   )
 }
 
-// export function ErrorBoundary({ error }: { error: Error }) {
-//   console.error(error)
-//   return (
-//     <html>
-//       <head>
-//         <title>Oh no!</title>
-//         <Meta />
-//         <Links />
-//       </head>
-//       <body>
-//         <h1>This is the ErrorBoundry</h1>
-//         <Scripts />
-//       </body>
-//     </html>
-//   )
-// }
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error)
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1>This is the ErrorBoundry</h1>
+        <Scripts />
+      </body>
+    </html>
+  )
+}
