@@ -1,5 +1,6 @@
 import { gql } from 'graphql-request'
-import { LoaderFunction, MetaFunction, useLoaderData } from 'remix'
+import type { LoaderFunction, MetaFunction } from 'remix'
+import { useLoaderData } from 'remix'
 import HomeButton from '~/components/HomeButton'
 import CategoryIcon from '~/components/CategoryIcon'
 import MainContent from '~/components/MainContent'
@@ -44,7 +45,10 @@ const query = gql`
 export let loader: LoaderFunction = async ({ params: { category } }) => {
   const data = await graphcms.request(query, { category })
   console.log(data)
-  if (!data.category) throw new Error(`No matching category for ${category}`)
+  if (!data.category) {
+    console.log('We have no data')
+    throw new Error(`No matching category for ${category}`)
+  }
 
   return { posts: data.posts, category: data.category.title }
 }
