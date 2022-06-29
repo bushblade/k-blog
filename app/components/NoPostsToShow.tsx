@@ -4,7 +4,7 @@ export default function NoPostsToShow({ category }: { category: string }) {
   return (
     <div className='alert alert-warning shadow-xl flex-col my-8 py-8 max-w-lg m-auto'>
       <h2 className='text-center text-xl'>
-        <img src='/broken-heart.svg' alt='broken-heart' className='w-10 h-10' />{' '}
+        <img src='/crying-cat.svg' alt='broken-heart' className='w-10 h-10' />{' '}
         Oops!
       </h2>
       <p>
