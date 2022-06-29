@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Links, Meta } from 'remix'
 import ThemeIcon from './components/ThemeIcon'
 // TODO: theme switcher
@@ -43,7 +43,7 @@ export default function Document({
         <Links />
       </head>
       <body>
-        <div className='dropdown dropdown-end dropdown-hover absolute top-8 right-8 z-20'>
+        <div className='dropdown dropdown-end absolute top-8 right-8 z-20'>
           <label
             tabIndex={0}
             className='btn btn-ghost tooltip tooltip-left tooltip-primary'
@@ -58,7 +58,12 @@ export default function Document({
             {themes.map((t) => (
               <li key={t.name}>
                 <a
-                  onClick={() => setTheme(t.name)}
+                  onClick={() => {
+                    setTheme(t.name)
+                    if (document.activeElement instanceof HTMLElement) {
+                      document.activeElement.blur()
+                    }
+                  }}
                   className={
                     t.name === theme ? 'bg-primary text-primary-content' : ''
                   }
