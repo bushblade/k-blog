@@ -8,6 +8,7 @@ import NoPostsToShow from '~/components/NoPostsToShow'
 import PostsGrid from '~/components/PostsGrid'
 import { graphcms } from '~/graphql/graphcms.server'
 import { Post } from '~/graphql/graphcmsTypes'
+import StackedWave from '~/components/StackedWave'
 
 // need to get the category title too
 
@@ -67,7 +68,8 @@ export default function Category() {
   return (
     <>
       <HomeButton />
-      <header className='hero bg-base-200 py-28'>
+      <header className='hero py-28 bg-gradient-to-tl from-base-300 to-base-200 relative'>
+        <StackedWave />
         <div className='hero-content flex content-center align-center'>
           <CategoryIcon category={category} />
           <h1 className='text-5xl font-bold inline-block'>{category}</h1>

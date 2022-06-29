@@ -4,6 +4,7 @@ const iconfile = {
   story: 'book-open',
   animation: 'film-camera',
   youtube: 'youtube',
+  coding: 'hacker-cat',
 }
 
 interface FileName {
@@ -12,6 +13,7 @@ interface FileName {
   story: 'book-vol-2'
   animation: 'film-camera'
   youtube: 'youtube'
+  coding: 'hacker-cat'
 }
 
 // TODO: add icons to schema

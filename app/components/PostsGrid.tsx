@@ -11,16 +11,19 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
         >
           <Link to={`/${post.slug}`}>
             <figure>
-              <img src={post.coverImage.url} alt={post.title} />
+              <img
+                src={post.coverImage.url}
+                alt={post.title}
+                className='group-hover:opacity-80 transition-opacity'
+              />
             </figure>
           </Link>
           <div className='card-body justify-between'>
             <Link to={`/${post.slug}`} className=''>
-              <h2 className='card-title group-hover:link'>{post.title}</h2>
-              <p
-                style={{ whiteSpace: 'pre-wrap' }}
-                className='text-sm text-neutral'
-              >
+              <h2 className='card-title group-hover:link decoration-2 decoration-primary'>
+                {post.title}
+              </h2>
+              <p style={{ whiteSpace: 'pre-wrap' }} className='text-sm'>
                 {trimText(post.content.text)}
               </p>
             </Link>

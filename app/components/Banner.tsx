@@ -1,13 +1,19 @@
 import { Author } from '~/graphql/graphcmsTypes'
+import PolygonSVGBackground from './PolygonSVGBackground'
+import StackedWave from './StackedWave'
 
-function randomGreeting() {
-  const greetings = ['Hey there!', 'Hi!', "Yep that's me!"]
-  return greetings[Math.floor(Math.random() * greetings.length + 1)]
-}
+// function randomGreeting() {
+//   const greetings = ['Hey there!', 'Hi!', "Yep that's me!"]
+//   return greetings[Math.floor(Math.random() * greetings.length + 1)]
+// }
 
 export default function Banner({ author }: { author: Author }) {
   return (
-    <header className='hero bg-base-200 py-8'>
+    <header className='hero py-8 relative bg-gradient-to-tl from-base-300 to-base-200'>
+      {
+        // <PolygonSVGBackground />
+      }
+      <StackedWave />
       <div className='hero-content text-center'>
         <div className='max-w-md'>
           <div
