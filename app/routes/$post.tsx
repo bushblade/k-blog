@@ -8,7 +8,7 @@ import type { Asset, Post, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import HomeButton from '~/components/HomeButton'
-import StackedWave from '~/components/StackedWave'
+import Header from '~/components/Header'
 // import { getWebPsrc } from '~/utils'
 
 interface WithThumbnail extends Asset {
@@ -92,12 +92,9 @@ export default function PostPage() {
   return (
     <>
       <HomeButton />
-      <header className='hero bg-base-200 py-32 bg-gradient-to-tl from-base-300 to-base-200 relative'>
-        <StackedWave />
-        <div className='hero-content flex content-center align-center'>
-          <h1 className='text-5xl font-bold inline-block'>{post.title}</h1>
-        </div>
-      </header>
+      <Header>
+        <h1 className='text-5xl font-bold inline-block'>{post.title}</h1>
+      </Header>
       <img
         src={post.coverImage.url}
         alt={post.coverImage.fileName}

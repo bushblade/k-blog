@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Links, Meta } from '@remix-run/react'
 import ThemeIcon from './components/ThemeIcon'
-// TODO: theme switcher
-// retro garden business lemonade dracula
 
 const themes = [
   { name: 'dracula', dark: true },
