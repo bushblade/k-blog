@@ -44,7 +44,7 @@ export default function Document({
         <div className='dropdown dropdown-end absolute top-8 right-8 z-20'>
           <label
             tabIndex={0}
-            className='btn btn-ghost tooltip tooltip-left tooltip-primary'
+            className='btn btn-ghost tooltip tooltip-left tooltip-primary normal-case font-normal'
             data-tip='Change Theme'
           >
             <ThemeIcon />

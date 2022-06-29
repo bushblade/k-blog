@@ -93,12 +93,12 @@ export default function PostPage() {
     <>
       <HomeButton />
       <Header>
-        <h1 className='text-5xl font-bold inline-block'>{post.title}</h1>
+        <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
       <img
         src={post.coverImage.url}
         alt={post.coverImage.fileName}
-        className='m-auto lg:rounded-lg -translate-y-12 lg:shadow-2xl shadow-current'
+        className='m-auto lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current'
       />
       <MainContent narrow={true}>
         <RichText
@@ -122,13 +122,13 @@ export default function PostPage() {
               <ul className='list-disc list-inside'>{children}</ul>
             ),
             blockquote: ({ children }) => (
-              <blockquote className='border-l-4 border-primary p-2 my-3 text-secondary-content bg-secondary rounded-lg bg-opacity-50 border-opacity-50'>
+              <blockquote className='border-l-4 border-primary p-2 my-3 text-secondary-content bg-secondary rounded-box bg-opacity-50 border-opacity-50'>
                 {children}
               </blockquote>
             ),
             code_block: ({ children }) => {
               return (
-                <div className='mockup-code rounded-lg font-mono'>
+                <div className='mockup-code rounded-box font-mono'>
                   <pre className='no-before pl-5'>{children}</pre>
                 </div>
               )
@@ -137,7 +137,7 @@ export default function PostPage() {
               <a
                 target={openInNewTab ? '_blank' : '_self'}
                 {...rest}
-                className={`link link-hover link-primary ${
+                className={`link link-hover link-primary font-bold ${
                   title ? 'tooltip tooltip-primary' : null
                 }`}
                 data-tip={title}
@@ -151,7 +151,7 @@ export default function PostPage() {
                 // NOTE: seems I can use image.handle to get image id
                 src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
                 alt={altText || title}
-                className='m-auto rounded-lg'
+                className='m-auto rounded-box'
               />
             ),
             embed: {
@@ -176,7 +176,7 @@ export default function PostPage() {
                       frameBorder='0'
                       allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
-                      className='m-auto rounded-lg w-full aspect-video'
+                      className='m-auto rounded-box w-full aspect-video'
                     ></iframe>
                   </div>
                 )

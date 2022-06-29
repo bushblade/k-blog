@@ -70,7 +70,7 @@ export default function Category() {
       <HomeButton />
       <Header>
         <CategoryIcon category={category} />
-        <h1 className='text-5xl font-bold inline-block'>{category}</h1>
+        <h1 className='text-5xl inline-block'>{category}</h1>
       </Header>
       <MainContent>
         {posts.length > 0 ? (
