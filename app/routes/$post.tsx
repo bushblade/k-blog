@@ -8,6 +8,7 @@ import { Asset, Post, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import HomeButton from '~/components/HomeButton'
+import StackedWave from '~/components/StackedWave'
 // import { getWebPsrc } from '~/utils'
 
 interface WithThumbnail extends Asset {
@@ -91,7 +92,8 @@ export default function PostPage() {
   return (
     <>
       <HomeButton />
-      <header className='hero bg-base-200 py-32'>
+      <header className='hero bg-base-200 py-32 bg-gradient-to-tl from-base-300 to-base-200 relative'>
+        <StackedWave />
         <div className='hero-content flex content-center align-center'>
           <h1 className='text-5xl font-bold inline-block'>{post.title}</h1>
         </div>
@@ -123,13 +125,13 @@ export default function PostPage() {
               <ul className='list-disc list-inside'>{children}</ul>
             ),
             blockquote: ({ children }) => (
-              <blockquote className='border-l-4 border-primary p-2 my-3 text-primary bg-secondary rounded-lg'>
+              <blockquote className='border-l-4 border-primary p-2 my-3 text-secondary-content bg-secondary rounded-lg bg-opacity-50 border-opacity-50'>
                 {children}
               </blockquote>
             ),
             code_block: ({ children }) => {
               return (
-                <div className='mockup-code rounded-lg'>
+                <div className='mockup-code rounded-lg font-mono'>
                   <pre className='no-before pl-5'>{children}</pre>
                 </div>
               )
