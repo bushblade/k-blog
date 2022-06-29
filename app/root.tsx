@@ -41,6 +41,7 @@ export function CatchBoundary() {
       <ErrorPage message={`${caught.status}  ${caught.statusText}`}>
         <p className='text-lg'>I don&apos;t have a page for that</p>
       </ErrorPage>
+      <Scripts />
     </Document>
   )
 }
@@ -50,6 +51,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document title='Oh no!'>
       <ErrorPage message={error.message} />
+      <Scripts />
     </Document>
   )
 }
