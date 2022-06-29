@@ -1,4 +1,4 @@
-import { Link } from 'remix'
+import { Link } from '@remix-run/react'
 
 export default function NoPostsToShow({ category }: { category: string }) {
   return (
@@ -8,7 +8,7 @@ export default function NoPostsToShow({ category }: { category: string }) {
         Oops!
       </h2>
       <p>
-        I haven't created any <strong>{category}</strong> posts as yet!
+        I haven&apos;t created any <strong>{category}</strong> posts as yet!
       </p>
       <p className='text-center'>Please try another category.</p>
       <Link to='/' className='btn shadow-xl'>

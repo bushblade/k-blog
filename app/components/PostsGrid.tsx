@@ -1,5 +1,5 @@
-import { Link } from 'remix'
-import { Post } from '~/graphql/graphcmsTypes'
+import { Link } from '@remix-run/react'
+import type { Post } from '~/graphql/graphcmsTypes'
 
 export default function PostsGrid({ posts }: { posts: Post[] }) {
   return (
@@ -30,16 +30,16 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
             <div className='card-actions justify-end'>
               {post.categories?.length > 0
                 ? post.categories.map((category) => (
-                    <Link
-                      to={`/category/${category.slug}`}
-                      className='hover:text-info-content'
-                      key={category.id}
-                    >
-                      <div className='badge badge-outline hover:bg-info'>
-                        {category.title}
-                      </div>
-                    </Link>
-                  ))
+                  <Link
+                    to={`/category/${category.slug}`}
+                    className='hover:text-info-content'
+                    key={category.id}
+                  >
+                    <div className='badge badge-outline hover:bg-info'>
+                      {category.title}
+                    </div>
+                  </Link>
+                ))
                 : null}
             </div>
           </div>

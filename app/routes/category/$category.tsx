@@ -1,13 +1,13 @@
 import { gql } from 'graphql-request'
 import type { LoaderFunction, MetaFunction } from 'remix'
-import { useLoaderData } from 'remix'
+import { useLoaderData } from '@remix-run/react'
 import HomeButton from '~/components/HomeButton'
 import CategoryIcon from '~/components/CategoryIcon'
 import MainContent from '~/components/MainContent'
 import NoPostsToShow from '~/components/NoPostsToShow'
 import PostsGrid from '~/components/PostsGrid'
 import { graphcms } from '~/graphql/graphcms.server'
-import { Post } from '~/graphql/graphcmsTypes'
+import type { Post } from '~/graphql/graphcmsTypes'
 import StackedWave from '~/components/StackedWave'
 
 // need to get the category title too

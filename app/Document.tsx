@@ -57,7 +57,7 @@ export default function Document({
           >
             {themes.map((t) => (
               <li key={t.name}>
-                <a
+                <button
                   onClick={() => {
                     setTheme(t.name)
                     if (document.activeElement instanceof HTMLElement) {
@@ -69,7 +69,7 @@ export default function Document({
                   }
                 >
                   {t.name[0].toUpperCase() + t.name.slice(1)}
-                </a>
+                </button>
               </li>
             ))}
           </ul>

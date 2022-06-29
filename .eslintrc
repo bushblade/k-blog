@@ -22,7 +22,7 @@
     ],
     "react/react-in-jsx-scope": "off",
     "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
+    "quotes": ["error", "single", {"allowTemplateLiterals": true}],
     "semi": ["error", "never"]
   },
   "settings": {

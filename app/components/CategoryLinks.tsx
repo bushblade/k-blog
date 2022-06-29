@@ -1,5 +1,5 @@
-import { Link } from 'remix'
-import { Category } from '~/graphql/graphcmsTypes'
+import { Link } from '@remix-run/react'
+import type { Category } from '~/graphql/graphcmsTypes'
 
 export default function CategoryLinks({
   categories,

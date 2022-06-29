@@ -1,11 +1,12 @@
-import { json, LoaderFunction, useLoaderData } from 'remix'
+import { useLoaderData } from '@remix-run/react'
 import { gql } from 'graphql-request'
 import { graphcms } from '~/graphql/graphcms.server'
-import { Author, Category, Post } from '~/graphql/graphcmsTypes'
+import type { Author, Category, Post } from '~/graphql/graphcmsTypes'
 import Banner from '~/components/Banner'
 import MainContent from '~/components/MainContent'
 import CategoryLinks from '~/components/CategoryLinks'
 import PostsGrid from '~/components/PostsGrid'
+import type { LoaderFunction } from 'remix'
 
 const query = gql`
   {
@@ -56,11 +57,11 @@ const query = gql`
 export let loader: LoaderFunction = async () => {
   const data: { categories: Category[]; authors: Author[]; posts: Post[] } =
     await graphcms.request(query)
-  return json({
+  return {
     categories: data.categories,
     author: data.authors[0],
     posts: data.posts,
-  })
+  }
 }
 
 export default function Index() {

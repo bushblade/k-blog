@@ -1,10 +1,10 @@
-import { EmbedProps } from '@graphcms/rich-text-types'
+import type { EmbedProps } from '@graphcms/rich-text-types'
 import { gql } from 'graphql-request'
-import { json, useLoaderData } from 'remix'
+import { useLoaderData } from '@remix-run/react'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
 import MainContent from '~/components/MainContent'
-import { Asset, Post, Video } from '~/graphql/graphcmsTypes'
+import type { Asset, Post, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import HomeButton from '~/components/HomeButton'
@@ -69,7 +69,7 @@ export let loader: LoaderFunction = async ({ params: { post } }) => {
     slug: post,
   })
   if (!data.post) throw new Error(`No posts found for ${post}`)
-  return json(data)
+  return data
 }
 
 export const links: LinksFunction = () => {

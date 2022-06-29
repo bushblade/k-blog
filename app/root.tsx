@@ -1,12 +1,11 @@
 import {
-  LinksFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
   LiveReload,
   useCatch,
-} from 'remix'
-import type { MetaFunction } from 'remix'
+} from '@remix-run/react'
+import type { LinksFunction, MetaFunction } from 'remix'
 import Document from './Document'
 
 import styles from './tailwind.css'
@@ -40,7 +39,7 @@ export function CatchBoundary() {
   return (
     <Document title={`Oops! ${caught.status}`}>
       <ErrorPage message={`${caught.status}  ${caught.statusText}`}>
-        <p className='text-lg'>I don't have a page for that</p>
+        <p className='text-lg'>I don&apos;t have a page for that</p>
       </ErrorPage>
     </Document>
   )

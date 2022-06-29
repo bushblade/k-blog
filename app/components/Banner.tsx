@@ -1,5 +1,5 @@
-import { Author } from '~/graphql/graphcmsTypes'
-import PolygonSVGBackground from './PolygonSVGBackground'
+import type { Author } from '~/graphql/graphcmsTypes'
+// import PolygonSVGBackground from './PolygonSVGBackground'
 import StackedWave from './StackedWave'
 
 // function randomGreeting() {
@@ -24,7 +24,7 @@ export default function Banner({ author }: { author: Author }) {
               <img src={author.picture?.url} alt={author.name} />
             </div>
           </div>
-          <h1 className='text-5xl'>Hi I'm {author.name}</h1>
+          <h1 className='text-5xl'>Hi I&apos;m {author.name}</h1>
           <p className='pt-6 font-bold'>A {author.title}</p>
           <p className='pb-6'>Welcome to my website</p>
         </div>
