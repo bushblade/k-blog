@@ -32,12 +32,10 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
                 ? post.categories.map((category) => (
                   <Link
                     to={`/category/${category.slug}`}
-                    className='hover:text-info-content'
+                    className='badge badge-outline hover:bg-info hover:text-info-content'
                     key={category.id}
                   >
-                    <div className='badge badge-outline hover:bg-info'>
-                      {category.title}
-                    </div>
+                    {category.title}
                   </Link>
                 ))
                 : null}
