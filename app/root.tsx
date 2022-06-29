@@ -1,14 +1,13 @@
 import {
-  Links,
   LinksFunction,
-  LiveReload,
-  Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  LiveReload,
   useCatch,
 } from 'remix'
 import type { MetaFunction } from 'remix'
+import Document from './Document'
 
 import styles from './tailwind.css'
 import ErrorPage from './components/ErrorPage'
@@ -24,42 +23,13 @@ export const meta: MetaFunction = () => {
   return { title: `Koyah's blog` }
 }
 
-// TODO: theme switcher
-// retro garden business lemonade dracula
-const theme: string = 'lemonade'
-
-function Document({
-  children,
-  title,
-}: {
-  children: React.ReactNode
-  title?: string
-}) {
-  return (
-    <html lang='en' data-theme={theme}>
-      <head>
-        <meta charSet='utf-8' />
-        <meta name='viewport' content='width=device-width,initial-scale=1' />
-        {title ? <title>{title}</title> : null}
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
-      </body>
-    </html>
-  )
-}
-
 export default function App() {
   return (
     <Document>
       <Outlet />
       <ScrollRestoration />
       <Scripts />
+      {process.env.NODE_ENV === 'development' && <LiveReload />}
     </Document>
   )
 }
