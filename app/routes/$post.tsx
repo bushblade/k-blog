@@ -12,8 +12,6 @@ import Header from '~/components/Header'
 import type { PostWithThumbnail } from '~/types'
 import Picture from '~/components/Picture'
 
-// TODO: progressivly load coverimage
-
 const pageQuery = gql`
   query GetPostsBySlug($slug: String!) {
     post(where: { slug: $slug }) {
@@ -95,13 +93,6 @@ export default function PostPage() {
           alt={post.coverImage.fileName}
           className='m-auto lg:shadow-2xl shadow-current aspect-video'
         />
-        {
-          // <img
-          //   src={post.coverImage.url}
-          //   alt={post.coverImage.fileName}
-          //   className='m-auto lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current'
-          //   />
-        }
       </figure>
       <MainContent narrow={true}>
         <RichText

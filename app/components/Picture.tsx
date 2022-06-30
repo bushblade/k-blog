@@ -19,6 +19,13 @@ const useProgressiveImg = (
 }
 
 // TODO: calcualte height based on aspect ratio
+/**
+ * Progressively load an image with blur up effect
+ * @param smallSrc - A small source url for quick loading
+ * @param largeSrc - the url of the final large image
+ * @param alt - passed to the <img> alt attribute
+ * @param className - any classes you want to pass to the image
+ */
 
 export default function Picture({
   smallSrc,
