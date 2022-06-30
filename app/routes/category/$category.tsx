@@ -74,6 +74,8 @@ export default function Category() {
         <h1 className='text-5xl inline-block'>{category}</h1>
       </Header>
       <MainContent>
+        <h2 className='text-4xl pt-5'>{category} Posts</h2>
+        <div className='divider'></div>
         {posts.length > 0 ? (
           <PostsGrid posts={posts} />
         ) : (
