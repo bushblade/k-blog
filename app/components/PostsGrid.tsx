@@ -1,11 +1,12 @@
 import { Link } from '@remix-run/react'
 import type { Post } from '~/graphql/graphcmsTypes'
+import { trimText } from '~/utils'
 
 export default function PostsGrid({ posts }: { posts: Post[] }) {
   return (
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
-        <div
+        <article
           className='card bg-base-100 shadow-xl max-w-lg group'
           key={post.id}
         >
@@ -30,30 +31,19 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
             <div className='card-actions justify-end'>
               {post.categories?.length > 0
                 ? post.categories.map((category) => (
-                  <Link
-                    to={`/category/${category.slug}`}
-                    className='badge badge-outline hover:bg-info hover:text-info-content'
-                    key={category.id}
-                  >
-                    {category.title}
-                  </Link>
-                ))
+                    <Link
+                      to={`/category/${category.slug}`}
+                      className='badge badge-outline hover:bg-info hover:text-info-content'
+                      key={category.id}
+                    >
+                      {category.title}
+                    </Link>
+                  ))
                 : null}
             </div>
           </div>
-        </div>
+        </article>
       ))}
     </section>
   )
-}
-
-function trimText(text: string, length: number = 13) {
-  const t = text
-    .replace(/[0-9]\\n|\\n|\/\/|\n/gi, ' ')
-    .replace(/\s+/g, ' ')
-    .split(' ')
-    .slice(0, length)
-    .join(' ')
-    .trim()
-  return t
 }
