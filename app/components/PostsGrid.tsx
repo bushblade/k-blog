@@ -1,8 +1,9 @@
 import { Link } from '@remix-run/react'
-import type { Post } from '~/graphql/graphcmsTypes'
 import { trimText } from '~/utils'
+import Picture from '~/components/Picture'
+import type { PostWithThumbnail } from '~/types'
 
-export default function PostsGrid({ posts }: { posts: Post[] }) {
+export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
   return (
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
@@ -11,11 +12,12 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
           key={post.id}
         >
           <Link to={`/${post.slug}`}>
-            <figure className='aspect-video'>
-              <img
-                src={post.coverImage.url}
+            <figure className='overflow-hidden'>
+              <Picture
+                largeSrc={post.coverImage.url}
+                smallSrc={post.coverImage.thumbnail}
                 alt={post.title}
-                className='group-hover:opacity-80 transition-opacity w-full'
+                className='group-hover:opacity-80 transition-opacity aspect-video'
               />
             </figure>
           </Link>

@@ -4,20 +4,13 @@ import { useLoaderData } from '@remix-run/react'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
 import MainContent from '~/components/MainContent'
-import type { Asset, Post, Video } from '~/graphql/graphcmsTypes'
+import type { Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import HomeButton from '~/components/HomeButton'
 import Header from '~/components/Header'
-// import { getWebPsrc } from '~/utils'
-
-interface WithThumbnail extends Asset {
-  thumbnail: string
-}
-
-export interface PostWithThumbnail extends Post {
-  coverImage: WithThumbnail
-}
+import type { PostWithThumbnail } from '~/types'
+import Picture from '~/components/Picture'
 
 // TODO: progressivly load coverimage
 
@@ -44,7 +37,7 @@ const pageQuery = gql`
         thumbnail: url(
           transformation: {
             document: { output: { format: webp } }
-            image: { resize: { fit: clip, width: 200 } }
+            image: { resize: { fit: clip, width: 16 } }
             validateOptions: true
           }
         )
@@ -95,12 +88,20 @@ export default function PostPage() {
       <Header>
         <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
-      <figure className='m-auto aspect-video max-w-[1000px]'>
-        <img
-          src={post.coverImage.url}
+      <figure className='m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-12 bg-base-300'>
+        <Picture
+          smallSrc={post.coverImage.thumbnail}
+          largeSrc={post.coverImage.url}
           alt={post.coverImage.fileName}
-          className='lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current w-full'
+          className='m-auto lg:shadow-2xl shadow-current aspect-video'
         />
+        {
+          // <img
+          //   src={post.coverImage.url}
+          //   alt={post.coverImage.fileName}
+          //   className='m-auto lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current'
+          //   />
+        }
       </figure>
       <MainContent narrow={true}>
         <RichText

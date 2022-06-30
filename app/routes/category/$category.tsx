@@ -9,6 +9,7 @@ import PostsGrid from '~/components/PostsGrid'
 import { graphcms } from '~/graphql/graphcms.server'
 import type { Post } from '~/graphql/graphcmsTypes'
 import Header from '~/components/Header'
+import { PostWithThumbnail } from '~/types'
 
 // need to get the category title too
 
@@ -35,6 +36,12 @@ const query = gql`
           transformation: {
             document: { output: { format: webp } }
             image: { resize: { fit: crop, height: 337, width: 600 } }
+          }
+        )
+        thumbnail: url(
+          transformation: {
+            document: { output: { format: webp } }
+            image: { resize: { fit: crop, height: 9, width: 16 } }
           }
         )
         fileName
@@ -64,7 +71,8 @@ export let meta: MetaFunction = ({ data }) => {
 }
 
 export default function Category() {
-  let { posts, category }: { posts: Post[]; category: string } = useLoaderData()
+  let { posts, category }: { posts: PostWithThumbnail[]; category: string } =
+    useLoaderData()
 
   return (
     <>
