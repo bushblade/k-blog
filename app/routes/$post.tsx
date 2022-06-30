@@ -95,11 +95,13 @@ export default function PostPage() {
       <Header>
         <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
-      <img
-        src={post.coverImage.url}
-        alt={post.coverImage.fileName}
-        className='m-auto lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current'
-      />
+      <figure className='m-auto aspect-video max-w-[1000px]'>
+        <img
+          src={post.coverImage.url}
+          alt={post.coverImage.fileName}
+          className='lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current w-full'
+        />
+      </figure>
       <MainContent narrow={true}>
         <RichText
           content={post.content.json}

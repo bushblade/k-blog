@@ -11,11 +11,11 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
           key={post.id}
         >
           <Link to={`/${post.slug}`}>
-            <figure>
+            <figure className='aspect-video'>
               <img
                 src={post.coverImage.url}
                 alt={post.title}
-                className='group-hover:opacity-80 transition-opacity'
+                className='group-hover:opacity-80 transition-opacity w-full'
               />
             </figure>
           </Link>
