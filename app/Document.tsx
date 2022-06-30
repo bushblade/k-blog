@@ -42,13 +42,13 @@ export default function Document({
       </head>
       <body>
         <div className='dropdown dropdown-end absolute top-8 right-8 z-20'>
-          <label
+          <button
             tabIndex={0}
             className='btn btn-ghost tooltip tooltip-left tooltip-primary normal-case font-normal'
             data-tip='Change Theme'
           >
             <ThemeIcon />
-          </label>
+          </button>
           <ul
             tabIndex={0}
             className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
@@ -59,6 +59,8 @@ export default function Document({
                   onClick={() => {
                     setTheme(t.name)
                     if (document.activeElement instanceof HTMLElement) {
+                      // whatever element has focus when dropdown is open blur
+                      // it so it loses focus and the dropdown closes
                       document.activeElement.blur()
                     }
                   }}

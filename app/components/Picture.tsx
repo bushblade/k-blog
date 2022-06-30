@@ -9,7 +9,6 @@ const useProgressiveImg = (
   const [src, setSrc] = useState(lowQualitySrc)
 
   useEffect(() => {
-    setSrc(lowQualitySrc)
     const img = new Image()
     img.src = highQualitySrc
     img.onload = () => {
@@ -25,10 +24,13 @@ export default function Picture({
   smallSrc,
   largeSrc,
   alt,
+  className,
+  ...rest
 }: {
   smallSrc: string
   largeSrc: string
   alt: string
+  className?: string
 }) {
   const [src, { blur }] = useProgressiveImg(smallSrc, largeSrc)
   return (
@@ -36,11 +38,14 @@ export default function Picture({
       src={src}
       style={{
         width: '100%',
-        filter: blur ? 'blur(20px)' : 'none',
-        transition: blur ? 'none' : 'filter 0.3s ease-out',
-        // paddingTop: '56.25%',
+        filter: blur ? 'blur(10px)' : 'none',
+        transition: blur ? 'none' : 'filter 0.2s ease-out',
+        objectFit: 'cover',
+        overflow: 'hidden',
       }}
       alt={alt}
+      className={className}
+      {...rest}
     />
   )
 }

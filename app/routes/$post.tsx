@@ -4,20 +4,13 @@ import { useLoaderData } from '@remix-run/react'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
 import MainContent from '~/components/MainContent'
-import type { Asset, Post, Video } from '~/graphql/graphcmsTypes'
+import type { Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import HomeButton from '~/components/HomeButton'
 import Header from '~/components/Header'
+import type { PostWithThumbnail } from '~/types'
 // import { getWebPsrc } from '~/utils'
-
-interface WithThumbnail extends Asset {
-  thumbnail: string
-}
-
-export interface PostWithThumbnail extends Post {
-  coverImage: WithThumbnail
-}
 
 // TODO: progressivly load coverimage
 

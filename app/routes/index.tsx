@@ -7,6 +7,7 @@ import MainContent from '~/components/MainContent'
 import CategoryLinks from '~/components/CategoryLinks'
 import PostsGrid from '~/components/PostsGrid'
 import type { LoaderFunction, MetaFunction } from 'remix'
+import type { PostWithThumbnail } from '~/types'
 
 const query = gql`
   {
@@ -49,14 +50,23 @@ const query = gql`
             image: { resize: { fit: crop, height: 337, width: 600 } }
           }
         )
+        thumbnail: url(
+          transformation: {
+            document: { output: { format: webp } }
+            image: { resize: { fit: crop, height: 9, width: 16 } }
+          }
+        )
       }
     }
   }
 `
 
 export let loader: LoaderFunction = async () => {
-  const data: { categories: Category[]; authors: Author[]; posts: Post[] } =
-    await graphcms.request(query)
+  const data: {
+    categories: Category[]
+    authors: Author[]
+    posts: PostWithThumbnail[]
+  } = await graphcms.request(query)
   return {
     categories: data.categories,
     author: data.authors[0],
