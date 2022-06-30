@@ -140,13 +140,15 @@ export default function PostPage() {
               </a>
             ),
             img: ({ title, altText, handle }) => (
-              <img
-                // src={getWebPsrc(src ? src : '')}
-                // NOTE: seems I can use image.handle to get image id
-                src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
-                alt={altText || title}
-                className='m-auto rounded-box'
-              />
+              <figure style={{ maxWidth: '800px' }} className='m-auto'>
+                <img
+                  // NOTE: seems I can use image.handle to get image id
+                  loading='lazy'
+                  src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
+                  alt={altText || title}
+                  className='m-auto rounded-box w-full'
+                />
+              </figure>
             ),
             embed: {
               Video: ({ nodeId }: EmbedProps<Video>) => {
@@ -165,6 +167,7 @@ export default function PostPage() {
                 return (
                   <div className='max-w-[800px] mx-auto'>
                     <iframe
+                      loading='lazy'
                       src={`https://www.youtube.com/embed/${videoId}`}
                       title='YouTube video player'
                       frameBorder='0'

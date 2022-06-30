@@ -42,6 +42,7 @@ export default function Picture({
   const [src, { blur }] = useProgressiveImg(smallSrc, largeSrc)
   return (
     <img
+      loading='lazy'
       src={src}
       style={{
         width: '100%',
