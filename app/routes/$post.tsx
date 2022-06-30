@@ -10,7 +10,7 @@ import postStyles from '~/styles/postpage.css'
 import HomeButton from '~/components/HomeButton'
 import Header from '~/components/Header'
 import type { PostWithThumbnail } from '~/types'
-// import { getWebPsrc } from '~/utils'
+import Picture from '~/components/Picture'
 
 // TODO: progressivly load coverimage
 
@@ -37,7 +37,7 @@ const pageQuery = gql`
         thumbnail: url(
           transformation: {
             document: { output: { format: webp } }
-            image: { resize: { fit: clip, width: 200 } }
+            image: { resize: { fit: clip, width: 16 } }
             validateOptions: true
           }
         )
@@ -88,11 +88,21 @@ export default function PostPage() {
       <Header>
         <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
-      <img
-        src={post.coverImage.url}
-        alt={post.coverImage.fileName}
-        className='m-auto lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current'
-      />
+      <figure className='m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-12 bg-base-300'>
+        <Picture
+          smallSrc={post.coverImage.thumbnail}
+          largeSrc={post.coverImage.url}
+          alt={post.coverImage.fileName}
+          className='m-auto lg:shadow-2xl shadow-current aspect-video'
+        />
+        {
+          // <img
+          //   src={post.coverImage.url}
+          //   alt={post.coverImage.fileName}
+          //   className='m-auto lg:rounded-box -translate-y-12 lg:shadow-2xl shadow-current'
+          //   />
+        }
+      </figure>
       <MainContent narrow={true}>
         <RichText
           content={post.content.json}
