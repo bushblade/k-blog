@@ -83,7 +83,7 @@ export const links: LinksFunction = () => {
 
 // NOTE: the meta function gets the loader data available in function args
 export const meta: MetaFunction = ({ data }) => {
-  if (data) return { title: data.post.title }
+  if (data) return { title: data.post.title, 'og:title': data.post.title }
   return {}
 }
 

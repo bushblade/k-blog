@@ -6,7 +6,7 @@ import Banner from '~/components/Banner'
 import MainContent from '~/components/MainContent'
 import CategoryLinks from '~/components/CategoryLinks'
 import PostsGrid from '~/components/PostsGrid'
-import type { LoaderFunction } from 'remix'
+import type { LoaderFunction, MetaFunction } from 'remix'
 
 const query = gql`
   {
@@ -62,6 +62,14 @@ export let loader: LoaderFunction = async () => {
     author: data.authors[0],
     posts: data.posts,
   }
+}
+
+export let meta: MetaFunction = ({ data }) => {
+  if (data.author)
+    return {
+      'og:title': `${data.author.name}'s blog site`,
+    }
+  return {}
 }
 
 export default function Index() {

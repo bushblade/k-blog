@@ -58,6 +58,7 @@ export let meta: MetaFunction = ({ data }) => {
   if (data)
     return {
       title: `Koyah's ${data.category} posts`,
+      'og:title': `Koyah's ${data.category} posts`,
     }
   return {}
 }
