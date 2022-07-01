@@ -1,7 +1,7 @@
 import { useLoaderData } from '@remix-run/react'
 import { gql } from 'graphql-request'
 import { graphcms } from '~/graphql/graphcms.server'
-import type { Author, Category, Post } from '~/graphql/graphcmsTypes'
+import type { Author, Category } from '~/graphql/graphcmsTypes'
 import Banner from '~/components/Banner'
 import MainContent from '~/components/MainContent'
 import CategoryLinks from '~/components/CategoryLinks'
@@ -30,7 +30,7 @@ const query = gql`
         )
       }
     }
-    posts(orderBy: createdAt_DESC, last: 9) {
+    posts(orderBy: createdAt_DESC) {
       id
       title
       slug
@@ -74,10 +74,12 @@ export let loader: LoaderFunction = async () => {
   }
 }
 
-export let meta: MetaFunction = ({ data }) => {
+export let meta: MetaFunction = ({ data }: { data: { author: Author } }) => {
   if (data.author)
     return {
       'og:title': `${data.author.name}'s blog site`,
+      'og:image': data.author.picture.url,
+      'og:description': data.author.title,
     }
   return {}
 }
@@ -87,7 +89,8 @@ export default function Index() {
     categories,
     author,
     posts,
-  }: { categories: Category[]; author: Author; posts: Post[] } = useLoaderData()
+  }: { categories: Category[]; author: Author; posts: PostWithThumbnail[] } =
+    useLoaderData()
   return (
     <>
       <Banner author={author} />

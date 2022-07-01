@@ -11,6 +11,7 @@ import HomeButton from '~/components/HomeButton'
 import Header from '~/components/Header'
 import type { PostWithThumbnail } from '~/types'
 import Picture from '~/components/Picture'
+import { trimText } from '~/utils'
 
 const pageQuery = gql`
   query GetPostsBySlug($slug: String!) {
@@ -73,8 +74,18 @@ export const links: LinksFunction = () => {
 }
 
 // NOTE: the meta function gets the loader data available in function args
-export const meta: MetaFunction = ({ data }) => {
-  if (data) return { title: data.post.title, 'og:title': data.post.title }
+export const meta: MetaFunction = ({
+  data,
+}: {
+  data: { post: PostWithThumbnail }
+}) => {
+  if (data.post)
+    return {
+      title: data.post.title,
+      'og:title': data.post.title,
+      'og:image': data.post.coverImage.thumbnail,
+      'og:description': trimText(data.post.content.text),
+    }
   return {}
 }
 
@@ -116,7 +127,7 @@ export default function PostPage() {
               <ul className='list-disc list-inside'>{children}</ul>
             ),
             blockquote: ({ children }) => (
-              <blockquote className='border-l-4 border-primary p-2 my-3 text-secondary-content bg-secondary rounded-box bg-opacity-50 border-opacity-50'>
+              <blockquote className='border-l-4 border-info px-2 py-3 my-3 text-info-content bg-info rounded-box bg-opacity-20 border-opacity-20'>
                 {children}
               </blockquote>
             ),
@@ -140,7 +151,7 @@ export default function PostPage() {
               </a>
             ),
             img: ({ title, altText, handle }) => (
-              <figure style={{ maxWidth: '800px' }} className='m-auto'>
+              <figure style={{ maxWidth: '800px' }} className='mx-auto my-3'>
                 <img
                   // NOTE: seems I can use image.handle to get image id
                   loading='lazy'
@@ -165,7 +176,7 @@ export default function PostPage() {
                   )
                 const videoId = video.youTubeShareUrl.split('/').reverse()[0]
                 return (
-                  <div className='max-w-[800px] mx-auto'>
+                  <div className='max-w-[800px] mx-auto my-3'>
                     <iframe
                       loading='lazy'
                       src={`https://www.youtube.com/embed/${videoId}`}
