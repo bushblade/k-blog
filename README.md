@@ -1,9 +1,12 @@
 # Website for my girls
 
-- [Remix Docs](https://remix.run/docs)
-- [Graph CMS](https://graphcms.com/docs)
-- [Graph CMS React renderer](https://graphcms.com/blog/graphcms-react-rich-text-renderer)
-- [OpenEmoji](https://openmoji.org/)
+## Built with
+
+- [Remix Docs](https://remix.run/docs) - React web framework
+- [Graph CMS](https://graphcms.com/docs) - GraphQL content API and CMS
+- [Graph CMS React renderer](https://graphcms.com/blog/graphcms-react-rich-text-renderer) render rich text with React components
+- [OpenEmoji](https://openmoji.org/) for emoji and icons
+- [React SVGR](https://react-svgr.com/) to convert svg's to React components
 
 ## Deployment
 
