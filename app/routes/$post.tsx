@@ -59,7 +59,7 @@ export let loader: LoaderFunction = async ({ params: { post } }) => {
   const data: { post: PostWithThumbnail } = await graphcms.request(pageQuery, {
     slug: post,
   })
-  if (!data.post) throw new Error(`No posts found for ${post}`)
+  if (!data.post) throw new Error(`No posts found for "${post}"`)
   return data
 }
 
