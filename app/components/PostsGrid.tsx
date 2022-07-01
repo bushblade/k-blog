@@ -12,12 +12,12 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
           key={post.id}
         >
           <Link to={`/${post.slug}`}>
-            <figure className='overflow-hidden'>
+            <figure className='overflow-hidden group-hover:opacity-80 transition-opacity '>
               <Picture
                 largeSrc={post.coverImage.url}
                 smallSrc={post.coverImage.thumbnail}
                 alt={post.title}
-                className='group-hover:opacity-80 transition-opacity aspect-video'
+                className='aspect-video'
               />
             </figure>
           </Link>
@@ -26,7 +26,7 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
               <h2 className='card-title group-hover:link decoration-2 decoration-primary'>
                 {post.title}
               </h2>
-              <p style={{ whiteSpace: 'pre-wrap' }} className='text-sm'>
+              <p style={{ whiteSpace: 'pre-wrap' }} className='text-sm my-2'>
                 {trimText(post.content.text)}
               </p>
             </Link>
