@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Links, Meta } from '@remix-run/react'
 import ThemeIcon from './components/ThemeIcon'
+import MoonSVG from './components/MoonSVG'
+import SunSVG from './components/SunSVG'
 
 const themes = [
+  { name: 'garden', dark: false },
   { name: 'dracula', dark: true },
   { name: 'retro', dark: false },
   { name: 'business', dark: true },
   { name: 'lemonade', dark: false },
-  { name: 'garden', dark: false },
 ]
 
 export default function Document({
@@ -17,7 +19,7 @@ export default function Document({
   children: React.ReactNode
   title?: string
 }) {
-  const [theme, setTheme] = useState('')
+  const [theme, setTheme] = useState('dracula')
 
   useEffect(() => {
     const prefersDark = window.matchMedia(
@@ -68,7 +70,14 @@ export default function Document({
                     t.name === theme ? 'bg-primary text-primary-content' : ''
                   }
                 >
-                  {t.name[0].toUpperCase() + t.name.slice(1)}
+                  {t.name[0].toUpperCase() + t.name.slice(1)}{' '}
+                  <span className='ml-auto'>
+                    {t.dark ? (
+                      <MoonSVG className='w-5' />
+                    ) : (
+                      <SunSVG className='w-5' />
+                    )}
+                  </span>
                 </button>
               </li>
             ))}
