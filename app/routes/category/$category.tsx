@@ -54,7 +54,7 @@ const query = gql`
         url(
           transformation: {
             document: { output: { format: webp } }
-            image: { resize: { fit: crop, height: 337, width: 600 } }
+            image: { resize: { fit: crop, height: 288, width: 512 } }
           }
         )
         thumbnail: url(

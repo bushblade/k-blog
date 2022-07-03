@@ -13,7 +13,7 @@ import type { LoaderFunction, MetaFunction } from 'remix'
 import type { PostWithThumbnail } from '~/types'
 
 const query = gql`
-  query AuthorCategoriesAndPosts($authorId: ID!) {
+  query HomePageQuery($authorId: ID!) {
     categories {
       id
       title
@@ -49,7 +49,7 @@ const query = gql`
         url(
           transformation: {
             document: { output: { format: webp } }
-            image: { resize: { fit: crop, height: 337, width: 600 } }
+            image: { resize: { fit: crop, height: 288, width: 512 } }
           }
         )
         thumbnail: url(
@@ -73,7 +73,10 @@ export let loader: LoaderFunction = async () => {
   const data: Data = await graphcms.request(query, {
     authorId: process.env.AUTHOR_ID,
   })
-  return data
+  if (data) {
+    return data
+  }
+  throw new Error('Something went wrong with fetching from CMS')
 }
 
 export let meta: MetaFunction = ({ data }: { data: { author: Author } }) => {
