@@ -10,14 +10,13 @@ import type { LoaderFunction, MetaFunction } from 'remix'
 import type { PostWithThumbnail } from '~/types'
 
 const query = gql`
-  {
+  query AuthorCategoriesAndPosts($authorId: ID!) {
     categories {
       id
       title
       slug
     }
-    authors {
-      id
+    author(where: { id: $authorId }) {
       name
       title
       biography
@@ -61,17 +60,17 @@ const query = gql`
   }
 `
 
+interface Data {
+  categories: Category[]
+  posts: PostWithThumbnail[]
+  author: Author
+}
+
 export let loader: LoaderFunction = async () => {
-  const data: {
-    categories: Category[]
-    authors: Author[]
-    posts: PostWithThumbnail[]
-  } = await graphcms.request(query)
-  return {
-    categories: data.categories,
-    author: data.authors[0],
-    posts: data.posts,
-  }
+  const data: Data = await graphcms.request(query, {
+    authorId: process.env.AUTHOR_ID,
+  })
+  return data
 }
 
 export let meta: MetaFunction = ({ data }: { data: { author: Author } }) => {
@@ -85,12 +84,7 @@ export let meta: MetaFunction = ({ data }: { data: { author: Author } }) => {
 }
 
 export default function Index() {
-  const {
-    categories,
-    author,
-    posts,
-  }: { categories: Category[]; author: Author; posts: PostWithThumbnail[] } =
-    useLoaderData()
+  const { categories, author, posts }: Data = useLoaderData()
   return (
     <>
       <Banner author={author} />

@@ -44,6 +44,7 @@ const pageQuery = gql`
       title
       publishedAt
       content {
+        text
         json
         references {
           ... on Video {
