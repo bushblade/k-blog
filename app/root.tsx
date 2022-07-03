@@ -5,10 +5,13 @@ import {
   LiveReload,
   useCatch,
 } from '@remix-run/react'
-import type { LinksFunction, LoaderFunction, MetaFunction } from 'remix'
-import Document from './Document'
+
 import styles from './tailwind.css'
+
+import Document from './Document'
 import ErrorPage from './components/ErrorPage'
+
+import type { LinksFunction, MetaFunction } from 'remix'
 
 export const links: LinksFunction = () => {
   return [

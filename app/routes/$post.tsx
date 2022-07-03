@@ -1,18 +1,22 @@
-import type { EmbedProps } from '@graphcms/rich-text-types'
 import { gql } from 'graphql-request'
 import { useLoaderData } from '@remix-run/react'
-import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
-import MainContent from '~/components/MainContent'
-import type { Author, Category, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
+
 import postStyles from '~/styles/postpage.css'
+
+import MainContent from '~/components/MainContent'
 import HomeButton from '~/components/HomeButton'
 import Header from '~/components/Header'
-import type { PostWithThumbnail } from '~/types'
 import Picture from '~/components/Picture'
-import { trimText } from '~/utils'
 import Footer from '~/components/Footer'
+
+import { trimText } from '~/utils'
+
+import type { EmbedProps } from '@graphcms/rich-text-types'
+import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
+import type { Author, Category, Video } from '~/graphql/graphcmsTypes'
+import type { PostWithThumbnail } from '~/types'
 
 const pageQuery = gql`
   query PostPageQuery($slug: String!, $authorId: ID!) {

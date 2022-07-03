@@ -1,14 +1,16 @@
 import { gql } from 'graphql-request'
-import type { LoaderFunction, MetaFunction } from 'remix'
 import { useLoaderData } from '@remix-run/react'
+import { graphcms } from '~/graphql/graphcms.server'
+
 import HomeButton from '~/components/HomeButton'
 import CategoryIcon from '~/components/CategoryIcon'
 import MainContent from '~/components/MainContent'
 import NoPostsToShow from '~/components/NoPostsToShow'
 import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
-import { graphcms } from '~/graphql/graphcms.server'
 import Header from '~/components/Header'
+
+import type { LoaderFunction, MetaFunction } from 'remix'
 import type { PostWithThumbnail } from '~/types'
 import type { Author, Category } from '~/graphql/graphcmsTypes'
 
