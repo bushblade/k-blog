@@ -98,8 +98,8 @@ export let meta: MetaFunction = ({ data }) => {
   // error thrown in loader
   if (data)
     return {
-      title: `Koyah's ${data.category} posts`,
-      'og:title': `Koyah's ${data.category} posts`,
+      title: `${data.author.name}'s ${data.category} posts`,
+      'og:title': `${data.author.name}'s ${data.category} posts`,
     }
   return {}
 }

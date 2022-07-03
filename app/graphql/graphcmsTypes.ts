@@ -5052,6 +5052,8 @@ export type Video = Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
+  /** A name of the Video to help you find it again. */
+  nameOfVideo?: Maybe<Scalars['String']>;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
@@ -5132,6 +5134,7 @@ export type VideoConnection = {
 
 export type VideoCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  nameOfVideo?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
   youTubeShareUrl: Scalars['String'];
 };
@@ -5204,6 +5207,25 @@ export type VideoManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  nameOfVideo?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  nameOfVideo_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  nameOfVideo_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  nameOfVideo_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  nameOfVideo_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  nameOfVideo_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  nameOfVideo_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  nameOfVideo_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  nameOfVideo_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  nameOfVideo_starts_with?: InputMaybe<Scalars['String']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -5265,6 +5287,8 @@ export enum VideoOrderByInput {
   CreatedAtDesc = 'createdAt_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
+  NameOfVideoAsc = 'nameOfVideo_ASC',
+  NameOfVideoDesc = 'nameOfVideo_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
@@ -5274,6 +5298,7 @@ export enum VideoOrderByInput {
 }
 
 export type VideoUpdateInput = {
+  nameOfVideo?: InputMaybe<Scalars['String']>;
   youTubeShareUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -5295,6 +5320,7 @@ export type VideoUpdateManyInlineInput = {
 };
 
 export type VideoUpdateManyInput = {
+  nameOfVideo?: InputMaybe<Scalars['String']>;
   youTubeShareUrl?: InputMaybe<Scalars['String']>;
 };
 
@@ -5386,6 +5412,25 @@ export type VideoWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  nameOfVideo?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  nameOfVideo_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  nameOfVideo_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  nameOfVideo_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  nameOfVideo_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  nameOfVideo_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  nameOfVideo_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  nameOfVideo_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  nameOfVideo_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  nameOfVideo_starts_with?: InputMaybe<Scalars['String']>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -6562,6 +6607,7 @@ export type VideoResolvers<ContextType = any, ParentType extends ResolversParent
   documentInStages?: Resolver<Array<ResolversTypes['Video']>, ParentType, ContextType, RequireFields<VideoDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<VideoHistoryArgs, 'limit' | 'skip'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  nameOfVideo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<VideoPublishedByArgs>>;
   scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<VideoScheduledInArgs>>;
