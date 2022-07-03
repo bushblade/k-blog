@@ -5,6 +5,7 @@ import type { Author, Category } from '~/graphql/graphcmsTypes'
 import Banner from '~/components/Banner'
 import MainContent from '~/components/MainContent'
 import CategoryLinks from '~/components/CategoryLinks'
+import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
 import type { LoaderFunction, MetaFunction } from 'remix'
 import type { PostWithThumbnail } from '~/types'
@@ -96,6 +97,7 @@ export default function Index() {
 
         <PostsGrid posts={posts} />
       </MainContent>
+      <Footer author={author} categories={categories} />
     </>
   )
 }

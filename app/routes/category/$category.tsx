@@ -5,16 +5,33 @@ import HomeButton from '~/components/HomeButton'
 import CategoryIcon from '~/components/CategoryIcon'
 import MainContent from '~/components/MainContent'
 import NoPostsToShow from '~/components/NoPostsToShow'
+import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
 import { graphcms } from '~/graphql/graphcms.server'
-import type { Post } from '~/graphql/graphcmsTypes'
 import Header from '~/components/Header'
-import { PostWithThumbnail } from '~/types'
-
-// need to get the category title too
+import type { PostWithThumbnail } from '~/types'
+import type { Author, Category } from '~/graphql/graphcmsTypes'
 
 const query = gql`
-  query getPostsByCategory($category: String!) {
+  query CategoryPageQuery($category: String!, $authorId: ID!) {
+    categories {
+      id
+      title
+      slug
+    }
+    author(where: { id: $authorId }) {
+      name
+      title
+      biography
+      picture {
+        url(
+          transformation: {
+            document: { output: { format: webp } }
+            image: { resize: { height: 120, width: 120, fit: clip } }
+          }
+        )
+      }
+    }
     category(where: { slug: $category }) {
       title
     }
@@ -50,13 +67,28 @@ const query = gql`
   }
 `
 
+interface Data {
+  author: Author
+  categories: Category[]
+  posts: PostWithThumbnail[]
+  category: string
+}
+
 export let loader: LoaderFunction = async ({ params: { category } }) => {
-  const data = await graphcms.request(query, { category })
+  const data = await graphcms.request(query, {
+    category,
+    authorId: process.env.AUTHOR_ID,
+  })
   if (!data.category) {
     throw new Error(`No matching category for "${category}"`)
   }
 
-  return { posts: data.posts, category: data.category.title }
+  return {
+    posts: data.posts,
+    category: data.category.title,
+    author: data.author,
+    categories: data.categories,
+  }
 }
 
 export let meta: MetaFunction = ({ data }) => {
@@ -70,9 +102,8 @@ export let meta: MetaFunction = ({ data }) => {
   return {}
 }
 
-export default function Category() {
-  let { posts, category }: { posts: PostWithThumbnail[]; category: string } =
-    useLoaderData()
+export default function CategoryPage() {
+  let { posts, category, categories, author }: Data = useLoaderData()
 
   return (
     <>
@@ -90,6 +121,7 @@ export default function Category() {
           <NoPostsToShow category={category} />
         )}
       </MainContent>
+      <Footer author={author} categories={categories} />
     </>
   )
 }

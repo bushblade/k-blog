@@ -4,7 +4,7 @@ import { useLoaderData } from '@remix-run/react'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
 import { graphcms } from '~/graphql/graphcms.server'
 import MainContent from '~/components/MainContent'
-import type { Video } from '~/graphql/graphcmsTypes'
+import type { Author, Category, Video } from '~/graphql/graphcmsTypes'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import postStyles from '~/styles/postpage.css'
 import HomeButton from '~/components/HomeButton'
@@ -12,9 +12,28 @@ import Header from '~/components/Header'
 import type { PostWithThumbnail } from '~/types'
 import Picture from '~/components/Picture'
 import { trimText } from '~/utils'
+import Footer from '~/components/Footer'
 
 const pageQuery = gql`
-  query GetPostsBySlug($slug: String!) {
+  query PostPageQuery($slug: String!, $authorId: ID!) {
+    categories {
+      id
+      title
+      slug
+    }
+    author(where: { id: $authorId }) {
+      name
+      title
+      biography
+      picture {
+        url(
+          transformation: {
+            document: { output: { format: webp } }
+            image: { resize: { height: 120, width: 120, fit: clip } }
+          }
+        )
+      }
+    }
     post(where: { slug: $slug }) {
       id
       categories {
@@ -57,9 +76,16 @@ const pageQuery = gql`
   }
 `
 
+interface Data {
+  post: PostWithThumbnail
+  author: Author
+  categories: Category[]
+}
+
 export let loader: LoaderFunction = async ({ params: { post } }) => {
-  const data: { post: PostWithThumbnail } = await graphcms.request(pageQuery, {
+  const data: Data = await graphcms.request(pageQuery, {
     slug: post,
+    authorId: process.env.AUTHOR_ID,
   })
   if (!data.post) throw new Error(`No posts found for "${post}"`)
   return data
@@ -91,7 +117,7 @@ export const meta: MetaFunction = ({
 }
 
 export default function PostPage() {
-  const { post }: { post: PostWithThumbnail } = useLoaderData()
+  const { post, author, categories }: Data = useLoaderData()
   return (
     <>
       <HomeButton />
@@ -194,6 +220,7 @@ export default function PostPage() {
           }}
         />
       </MainContent>
+      <Footer author={author} categories={categories} />
     </>
   )
 }
