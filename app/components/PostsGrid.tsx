@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react'
-import { formatDate, lessThan30DaysOld, trimText } from '~/utils'
+import { formatDate, lessThanNdaysOld, trimText } from '~/utils'
 import Picture from '~/components/Picture'
 import type { PostWithThumbnail } from '~/types'
 
@@ -25,8 +25,8 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
             <Link to={`/${post.slug}`} className=''>
               <span>
                 {formatDate(post.createdAt)}{' '}
-                {lessThan30DaysOld(post.createdAt) ? (
-                  <div className='badge badge-secondary -translate-y-3'>
+                {lessThanNdaysOld(post.createdAt, 14) ? (
+                  <div className='badge badge-secondary -translate-y-3 -rotate-6'>
                     NEW
                   </div>
                 ) : null}

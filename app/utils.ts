@@ -37,10 +37,10 @@ export function formatDate(dateStr: string): string {
   return dateFormatter.format(new Date(dateStr))
 }
 
-export function lessThan30DaysOld(dateStr: string): boolean {
+export function lessThanNdaysOld(dateStr: string, n: number = 30): boolean {
   const today = new Date().getTime()
   const dateToCheck = new Date(dateStr).getTime()
   const msBetweenDates = Math.abs(dateToCheck - today)
   const daysBetween = msBetweenDates / (24 * 60 * 60 * 1000)
-  return daysBetween < 30
+  return daysBetween < n
 }
