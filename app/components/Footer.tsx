@@ -10,7 +10,7 @@ export default function Footer({
 }) {
   const year = new Date().getFullYear()
   return (
-    <footer className='footer p-10 bg-base-200 text-base-content'>
+    <footer className='footer p-10 text-base-content bg-gradient-to-br from-base-300 to-base-100'>
       <div className='w-full h-full'>
         <div className='avatar m-auto'>
           <div className='w-20 rounded-full ring ring-primary'>

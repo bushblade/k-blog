@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react'
-import { trimText } from '~/utils'
+import { formatDate, lessThan30DaysOld, trimText } from '~/utils'
 import Picture from '~/components/Picture'
 import type { PostWithThumbnail } from '~/types'
 
@@ -23,7 +23,15 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
           </Link>
           <div className='card-body justify-between'>
             <Link to={`/${post.slug}`} className=''>
-              <h2 className='card-title group-hover:link decoration-2 decoration-primary'>
+              <span>
+                {formatDate(post.createdAt)}{' '}
+                {lessThan30DaysOld(post.createdAt) ? (
+                  <div className='badge badge-secondary -translate-y-3'>
+                    NEW
+                  </div>
+                ) : null}
+              </span>
+              <h2 className='card-title group-hover:link decoration-2 decoration-primary my-3'>
                 {post.title}
               </h2>
               <p style={{ whiteSpace: 'pre-wrap' }} className='text-sm my-2'>

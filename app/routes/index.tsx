@@ -36,6 +36,7 @@ const query = gql`
       id
       title
       slug
+      createdAt
       categories {
         id
         title
