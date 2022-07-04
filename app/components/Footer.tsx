@@ -12,11 +12,11 @@ export default function Footer({
   return (
     <footer className='footer p-10 text-base-content bg-gradient-to-br from-base-300 to-base-100'>
       <div className='w-full h-full'>
-        <div className='avatar m-auto'>
+        <Link to='/' className='avatar m-auto'>
           <div className='w-20 rounded-full ring ring-primary'>
             <img src={author.picture.url} alt={author.name} />
           </div>
-        </div>
+        </Link>
         <p className='text-center w-full'>
           All content &copy; {author.name} {year}
         </p>
