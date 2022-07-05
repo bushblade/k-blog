@@ -8,8 +8,8 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
         <div key={post.id} className='h-full relative group'>
-          <div className='absolute bg-gradient-to-br from-primary via-accent to-secondary -z-0 w-[calc(100%+8px)] h-[calc(100%+8px)] top-[-4px] left-[-4px] card opacity-0 group-hover:opacity-100 transition-opacity'></div>
-          <article className='card bg-base-100 shadow-xl max-w-lg group relative z-10 h-full'>
+          <div className='absolute bg-gradient-to-br from-primary via-secondary to-accent -z-0 w-[calc(100%+8px)] h-[calc(100%+8px)] top-[-4px] left-[-4px] card opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
+          <article className='card bg-base-100 shadow-lg max-w-lg group relative z-10 h-full'>
             <Link to={`/${post.slug}`}>
               <figure className='overflow-hidden group-hover:opacity-80 transition-opacity '>
                 <Picture
@@ -20,12 +20,12 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
                 />
               </figure>
             </Link>
-            <div className='card-body justify-between'>
-              <Link to={`/${post.slug}`} className=''>
+            <div className='card-body justify-between p-0'>
+              <Link to={`/${post.slug}`} className='p-6'>
                 <span>
                   {formatDate(post.createdAt)}{' '}
                   {lessThanNdaysOld(post.createdAt, 14) ? (
-                    <div className='badge badge-secondary -translate-y-3 -rotate-6'>
+                    <div className='badge badge-secondary -translate-y-3 -rotate-6 group-hover:animate-pulse'>
                       NEW
                     </div>
                   ) : null}
@@ -37,7 +37,7 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
                   {trimText(post.content.text)}
                 </p>
               </Link>
-              <div className='card-actions justify-end'>
+              <div className='card-actions justify-end pb-6 pl-6 pr-6'>
                 {post.categories?.length > 0
                   ? post.categories.map((category) => (
                       <Link
