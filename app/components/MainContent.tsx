@@ -9,7 +9,7 @@ export default function MainContent({
   narrow?: boolean
 }) {
   return (
-    <div className='flex justify-center mb-20'>
+    <div className='flex justify-center mb-20 min-h-[60vh]'>
       <main
         className={`container p-3 ${
           narrow ? 'max-w-5xl' : 'md:max-w-screen-lg'
