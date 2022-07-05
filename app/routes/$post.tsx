@@ -110,14 +110,14 @@ export const meta: MetaFunction = ({
 }: {
   data: { post: PostWithThumbnail }
 }) => {
-  if (data.post)
-    return {
-      title: data.post.title,
-      'og:title': data.post.title,
-      'og:image': data.post.coverImage.thumbnail,
-      'og:description': trimText(data.post.content.text),
-    }
-  return {}
+  if (!data) return {}
+  if (!data.post) return {}
+  return {
+    title: data.post.title,
+    'og:title': data.post.title,
+    'og:image': data.post.coverImage.thumbnail,
+    'og:description': trimText(data.post.content.text),
+  }
 }
 
 export default function PostPage() {
