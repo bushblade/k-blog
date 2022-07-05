@@ -82,7 +82,7 @@ function HomeIcon() {
 
 export default function HomeButton() {
   return (
-    <div className='fixed top-4 left-4 z-10'>
+    <div className='fixed top-4 left-4 z-30'>
       <Link to='/'>
         <button className='btn btn-ghost hover:scale-105 transition-transform'>
           <HomeIcon />
