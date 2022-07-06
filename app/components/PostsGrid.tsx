@@ -8,7 +8,7 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
         <div key={post.id} className='h-full relative group'>
-          <div className='absolute bg-gradient-to-br from-primary via-secondary to-accent -z-0 w-[calc(100%+8px)] h-[calc(100%+8px)] top-[-4px] left-[-4px] card opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
+          <div className='absolute bg-gradient-to-br from-primary via-accent to-primary -z-0 w-[calc(100%+8px)] h-[calc(100%+8px)] top-[-4px] left-[-4px] card opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
           <article className='card bg-base-100 shadow-lg max-w-lg group relative z-10 h-full'>
             <Link to={`/${post.slug}`}>
               <figure className='overflow-hidden group-hover:opacity-80 transition-opacity '>
