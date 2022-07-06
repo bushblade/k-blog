@@ -13,6 +13,7 @@ specifiers:
   '@remix-run/react': ^1.6.2
   '@remix-run/serve': ^1.6.2
   '@remix-run/vercel': ^1.6.2
+  '@tailwindcss/aspect-ratio': ^0.4.0
   '@types/react': ^18.0.14
   '@types/react-dom': ^18.0.5
   concurrently: ^7.2.2
@@ -53,6 +54,7 @@ devDependencies:
   '@graphql-codegen/typescript-resolvers': 2.6.6_graphql@16.5.0
   '@remix-run/dev': 1.6.2_n4r77tjl5fjq6dcsn6zd2i67n4
   '@remix-run/eslint-config': 1.6.2_scxhmbcwnay7fgl5u4mcdzbnsi
+  '@tailwindcss/aspect-ratio': 0.4.0_tailwindcss@3.1.4
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
   concurrently: 7.2.2
@@ -2346,6 +2348,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       defer-to-connect: 2.0.1
+    dev: true
+
+  /@tailwindcss/aspect-ratio/0.4.0_tailwindcss@3.1.4:
+    resolution: {integrity: sha512-WJu0I4PpqNPuutpaA9zDUq2JXR+lorZ7PbLcKNLmb6GL9/HLfC7w3CRsMhJF4BbYd/lkY6CfXOvkYpuGnZfkpQ==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.1.4
     dev: true
 
   /@testing-library/dom/8.14.0:

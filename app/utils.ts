@@ -44,3 +44,17 @@ export function lessThanNdaysOld(dateStr: string, n: number = 30): boolean {
   const daysBetween = msBetweenDates / (24 * 60 * 60 * 1000)
   return daysBetween < n
 }
+
+function gcd(w: number, h: number): number {
+  const mod = w % h
+  return h === 0 ? w : gcd(h, mod)
+}
+
+export function getAspectRatio(
+  width: number,
+  height: number
+): { width: number; height: number } {
+  const ratio = gcd(width, height)
+  if (ratio === 1) return { width: 16, height: 9 }
+  return { width: width / ratio, height: height / ratio }
+}

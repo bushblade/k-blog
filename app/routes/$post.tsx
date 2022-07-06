@@ -11,7 +11,7 @@ import Header from '~/components/Header'
 import Picture from '~/components/Picture'
 import Footer from '~/components/Footer'
 
-import { trimText } from '~/utils'
+import { getAspectRatio, trimText } from '~/utils'
 
 import type { EmbedProps } from '@graphcms/rich-text-types'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
@@ -122,6 +122,13 @@ export const meta: MetaFunction = ({
 
 export default function PostPage() {
   const { post, author, categories }: Data = useLoaderData()
+
+  const coverImageAspectRatio =
+    post.coverImage.width && post.coverImage.height
+      ? getAspectRatio(post.coverImage.width, post.coverImage.height)
+      : { width: 16, height: 9 }
+  console.log(coverImageAspectRatio)
+
   return (
     <>
       <HomeButton />
@@ -133,7 +140,7 @@ export default function PostPage() {
           smallSrc={post.coverImage.thumbnail}
           largeSrc={post.coverImage.url}
           alt={post.coverImage.fileName}
-          className='m-auto lg:shadow-2xl shadow-current aspect-video'
+          className={`m-auto lg:shadow-2xl shadow-current aspect-w-${coverImageAspectRatio.width} aspect-h-${coverImageAspectRatio.height}`}
         />
       </figure>
       <MainContent narrow={true}>
@@ -208,15 +215,17 @@ export default function PostPage() {
                 const videoId = video.youTubeShareUrl.split('/').reverse()[0]
                 return (
                   <div className='max-w-[800px] mx-auto my-3'>
-                    <iframe
-                      loading='lazy'
-                      src={`https://www.youtube.com/embed/${videoId}`}
-                      title='YouTube video player'
-                      frameBorder='0'
-                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                      allowFullScreen
-                      className='m-auto rounded-box w-full aspect-video'
-                    ></iframe>
+                    <div className='aspect-w-16 aspect-h-9'>
+                      <iframe
+                        loading='lazy'
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        title='YouTube video player'
+                        frameBorder='0'
+                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                        allowFullScreen
+                        className='m-auto rounded-box w-full h-full'
+                      ></iframe>
+                    </div>
                   </div>
                 )
               },
