@@ -11,14 +11,14 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
           <div className='absolute bg-gradient-to-br from-primary via-accent to-primary -z-0 w-[calc(100%+8px)] h-[calc(100%+8px)] top-[-4px] left-[-4px] card opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
           <article className='card bg-base-100 shadow-lg max-w-lg group relative z-10 h-full'>
             <Link to={`/${post.slug}`}>
-              <figure className='overflow-hidden group-hover:opacity-80 transition-opacity '>
+              <div className='overflow-hidden group-hover:opacity-80 transition-opacity '>
                 <Picture
                   largeSrc={post.coverImage.url}
                   smallSrc={post.coverImage.thumbnail}
                   alt={post.title}
-                  className='aspect-video'
+                  aspectRatio='19:9'
                 />
-              </figure>
+              </div>
             </Link>
             <div className='card-body justify-between p-0'>
               <Link to={`/${post.slug}`} className='p-6'>

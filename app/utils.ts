@@ -51,10 +51,11 @@ function gcd(w: number, h: number): number {
 }
 
 export function getAspectRatio(
-  width: number,
-  height: number
+  width: number = 16,
+  height: number = 9
 ): { width: number; height: number } {
   const ratio = gcd(width, height)
+  console.log(ratio)
   if (ratio === 1) return { width: 16, height: 9 }
   return { width: width / ratio, height: height / ratio }
 }

@@ -123,11 +123,13 @@ export const meta: MetaFunction = ({
 export default function PostPage() {
   const { post, author, categories }: Data = useLoaderData()
 
+  console.log(post.coverImage.width, post.coverImage.height)
+  console.log(getAspectRatio(post.coverImage.width, post.coverImage.height))
+
   const coverImageAspectRatio =
     post.coverImage.width && post.coverImage.height
       ? getAspectRatio(post.coverImage.width, post.coverImage.height)
       : { width: 16, height: 9 }
-  console.log(coverImageAspectRatio)
 
   return (
     <>
@@ -140,7 +142,11 @@ export default function PostPage() {
           smallSrc={post.coverImage.thumbnail}
           largeSrc={post.coverImage.url}
           alt={post.coverImage.fileName}
-          className={`m-auto lg:shadow-2xl shadow-current aspect-w-${coverImageAspectRatio.width} aspect-h-${coverImageAspectRatio.height}`}
+          className='m-auto lg:shadow-2xl shadow-current'
+          aspectRatio={{
+            width: coverImageAspectRatio.width,
+            height: coverImageAspectRatio.height,
+          }}
         />
       </figure>
       <MainContent narrow={true}>
@@ -216,15 +222,17 @@ export default function PostPage() {
                 return (
                   <div className='max-w-[800px] mx-auto my-3'>
                     <div className='aspect-w-16 aspect-h-9'>
-                      <iframe
-                        loading='lazy'
-                        src={`https://www.youtube.com/embed/${videoId}`}
-                        title='YouTube video player'
-                        frameBorder='0'
-                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                        allowFullScreen
-                        className='m-auto rounded-box w-full h-full'
-                      ></iframe>
+                      <div className='w-full height-full'>
+                        <iframe
+                          loading='lazy'
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title='YouTube video player'
+                          frameBorder='0'
+                          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                          allowFullScreen
+                          className='m-auto rounded-box w-full h-full'
+                        ></iframe>
+                      </div>
                     </div>
                   </div>
                 )
