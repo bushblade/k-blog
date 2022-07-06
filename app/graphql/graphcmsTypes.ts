@@ -13,18 +13,13 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date string, such as 2007-12-03 (YYYY-MM-DD), compliant with ISO 8601 standard for representation of dates using the Gregorian calendar. */
   Date: any;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the date-timeformat outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representationof dates and times using the Gregorian calendar. */
   DateTime: any;
   Hex: any;
-  /** Raw JSON value */
   Json: any;
-  /** The Long scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1. */
   Long: any;
   RGBAHue: any;
   RGBATransparency: any;
-  /** Slate-compatible RichText AST */
   RichTextAST: any;
 };
 
@@ -1241,6 +1236,8 @@ export type Category = Node & {
   createdAt: Scalars['DateTime'];
   /** User that created this document */
   createdBy?: Maybe<User>;
+  /** A short description to tell your users what this category is about. */
+  description?: Maybe<Scalars['String']>;
   /** Get the document in other stages */
   documentInStages: Array<Category>;
   /** List of Category versions */
@@ -1343,6 +1340,7 @@ export type CategoryConnection = {
 
 export type CategoryCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  description?: InputMaybe<Scalars['String']>;
   post?: InputMaybe<PostCreateManyInlineInput>;
   slug: Scalars['String'];
   title: Scalars['String'];
@@ -1398,6 +1396,25 @@ export type CategoryManyWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   createdBy?: InputMaybe<UserWhereInput>;
+  description?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  description_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  description_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  description_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  description_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  description_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  description_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  description_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  description_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  description_starts_with?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -1498,6 +1515,8 @@ export type CategoryManyWhereInput = {
 export enum CategoryOrderByInput {
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
+  DescriptionAsc = 'description_ASC',
+  DescriptionDesc = 'description_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
@@ -1511,6 +1530,7 @@ export enum CategoryOrderByInput {
 }
 
 export type CategoryUpdateInput = {
+  description?: InputMaybe<Scalars['String']>;
   post?: InputMaybe<PostUpdateManyInlineInput>;
   slug?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -1534,8 +1554,7 @@ export type CategoryUpdateManyInlineInput = {
 };
 
 export type CategoryUpdateManyInput = {
-  /** No fields in updateMany data input */
-  _?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
 };
 
 export type CategoryUpdateManyWithNestedWhereInput = {
@@ -1607,6 +1626,25 @@ export type CategoryWhereInput = {
   /** All values that are not contained in given list. */
   createdAt_not_in?: InputMaybe<Array<Scalars['DateTime']>>;
   createdBy?: InputMaybe<UserWhereInput>;
+  description?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  description_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  description_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  description_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  description_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  description_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  description_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  description_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  description_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  description_starts_with?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']>;
@@ -2745,12 +2783,15 @@ export type Post = Node & {
   __typename?: 'Post';
   /** Who should be credited with writing this post? */
   author?: Maybe<Author>;
+  /** A brief intro to what this post is about. */
+  blurb?: Maybe<Scalars['String']>;
   categories: Array<Category>;
   /** Write your blog post! */
   content: PostContentRichText;
   /**
    * Upload or select a cover image to set as your Featured Image.
-   * Ideally the image should be 16:9 and no bigger than 1000px wide.
+   * Ideally the image should be 16:9 aspect ratio.
+   * If a 16:9 image is not provided your image will be cropped as best possible to 16:9
    */
   coverImage: Asset;
   /** The time the document was created */
@@ -2877,6 +2918,7 @@ export type PostContentRichTextEmbeddedTypes = Video;
 
 export type PostCreateInput = {
   author?: InputMaybe<AuthorCreateOneInlineInput>;
+  blurb?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<CategoryCreateManyInlineInput>;
   content: Scalars['RichTextAST'];
   coverImage: AssetCreateOneInlineInput;
@@ -2920,6 +2962,25 @@ export type PostManyWhereInput = {
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
   author?: InputMaybe<AuthorWhereInput>;
+  blurb?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  blurb_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  blurb_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  blurb_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  blurb_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  blurb_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  blurb_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  blurb_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  blurb_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  blurb_starts_with?: InputMaybe<Scalars['String']>;
   categories_every?: InputMaybe<CategoryWhereInput>;
   categories_none?: InputMaybe<CategoryWhereInput>;
   categories_some?: InputMaybe<CategoryWhereInput>;
@@ -3035,6 +3096,8 @@ export type PostManyWhereInput = {
 };
 
 export enum PostOrderByInput {
+  BlurbAsc = 'blurb_ASC',
+  BlurbDesc = 'blurb_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
   IdAsc = 'id_ASC',
@@ -3051,6 +3114,7 @@ export enum PostOrderByInput {
 
 export type PostUpdateInput = {
   author?: InputMaybe<AuthorUpdateOneInlineInput>;
+  blurb?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<CategoryUpdateManyInlineInput>;
   content?: InputMaybe<Scalars['RichTextAST']>;
   coverImage?: InputMaybe<AssetUpdateOneInlineInput>;
@@ -3076,6 +3140,7 @@ export type PostUpdateManyInlineInput = {
 };
 
 export type PostUpdateManyInput = {
+  blurb?: InputMaybe<Scalars['String']>;
   content?: InputMaybe<Scalars['RichTextAST']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -3134,6 +3199,25 @@ export type PostWhereInput = {
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
   author?: InputMaybe<AuthorWhereInput>;
+  blurb?: InputMaybe<Scalars['String']>;
+  /** All values containing the given string. */
+  blurb_contains?: InputMaybe<Scalars['String']>;
+  /** All values ending with the given string. */
+  blurb_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are contained in given list. */
+  blurb_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values that are not equal to given value. */
+  blurb_not?: InputMaybe<Scalars['String']>;
+  /** All values not containing the given string. */
+  blurb_not_contains?: InputMaybe<Scalars['String']>;
+  /** All values not ending with the given string */
+  blurb_not_ends_with?: InputMaybe<Scalars['String']>;
+  /** All values that are not contained in given list. */
+  blurb_not_in?: InputMaybe<Array<Scalars['String']>>;
+  /** All values not starting with the given string. */
+  blurb_not_starts_with?: InputMaybe<Scalars['String']>;
+  /** All values starting with the given string. */
+  blurb_starts_with?: InputMaybe<Scalars['String']>;
   categories_every?: InputMaybe<CategoryWhereInput>;
   categories_none?: InputMaybe<CategoryWhereInput>;
   categories_some?: InputMaybe<CategoryWhereInput>;
@@ -6214,6 +6298,7 @@ export type BatchPayloadResolvers<ContextType = any, ParentType extends Resolver
 export type CategoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = {
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<CategoryCreatedByArgs>>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   documentInStages?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<CategoryDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<CategoryHistoryArgs, 'limit' | 'skip'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -6389,6 +6474,7 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, Partial<PostAuthorArgs>>;
+  blurb?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   categories?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType, Partial<PostCategoriesArgs>>;
   content?: Resolver<ResolversTypes['PostContentRichText'], ParentType, ContextType>;
   coverImage?: Resolver<ResolversTypes['Asset'], ParentType, ContextType, Partial<PostCoverImageArgs>>;
