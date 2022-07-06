@@ -26,8 +26,7 @@ const useProgressiveImg = (
  * @param largeSrc - the url of the final large image
  * @param alt - passed to the <img> alt attribute
  * @param className - any classes you want to pass to the image
- * @param aspectRatio - desited aspect ratio, defaults to 16:9 should be an
- * object of { width: number; height: number} or stirng '16:9'
+ * @param aspectRatio - desited aspect ratio, defaults to 16:9 should be an object of { width: number; height: number} or stirng '16:9'
  */
 export default function Picture({
   smallSrc,

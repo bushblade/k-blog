@@ -11,7 +11,7 @@ import Header from '~/components/Header'
 import Picture from '~/components/Picture'
 import Footer from '~/components/Footer'
 
-import { getAspectRatio, trimText } from '~/utils'
+import { nearestAspectRatio, trimText } from '~/utils'
 
 import type { EmbedProps } from '@graphcms/rich-text-types'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
@@ -123,13 +123,10 @@ export const meta: MetaFunction = ({
 export default function PostPage() {
   const { post, author, categories }: Data = useLoaderData()
 
-  console.log(post.coverImage.width, post.coverImage.height)
-  console.log(getAspectRatio(post.coverImage.width, post.coverImage.height))
-
   const coverImageAspectRatio =
     post.coverImage.width && post.coverImage.height
-      ? getAspectRatio(post.coverImage.width, post.coverImage.height)
-      : { width: 16, height: 9 }
+      ? nearestAspectRatio(post.coverImage.width, post.coverImage.height)
+      : '16:9'
 
   return (
     <>
@@ -143,10 +140,7 @@ export default function PostPage() {
           largeSrc={post.coverImage.url}
           alt={post.coverImage.fileName}
           className='m-auto lg:shadow-2xl shadow-current'
-          aspectRatio={{
-            width: coverImageAspectRatio.width,
-            height: coverImageAspectRatio.height,
-          }}
+          aspectRatio={coverImageAspectRatio}
         />
       </figure>
       <MainContent narrow={true}>
@@ -201,7 +195,7 @@ export default function PostPage() {
                   loading='lazy'
                   src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
                   alt={altText || title}
-                  className='m-auto rounded-box w-full'
+                  className='m-auto rounded-box w-full max-h-screen'
                 />
               </figure>
             ),

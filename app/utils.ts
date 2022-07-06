@@ -59,3 +59,31 @@ export function getAspectRatio(
   if (ratio === 1) return { width: 16, height: 9 }
   return { width: width / ratio, height: height / ratio }
 }
+
+// borrowed from https://github.com/sajjad-shirazy/nearest-normal-aspect-ratio/blob/master/index.js
+export function nearestAspectRatio(
+  width: number,
+  height: number,
+  maxWidth: number = 16,
+  maxHeight: number = 16
+): string {
+  const needsRotation = width > height
+  if (needsRotation) {
+    const temp = width
+    width = height
+    height = temp
+  }
+  const absoluteRatio = width / height
+  let normalRatio = [1, 1]
+  let ratio = 1
+  for (let i = 1; i <= maxHeight; i++) {
+    for (let j = 1; j <= maxWidth; j++) {
+      let value = j / i
+      if (Math.abs(value - absoluteRatio) < Math.abs(ratio - absoluteRatio)) {
+        ratio = value
+        normalRatio = [j, i]
+      }
+    }
+  }
+  return (needsRotation ? normalRatio.reverse() : normalRatio).join(':')
+}

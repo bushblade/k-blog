@@ -16,7 +16,7 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
                   largeSrc={post.coverImage.url}
                   smallSrc={post.coverImage.thumbnail}
                   alt={post.title}
-                  aspectRatio='19:9'
+                  aspectRatio='16:9'
                 />
               </div>
             </Link>
