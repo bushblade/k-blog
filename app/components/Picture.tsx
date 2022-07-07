@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { AspectRatio } from '~/types'
+import type { AspectRatio } from '~/types'
 
 type UseProgressiveImgReturn = [string, { blur: boolean }]
 
@@ -19,29 +19,32 @@ const useProgressiveImg = (
   return [src, { blur: src === lowQualitySrc }]
 }
 
-// TODO: calcualte height based on aspect ratio
+interface PictureProps {
+  smallSrc: string
+  largeSrc: string
+  alt: string
+  className?: string
+  aspectRatio: AspectRatio
+}
+
 /**
  * Progressively load an image with blur up effect
- * @param smallSrc - A small source url for quick loading
- * @param largeSrc - the url of the final large image
- * @param alt - passed to the <img> alt attribute
- * @param className - any classes you want to pass to the image
- * @param aspectRatio - desited aspect ratio, defaults to 16:9 should be an object of { width: number; height: number} or stirng '16:9'
+ *
+ * @param props.smallSrc - the start image src should be a tiny image i.e. 16px by 9px
+ * @param props.largSrc - the final image to transition to
+ * @param props.alt - the alt attribute to pass to the '<img>'
+ * @param props.className - any classes you want to apply to the image
+ * @param props.aspectRatio - the desired aspect ratio of the image
+ *
  */
+
 export default function Picture({
   smallSrc,
   largeSrc,
   alt,
   className,
-  aspectRatio = { width: 16, height: 9 },
-  ...rest
-}: {
-  smallSrc: string
-  largeSrc: string
-  alt: string
-  className?: string
-  aspectRatio: AspectRatio | string
-}) {
+  aspectRatio = '16:9',
+}: PictureProps) {
   const [src, { blur }] = useProgressiveImg(smallSrc, largeSrc)
 
   let aspectWidth: number
@@ -70,7 +73,6 @@ export default function Picture({
         }}
         alt={alt}
         className={className}
-        {...rest}
       />
     </figure>
   )

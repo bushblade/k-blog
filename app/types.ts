@@ -8,7 +8,4 @@ export interface PostWithThumbnail extends Post {
   coverImage: WithThumbnail
 }
 
-export interface AspectRatio {
-  width: number
-  height: number
-}
+export type AspectRatio = { width: number; height: number } | string
