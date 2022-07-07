@@ -82,7 +82,10 @@ function HomeIcon() {
 
 export default function HomeButton() {
   return (
-    <div className='fixed top-4 left-4 z-30'>
+    <div
+      className='fixed top-4 left-4 z-30 tooltip tooltip-right tooltip-primary'
+      data-tip='Home'
+    >
       <Link to='/'>
         <button className='btn btn-ghost hover:scale-105 transition-transform'>
           <HomeIcon />
