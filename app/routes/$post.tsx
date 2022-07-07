@@ -134,7 +134,7 @@ export default function PostPage() {
       <Header>
         <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
-      <figure className='m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-12 bg-base-300'>
+      <div className='m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-20 bg-base-300'>
         <Picture
           smallSrc={post.coverImage.thumbnail}
           largeSrc={post.coverImage.url}
@@ -142,7 +142,7 @@ export default function PostPage() {
           className='m-auto lg:shadow-2xl shadow-current'
           aspectRatio={coverImageAspectRatio}
         />
-      </figure>
+      </div>
       <MainContent narrow={true}>
         <RichText
           content={post.content.json}
