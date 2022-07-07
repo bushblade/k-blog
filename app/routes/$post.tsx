@@ -134,12 +134,11 @@ export default function PostPage() {
       <Header>
         <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
-      <div className='m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-20 bg-base-300'>
+      <div className='border-0 border-transparent m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-20 bg-base-300 shadow-base-300 shadow-xl'>
         <Picture
           smallSrc={post.coverImage.thumbnail}
           largeSrc={post.coverImage.url}
           alt={post.coverImage.fileName}
-          className='m-auto lg:shadow-2xl shadow-current'
           aspectRatio={coverImageAspectRatio}
         />
       </div>
@@ -189,13 +188,16 @@ export default function PostPage() {
               </a>
             ),
             img: ({ title, altText, handle }) => (
-              <figure style={{ maxWidth: '800px' }} className='mx-auto my-3'>
+              <figure
+                style={{ maxWidth: '800px', maxHeight: '80vh' }}
+                className='mx-auto my-3'
+              >
                 <img
                   // NOTE: seems I can use image.handle to get image id
                   loading='lazy'
                   src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
                   alt={altText || title}
-                  className='m-auto rounded-box w-full max-h-screen'
+                  className='m-auto rounded-box max-w-full max-h-[80vh] shadow-xl shadow-base-300'
                 />
               </figure>
             ),
