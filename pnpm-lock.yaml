@@ -13,6 +13,7 @@ specifiers:
   '@remix-run/react': ^1.6.2
   '@remix-run/serve': ^1.6.2
   '@remix-run/vercel': ^1.6.2
+  '@tailwindcss/aspect-ratio': ^0.4.0
   '@types/react': ^18.0.14
   '@types/react-dom': ^18.0.5
   concurrently: ^7.2.2
@@ -33,10 +34,10 @@ specifiers:
 
 dependencies:
   '@graphcms/rich-text-react-renderer': 0.5.0_biqbaboplfbrettd7655fr4n2y
-  '@remix-run/react': 1.6.3_biqbaboplfbrettd7655fr4n2y
-  '@remix-run/serve': 1.6.3_biqbaboplfbrettd7655fr4n2y
-  '@remix-run/vercel': 1.6.3_biqbaboplfbrettd7655fr4n2y
-  daisyui: 2.18.0_postcss@8.4.14
+  '@remix-run/react': 1.6.2_biqbaboplfbrettd7655fr4n2y
+  '@remix-run/serve': 1.6.2_biqbaboplfbrettd7655fr4n2y
+  '@remix-run/vercel': 1.6.2_biqbaboplfbrettd7655fr4n2y
+  daisyui: 2.17.0_postcss@8.4.14
   dotenv: 16.0.1
   graphql: 16.5.0
   graphql-request: 4.3.0_graphql@16.5.0
@@ -51,10 +52,10 @@ devDependencies:
   '@graphql-codegen/typescript': 2.5.1_graphql@16.5.0
   '@graphql-codegen/typescript-operations': 2.4.2_graphql@16.5.0
   '@graphql-codegen/typescript-resolvers': 2.6.6_graphql@16.5.0
-  '@remix-run/dev': 1.6.3_abnwi3ql5gibhllxrycxs3ju3y
-  '@remix-run/eslint-config': 1.6.3_laxx7oajycrjekgfbzprteir3i
-  '@types/react': 18.0.15
-  '@types/react-dom': 18.0.6
+  '@remix-run/dev': 1.6.2_n4r77tjl5fjq6dcsn6zd2i67n4
+  '@remix-run/eslint-config': 1.6.2_scxhmbcwnay7fgl5u4mcdzbnsi
+  '@types/react': 18.0.14
+  '@types/react-dom': 18.0.5
   concurrently: 7.2.2
   eslint: 8.19.0
   eslint-config-prettier: 8.5.0_eslint@8.19.0
@@ -2288,6 +2289,14 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
+  /@tailwindcss/aspect-ratio/0.4.0_tailwindcss@3.1.4:
+    resolution: {integrity: sha512-WJu0I4PpqNPuutpaA9zDUq2JXR+lorZ7PbLcKNLmb6GL9/HLfC7w3CRsMhJF4BbYd/lkY6CfXOvkYpuGnZfkpQ==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.1.4
+    dev: true
+
   /@testing-library/dom/8.14.0:
     resolution: {integrity: sha512-m8FOdUo77iMTwVRCyzWcqxlEIk+GnopbrRI15a0EaLbpZSCinIVI4kSQzWhkShK83GogvEFJSsHF3Ws0z1vrqA==}
     engines: {node: '>=12'}
@@ -3699,8 +3708,8 @@ packages:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==}
     dev: true
 
-  /daisyui/2.18.0_postcss@8.4.14:
-    resolution: {integrity: sha512-PIS+byC2r90VZV/9RUD2E3BsyzE0cj4PmFTDQqGd+4+hnVP5OB3DnjPBhjhfJwySErzpz0ZVOGRi/X9rWRhP5A==}
+  /daisyui/2.17.0_postcss@8.4.14:
+    resolution: {integrity: sha512-U8eA8IvwH0JSi72WbRZdmJcYZek3ERMPFPAVFhnYc6dGnobeIHLGBz8J4q012I9YVDUqXFrWz13rpn+SBdn7qQ==}
     peerDependencies:
       autoprefixer: ^10.0.2
       postcss: ^8.1.6
@@ -3735,8 +3744,8 @@ packages:
     engines: {node: '>=0.11'}
     dev: true
 
-  /deasync/0.1.26:
-    resolution: {integrity: sha512-YKw0BmJSWxkjtQsbgn6Q9CHSWB7DKMen8vKrgyC006zy0UZ6nWyGidB0IzZgqkVRkOglAeUaFtiRTeLyel72bg==}
+  /deasync/0.1.24:
+    resolution: {integrity: sha512-i98vg42xNfRZCymummMAN0rIcQ1gZFinSe3btvPIvy6JFTaeHcumeKybRo2HTv86nasfmT0nEgAn2ggLZhOCVA==}
     engines: {node: '>=0.11.0'}
     requiresBuild: true
     dependencies:
@@ -4440,7 +4449,7 @@ packages:
       emoji-regex: 9.2.2
       eslint: 8.19.0
       has: 1.0.3
-      jsx-ast-utils: 3.3.1
+      jsx-ast-utils: 3.3.2
       language-tags: 1.0.5
       minimatch: 3.1.2
       semver: 6.3.0
@@ -4481,7 +4490,7 @@ packages:
       doctrine: 2.1.0
       eslint: 8.19.0
       estraverse: 5.3.0
-      jsx-ast-utils: 3.3.1
+      jsx-ast-utils: 3.3.2
       minimatch: 3.1.2
       object.entries: 1.1.5
       object.fromentries: 2.0.5
@@ -6114,8 +6123,8 @@ packages:
       semver: 5.7.1
     dev: true
 
-  /jsx-ast-utils/3.3.1:
-    resolution: {integrity: sha512-pxrjmNpeRw5wwVeWyEAk7QJu2GnBO3uzPFmHCKJJFPKK2Cy0cWL23krGtLdnMmbIi6/FjlrQpPyfQI19ByPOhQ==}
+  /jsx-ast-utils/3.3.2:
+    resolution: {integrity: sha512-4ZCADZHRkno244xlNnn4AOG6sRQ7iBZ5BbgZ4vW4y5IZw7cVUD1PPeblm1xx/nfmMxPdt/LHsXZW8z/j58+l9Q==}
     engines: {node: '>=4.0'}
     dependencies:
       array-includes: 3.1.5
@@ -9421,7 +9430,7 @@ packages:
       unist-util-visit: 4.1.0
       vfile: 5.3.4
     optionalDependencies:
-      deasync: 0.1.26
+      deasync: 0.1.24
     transitivePeerDependencies:
       - supports-color
     dev: true

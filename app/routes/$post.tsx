@@ -11,7 +11,7 @@ import Header from '~/components/Header'
 import Picture from '~/components/Picture'
 import Footer from '~/components/Footer'
 
-import { trimText } from '~/utils'
+import { nearestAspectRatio, trimText } from '~/utils'
 
 import type { EmbedProps } from '@graphcms/rich-text-types'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
@@ -122,20 +122,27 @@ export const meta: MetaFunction = ({
 
 export default function PostPage() {
   const { post, author, categories }: Data = useLoaderData()
+
+  const coverImageAspectRatio =
+    post.coverImage.width && post.coverImage.height
+      ? nearestAspectRatio(post.coverImage.width, post.coverImage.height)
+      : '16:9'
+
   return (
     <>
       <HomeButton />
       <Header>
         <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
-      <figure className='m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-12 bg-base-300'>
+      <div className='m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-20 bg-base-300'>
         <Picture
           smallSrc={post.coverImage.thumbnail}
           largeSrc={post.coverImage.url}
           alt={post.coverImage.fileName}
-          className='m-auto lg:shadow-2xl shadow-current aspect-video'
+          className='m-auto lg:shadow-2xl shadow-current'
+          aspectRatio={coverImageAspectRatio}
         />
-      </figure>
+      </div>
       <MainContent narrow={true}>
         <RichText
           content={post.content.json}
@@ -188,7 +195,7 @@ export default function PostPage() {
                   loading='lazy'
                   src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
                   alt={altText || title}
-                  className='m-auto rounded-box w-full'
+                  className='m-auto rounded-box w-full max-h-screen'
                 />
               </figure>
             ),
@@ -208,15 +215,19 @@ export default function PostPage() {
                 const videoId = video.youTubeShareUrl.split('/').reverse()[0]
                 return (
                   <div className='max-w-[800px] mx-auto my-3'>
-                    <iframe
-                      loading='lazy'
-                      src={`https://www.youtube.com/embed/${videoId}`}
-                      title='YouTube video player'
-                      frameBorder='0'
-                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-                      allowFullScreen
-                      className='m-auto rounded-box w-full aspect-video'
-                    ></iframe>
+                    <div className='aspect-w-16 aspect-h-9'>
+                      <div className='w-full height-full'>
+                        <iframe
+                          loading='lazy'
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title='YouTube video player'
+                          frameBorder='0'
+                          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                          allowFullScreen
+                          className='m-auto rounded-box w-full h-full'
+                        ></iframe>
+                      </div>
+                    </div>
                   </div>
                 )
               },

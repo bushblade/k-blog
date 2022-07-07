@@ -7,3 +7,5 @@ interface WithThumbnail extends Asset {
 export interface PostWithThumbnail extends Post {
   coverImage: WithThumbnail
 }
+
+export type AspectRatio = { width: number; height: number } | string
