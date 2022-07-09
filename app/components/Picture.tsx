@@ -10,12 +10,14 @@ const useProgressiveImg = (
   const [src, setSrc] = useState(lowQualitySrc)
 
   useEffect(() => {
-    const img = new Image()
-    img.src = highQualitySrc
-    img.onload = () => {
-      setSrc(highQualitySrc)
+    if (src === lowQualitySrc) {
+      const img = new Image()
+      img.onload = () => {
+        if (img.complete) setSrc(highQualitySrc)
+      }
+      img.src = highQualitySrc
     }
-  }, [lowQualitySrc, highQualitySrc])
+  }, [lowQualitySrc, highQualitySrc, src])
   return [src, { blur: src === lowQualitySrc }]
 }
 
