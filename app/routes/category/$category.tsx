@@ -11,7 +11,7 @@ import PostsGrid from '~/components/PostsGrid'
 import Header from '~/components/Header'
 
 import type { LoaderFunction, MetaFunction } from 'remix'
-import type { PostWithThumbnail } from '~/types'
+import type { PostWithSmallPreview } from '~/types'
 import type { Author, Category } from '~/graphql/graphcmsTypes'
 
 const query = gql`
@@ -50,7 +50,7 @@ const query = gql`
       content {
         text
       }
-      coverImage {
+      previewImage {
         id
         url(
           transformation: {
@@ -58,7 +58,7 @@ const query = gql`
             image: { resize: { fit: crop, height: 288, width: 512 } }
           }
         )
-        thumbnail: url(
+        small: url(
           transformation: {
             document: { output: { format: webp } }
             image: { resize: { fit: crop, height: 9, width: 16 } }
@@ -73,7 +73,7 @@ const query = gql`
 interface Data {
   author: Author
   categories: Category[]
-  posts: PostWithThumbnail[]
+  posts: PostWithSmallPreview[]
   category: string
 }
 

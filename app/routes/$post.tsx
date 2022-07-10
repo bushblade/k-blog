@@ -15,8 +15,8 @@ import { nearestAspectRatio, trimText } from '~/utils'
 
 import type { EmbedProps } from '@graphcms/rich-text-types'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
-import type { Author, Category, Video } from '~/graphql/graphcmsTypes'
-import type { PostWithThumbnail } from '~/types'
+import type { Author, Category, Post, Video } from '~/graphql/graphcmsTypes'
+import type { AspectRatio, PostWithSmallCoverImage } from '~/types'
 
 const pageQuery = gql`
   query PostPageQuery($slug: String!, $authorId: ID!) {
@@ -56,11 +56,20 @@ const pageQuery = gql`
             validateOptions: true
           }
         )
-        thumbnail: url(
+        small: url(
           transformation: {
             document: { output: { format: webp } }
             image: { resize: { fit: clip, width: 16 } }
             validateOptions: true
+          }
+        )
+      }
+      previewImage {
+        fileName
+        url(
+          transformation: {
+            document: { output: { format: webp } }
+            image: { resize: { fit: crop, width: 200 } }
           }
         )
       }
@@ -81,7 +90,7 @@ const pageQuery = gql`
 `
 
 interface Data {
-  post: PostWithThumbnail
+  post: PostWithSmallCoverImage
   author: Author
   categories: Category[]
 }
@@ -105,17 +114,13 @@ export const links: LinksFunction = () => {
 }
 
 // NOTE: the meta function gets the loader data available in function args
-export const meta: MetaFunction = ({
-  data,
-}: {
-  data: { post: PostWithThumbnail }
-}) => {
+export const meta: MetaFunction = ({ data }: { data: { post: Post } }) => {
   if (!data) return {}
   if (!data.post) return {}
   return {
     title: data.post.title,
     'og:title': data.post.title,
-    'og:image': data.post.coverImage.thumbnail,
+    'og:image': data.post.previewImage.url,
     'og:description': trimText(data.post.content.text),
   }
 }
@@ -123,10 +128,14 @@ export const meta: MetaFunction = ({
 export default function PostPage() {
   const { post, author, categories }: Data = useLoaderData()
 
-  const coverImageAspectRatio =
-    post.coverImage.width && post.coverImage.height
-      ? nearestAspectRatio(post.coverImage.width, post.coverImage.height)
-      : '16:9'
+  // FIX: may not have cover image
+  let coverImageAspectRatio: AspectRatio | null = null
+  if (post.coverImage) {
+    coverImageAspectRatio =
+      post.coverImage.width && post.coverImage.height
+        ? nearestAspectRatio(post.coverImage.width, post.coverImage.height)
+        : '16:9'
+  }
 
   return (
     <>
@@ -135,12 +144,14 @@ export default function PostPage() {
         <h1 className='text-5xl inline-block'>{post.title}</h1>
       </Header>
       <div className='border-0 border-transparent m-auto max-w-[1000px] overflow-hidden lg:rounded-box -translate-y-20 bg-base-300 shadow-base-300 shadow-xl'>
-        <Picture
-          smallSrc={post.coverImage.thumbnail}
-          largeSrc={post.coverImage.url}
-          alt={post.coverImage.fileName}
-          aspectRatio={coverImageAspectRatio}
-        />
+        {post.coverImage && coverImageAspectRatio ? (
+          <Picture
+            smallSrc={post.coverImage.small}
+            largeSrc={post.coverImage.url}
+            alt={post.coverImage.fileName}
+            aspectRatio={coverImageAspectRatio}
+          />
+        ) : null}
       </div>
       <MainContent narrow={true}>
         <RichText

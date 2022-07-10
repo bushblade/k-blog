@@ -2827,6 +2827,13 @@ export type Post = Node & {
   history: Array<Version>;
   /** The unique identifier */
   id: Scalars['ID'];
+  /**
+   * This will show as a preview image in your site.
+   * Ideally the image should be 16:9 aspect ratio.
+   * If a 16:9 image is not provided then it will be cropped to fit in the site.
+   * This can be the same image as the cover image if you wish.
+   */
+  previewImage: Asset;
   /** The time the document was published. Null on documents in draft stage. */
   publishedAt?: Maybe<Scalars['DateTime']>;
   /** User that last published this document */
@@ -2836,13 +2843,6 @@ export type Post = Node & {
   slug: Scalars['String'];
   /** System stage field */
   stage: Stage;
-  /**
-   * This will show as a preview image in your site.
-   * Ideally the image should be 16:9 aspect ratio.
-   * If a 16:9 image is not provided then it will be cropped to fit in the site.
-   * This can be the same image as the cover image if you wish.
-   */
-  thumbnail: Asset;
   /** Name your blog post! */
   title: Scalars['String'];
   /** The time the document was updated */
@@ -2893,6 +2893,11 @@ export type PostHistoryArgs = {
 };
 
 
+export type PostPreviewImageArgs = {
+  locales?: InputMaybe<Array<Locale>>;
+};
+
+
 export type PostPublishedByArgs = {
   locales?: InputMaybe<Array<Locale>>;
 };
@@ -2906,11 +2911,6 @@ export type PostScheduledInArgs = {
   locales?: InputMaybe<Array<Locale>>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<ScheduledOperationWhereInput>;
-};
-
-
-export type PostThumbnailArgs = {
-  locales?: InputMaybe<Array<Locale>>;
 };
 
 
@@ -2958,8 +2958,8 @@ export type PostCreateInput = {
   content: Scalars['RichTextAST'];
   coverImage?: InputMaybe<AssetCreateOneInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
+  previewImage: AssetCreateOneInlineInput;
   slug: Scalars['String'];
-  thumbnail: AssetCreateOneInlineInput;
   title: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -3056,6 +3056,7 @@ export type PostManyWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  previewImage?: InputMaybe<AssetWhereInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -3094,7 +3095,6 @@ export type PostManyWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']>;
-  thumbnail?: InputMaybe<AssetWhereInput>;
   title?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   title_contains?: InputMaybe<Scalars['String']>;
@@ -3155,8 +3155,8 @@ export type PostUpdateInput = {
   categories?: InputMaybe<CategoryUpdateManyInlineInput>;
   content?: InputMaybe<Scalars['RichTextAST']>;
   coverImage?: InputMaybe<AssetUpdateOneInlineInput>;
+  previewImage?: InputMaybe<AssetUpdateOneInlineInput>;
   slug?: InputMaybe<Scalars['String']>;
-  thumbnail?: InputMaybe<AssetUpdateOneInlineInput>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -3295,6 +3295,7 @@ export type PostWhereInput = {
   id_not_starts_with?: InputMaybe<Scalars['ID']>;
   /** All values starting with the given string. */
   id_starts_with?: InputMaybe<Scalars['ID']>;
+  previewImage?: InputMaybe<AssetWhereInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
   /** All values greater than the given value. */
   publishedAt_gt?: InputMaybe<Scalars['DateTime']>;
@@ -3333,7 +3334,6 @@ export type PostWhereInput = {
   slug_not_starts_with?: InputMaybe<Scalars['String']>;
   /** All values starting with the given string. */
   slug_starts_with?: InputMaybe<Scalars['String']>;
-  thumbnail?: InputMaybe<AssetWhereInput>;
   title?: InputMaybe<Scalars['String']>;
   /** All values containing the given string. */
   title_contains?: InputMaybe<Scalars['String']>;
@@ -6523,12 +6523,12 @@ export type PostResolvers<ContextType = any, ParentType extends ResolversParentT
   documentInStages?: Resolver<Array<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<PostDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;
   history?: Resolver<Array<ResolversTypes['Version']>, ParentType, ContextType, RequireFields<PostHistoryArgs, 'limit' | 'skip'>>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  previewImage?: Resolver<ResolversTypes['Asset'], ParentType, ContextType, Partial<PostPreviewImageArgs>>;
   publishedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   publishedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<PostPublishedByArgs>>;
   scheduledIn?: Resolver<Array<ResolversTypes['ScheduledOperation']>, ParentType, ContextType, Partial<PostScheduledInArgs>>;
   slug?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   stage?: Resolver<ResolversTypes['Stage'], ParentType, ContextType>;
-  thumbnail?: Resolver<ResolversTypes['Asset'], ParentType, ContextType, Partial<PostThumbnailArgs>>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updatedBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<PostUpdatedByArgs>>;

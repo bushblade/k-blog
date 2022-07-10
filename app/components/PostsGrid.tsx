@@ -1,9 +1,14 @@
 import { Link } from '@remix-run/react'
 import { formatDate, lessThanNdaysOld, trimText } from '~/utils'
 import Picture from '~/components/Picture'
-import type { PostWithThumbnail } from '~/types'
+import type { PostWithSmallPreview } from '~/types'
+// import type { PostWithSmallThumbnail } from '~/types'
 
-export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
+export default function PostsGrid({
+  posts,
+}: {
+  posts: PostWithSmallPreview[]
+}) {
   return (
     <section className='grid justify-items-center gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-5'>
       {posts.map((post) => (
@@ -13,8 +18,8 @@ export default function PostsGrid({ posts }: { posts: PostWithThumbnail[] }) {
             <Link to={`/${post.slug}`}>
               <div className='overflow-hidden group-hover:opacity-80 transition-opacity '>
                 <Picture
-                  largeSrc={post.coverImage.url}
-                  smallSrc={post.coverImage.thumbnail}
+                  largeSrc={post.previewImage.url}
+                  smallSrc={post.previewImage.small}
                   alt={post.title}
                   aspectRatio='16:9'
                 />

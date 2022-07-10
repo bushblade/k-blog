@@ -10,7 +10,8 @@ import PostsGrid from '~/components/PostsGrid'
 
 import type { Author, Category } from '~/graphql/graphcmsTypes'
 import type { LoaderFunction, MetaFunction } from 'remix'
-import type { PostWithThumbnail } from '~/types'
+import type { PostWithSmallPreview } from '~/types'
+// import type { PostWithSmallThumbnail } from '~/types'
 
 const query = gql`
   query HomePageQuery($authorId: ID!) {
@@ -45,7 +46,7 @@ const query = gql`
       content {
         text
       }
-      coverImage {
+      previewImage {
         fileName
         url(
           transformation: {
@@ -53,7 +54,7 @@ const query = gql`
             image: { resize: { fit: crop, height: 288, width: 512 } }
           }
         )
-        thumbnail: url(
+        small: url(
           transformation: {
             document: { output: { format: webp } }
             image: { resize: { fit: crop, height: 9, width: 16 } }
@@ -66,7 +67,7 @@ const query = gql`
 
 interface Data {
   categories: Category[]
-  posts: PostWithThumbnail[]
+  posts: PostWithSmallPreview[]
   author: Author
 }
 

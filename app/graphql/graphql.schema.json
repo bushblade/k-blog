@@ -19671,6 +19671,43 @@
             "deprecationReason": null
           },
           {
+            "name": "previewImage",
+            "description": "This will show as a preview image in your site.\nIdeally the image should be 16:9 aspect ratio.\nIf a 16:9 image is not provided then it will be cropped to fit in the site.\nThis can be the same image as the cover image if you wish.",
+            "args": [
+              {
+                "name": "locales",
+                "description": "Allows to optionally override locale filtering behaviour in the query's subtree.\n\nNote that `previewImage` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.\nFor related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.\n\nThis argument will overwrite any existing locale filtering defined in the query's tree for the subtree.",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "Locale",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Asset",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt",
             "description": "The time the document was published. Null on documents in draft stage.",
             "args": [],
@@ -19858,43 +19895,6 @@
               "ofType": {
                 "kind": "ENUM",
                 "name": "Stage",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "thumbnail",
-            "description": "This will show as a preview image in your site.\nIdeally the image should be 16:9 aspect ratio.\nIf a 16:9 image is not provided then it will be cropped to fit in the site.\nThis can be the same image as the cover image if you wish.",
-            "args": [
-              {
-                "name": "locales",
-                "description": "Allows to optionally override locale filtering behaviour in the query's subtree.\n\nNote that `thumbnail` is a model without localized fields and will not be affected directly by this argument, however the locales will be passed on to any relational fields in the query's subtree for filtering.\nFor related models with localized fields in the query's subtree, the first locale matching the provided list of locales will be returned, entries with non matching locales will be filtered out.\n\nThis argument will overwrite any existing locale filtering defined in the query's tree for the subtree.",
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "ENUM",
-                      "name": "Locale",
-                      "ofType": null
-                    }
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Asset",
                 "ofType": null
               }
             },
@@ -20298,14 +20298,14 @@
             "deprecationReason": null
           },
           {
-            "name": "slug",
+            "name": "previewImage",
             "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "INPUT_OBJECT",
+                "name": "AssetCreateOneInlineInput",
                 "ofType": null
               }
             },
@@ -20314,14 +20314,14 @@
             "deprecationReason": null
           },
           {
-            "name": "thumbnail",
+            "name": "slug",
             "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "AssetCreateOneInlineInput",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -21026,6 +21026,18 @@
             "deprecationReason": null
           },
           {
+            "name": "previewImage",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AssetWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt",
             "description": "",
             "type": {
@@ -21315,18 +21327,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "thumbnail",
-            "description": "",
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "AssetWhereInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -21760,11 +21760,11 @@
             "deprecationReason": null
           },
           {
-            "name": "slug",
+            "name": "previewImage",
             "description": "",
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "INPUT_OBJECT",
+              "name": "AssetUpdateOneInlineInput",
               "ofType": null
             },
             "defaultValue": null,
@@ -21772,11 +21772,11 @@
             "deprecationReason": null
           },
           {
-            "name": "thumbnail",
+            "name": "slug",
             "description": "",
             "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "AssetUpdateOneInlineInput",
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null,
@@ -22788,6 +22788,18 @@
             "deprecationReason": null
           },
           {
+            "name": "previewImage",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "AssetWhereInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "publishedAt",
             "description": "",
             "type": {
@@ -23077,18 +23089,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "thumbnail",
-            "description": "",
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "AssetWhereInput",
               "ofType": null
             },
             "defaultValue": null,
