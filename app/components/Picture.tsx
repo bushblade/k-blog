@@ -73,7 +73,7 @@ export default function Picture({
           objectFit: 'cover',
           overflow: 'hidden',
         }}
-        alt={alt}
+        alt={blur ? '' : alt}
         className={className}
       />
     </figure>
