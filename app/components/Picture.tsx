@@ -24,7 +24,7 @@ const useProgressiveImg = (
 interface PictureProps {
   smallSrc: string
   largeSrc: string
-  alt: string
+  alt: string | undefined
   className?: string
   aspectRatio: AspectRatio
 }
@@ -67,7 +67,7 @@ export default function Picture({
         loading='lazy'
         src={src}
         style={{
-          width: '100%',
+          // width: '100%',
           filter: blur ? 'blur(10px)' : 'none',
           transition: blur ? 'none' : 'filter 0.2s ease-out',
           objectFit: 'cover',
