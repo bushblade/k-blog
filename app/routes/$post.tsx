@@ -128,7 +128,6 @@ export const meta: MetaFunction = ({ data }: { data: { post: Post } }) => {
 export default function PostPage() {
   const { post, author, categories }: Data = useLoaderData()
 
-  // FIX: may not have cover image
   let coverImageAspectRatio: AspectRatio | null = null
   if (post.coverImage) {
     coverImageAspectRatio =
@@ -198,19 +197,29 @@ export default function PostPage() {
                 {children}
               </a>
             ),
-            img: ({ title, altText, handle }) => (
-              <figure
+            img: ({ title, altText, handle, width, height }) => (
+              <div
                 style={{ maxWidth: '800px', maxHeight: '80vh' }}
                 className='mx-auto my-3'
               >
-                <img
-                  // NOTE: seems I can use image.handle to get image id
-                  loading='lazy'
-                  src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
-                  alt={altText || title}
-                  className='m-auto rounded-box max-w-full max-h-[80vh] shadow-xl shadow-base-300'
-                />
-              </figure>
+                {width && height ? (
+                  <Picture
+                    // NOTE: seems I can use image.handle to get image id
+                    smallSrc={`https://media.graphassets.com/resize=fit:crop,width:16/output=format:webp/${handle}`}
+                    largeSrc={`https://media.graphassets.com/resize=fit:crop,${
+                      width > height ? 'width:800' : 'height:800'
+                    }/output=format:webp/${handle}`}
+                    alt={altText || title}
+                    className='m-auto rounded-box max-w-full max-h-[80vh] shadow-xl shadow-base-300'
+                    aspectRatio={nearestAspectRatio(width, height)}
+                  />
+                ) : (
+                  <img
+                    src={`https://media.graphassets.com/resize=fit:crop,width:800/output=format:webp/${handle}`}
+                    alt={altText || title}
+                  />
+                )}
+              </div>
             ),
             embed: {
               Video: ({ nodeId }: EmbedProps<Video>) => {
