@@ -15,7 +15,13 @@ import { nearestAspectRatio, trimText } from '~/utils'
 
 import type { EmbedProps } from '@graphcms/rich-text-types'
 import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
-import type { Author, Category, Post, Video } from '~/graphql/graphcmsTypes'
+import type {
+  Author,
+  BlenderModel,
+  Category,
+  Post,
+  Video,
+} from '~/graphql/graphcmsTypes'
 import type { AspectRatio, PostWithSmallCoverImage } from '~/types'
 
 const pageQuery = gql`
@@ -82,6 +88,13 @@ const pageQuery = gql`
           ... on Video {
             id
             youTubeShareUrl
+          }
+          ... on BlenderModel {
+            id
+            title
+            glbFile {
+              url
+            }
           }
         }
       }
@@ -234,7 +247,10 @@ export default function PostPage() {
                       </p>
                     </div>
                   )
-                const videoId = video.youTubeShareUrl.split('/').reverse()[0]
+                const foundVideo = video as Video
+                const videoId = foundVideo.youTubeShareUrl
+                  .split('/')
+                  .reverse()[0]
                 return (
                   <div className='max-w-[800px] mx-auto my-3'>
                     <div className='aspect-w-16 aspect-h-9'>
@@ -251,6 +267,26 @@ export default function PostPage() {
                       </div>
                     </div>
                   </div>
+                )
+              },
+              BlenderModel: ({ nodeId }: EmbedProps<BlenderModel>) => {
+                const bModel = post.content.references.find(
+                  (ref) => ref.id === nodeId
+                )
+                if (!bModel)
+                  return (
+                    <div className='alert alert-error shadow-xl'>
+                      <p>
+                        There should be a Blender Model here but something went
+                        wrong!
+                      </p>
+                    </div>
+                  )
+                const foundBmodel = bModel as BlenderModel
+                return (
+                  <h2>
+                    Blender Model will go here for {foundBmodel.glbFile.url}
+                  </h2>
                 )
               },
             },
