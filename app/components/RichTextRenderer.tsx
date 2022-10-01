@@ -1,13 +1,15 @@
 import { RichText } from '@graphcms/rich-text-react-renderer'
+
+import Picture from '~/components/Picture'
+
+import { nearestAspectRatio } from '~/utils'
+
+import type { EmbedProps } from '@graphcms/rich-text-types'
 import type {
   BlenderModel,
   PostContentRichText,
   Video,
 } from '~/graphql/graphcmsTypes'
-import { nearestAspectRatio } from '~/utils'
-import type { EmbedProps } from '@graphcms/rich-text-types'
-
-import Picture from '~/components/Picture'
 
 export function RichTextRenderer({
   content,
