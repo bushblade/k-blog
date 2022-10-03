@@ -7,8 +7,11 @@
    viewBox="0 0 94.686652 132.29167"
    version="1.1"
    id="svg5"
-   sodipodi:docname="colour-tree-designs-logo.svg"
+   sodipodi:docname="colour-tree-designs-logo-low-saturation.svg"
    inkscape:version="1.2.1 (9c6d41e410, 2022-07-14, custom)"
+   inkscape:export-filename="colour-tree-designs-logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +30,7 @@
      showborder="false"
      showguides="false"
      inkscape:zoom="1.5589927"
-     inkscape:cx="210.07154"
+     inkscape:cx="177.35811"
      inkscape:cy="243.74713"
      inkscape:window-width="1920"
      inkscape:window-height="1053"
@@ -91,17 +94,17 @@
        id="path3803" />
     <path
        id="path7626"
-       style="fill:#ff0000;stroke:none;stroke-width:0.944306;stroke-linecap:round;stroke-linejoin:round"
+       style="fill:#b84747;stroke:none;stroke-width:0.944306;stroke-linecap:round;stroke-linejoin:round;fill-opacity:1"
        d="M 66.350242,94.512919 A 13.327683,13.327683 0 0 1 53.02256,107.84059 13.327683,13.327683 0 0 1 39.694877,94.512919 13.327683,13.327683 0 0 1 53.02256,81.185238 13.327683,13.327683 0 0 1 66.350242,94.512919 Z" />
     <ellipse
-       style="fill:#00ff00;stroke:none;stroke-width:0.944307;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#47b847;stroke:none;stroke-width:0.944307;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
        id="circle7628"
        cx="85.526863"
        cy="73.75618"
        rx="13.327683"
        ry="13.327682" />
     <circle
-       style="fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.944307;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#4747b8;fill-opacity:1;stroke:none;stroke-width:0.944307;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        id="circle7632"
        cx="118.03117"
        cy="94.512909"
