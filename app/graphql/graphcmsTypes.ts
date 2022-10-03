@@ -3515,8 +3515,6 @@ export type Post = Node & {
   __typename?: 'Post';
   /** Who should be credited with writing this post? */
   author?: Maybe<Author>;
-  /** A brief intro to what this post is about. */
-  blurb?: Maybe<Scalars['String']>;
   categories: Array<Category>;
   /** Write your blog post! */
   content: PostContentRichText;
@@ -3663,7 +3661,6 @@ export type PostContentRichTextEmbeddedTypes = BlenderModel | Video;
 
 export type PostCreateInput = {
   author?: InputMaybe<AuthorCreateOneInlineInput>;
-  blurb?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<CategoryCreateManyInlineInput>;
   content: Scalars['RichTextAST'];
   coverImage?: InputMaybe<AssetCreateOneInlineInput>;
@@ -3708,25 +3705,6 @@ export type PostManyWhereInput = {
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
   author?: InputMaybe<AuthorWhereInput>;
-  blurb?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  blurb_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  blurb_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  blurb_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** All values that are not equal to given value. */
-  blurb_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  blurb_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  blurb_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  blurb_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** All values not starting with the given string. */
-  blurb_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  blurb_starts_with?: InputMaybe<Scalars['String']>;
   categories_every?: InputMaybe<CategoryWhereInput>;
   categories_none?: InputMaybe<CategoryWhereInput>;
   categories_some?: InputMaybe<CategoryWhereInput>;
@@ -3846,8 +3824,6 @@ export type PostManyWhereInput = {
 };
 
 export enum PostOrderByInput {
-  BlurbAsc = 'blurb_ASC',
-  BlurbDesc = 'blurb_DESC',
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
   IdAsc = 'id_ASC',
@@ -3864,7 +3840,6 @@ export enum PostOrderByInput {
 
 export type PostUpdateInput = {
   author?: InputMaybe<AuthorUpdateOneInlineInput>;
-  blurb?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<CategoryUpdateManyInlineInput>;
   content?: InputMaybe<Scalars['RichTextAST']>;
   coverImage?: InputMaybe<AssetUpdateOneInlineInput>;
@@ -3891,7 +3866,6 @@ export type PostUpdateManyInlineInput = {
 };
 
 export type PostUpdateManyInput = {
-  blurb?: InputMaybe<Scalars['String']>;
   content?: InputMaybe<Scalars['RichTextAST']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -3956,25 +3930,6 @@ export type PostWhereInput = {
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']>;
   author?: InputMaybe<AuthorWhereInput>;
-  blurb?: InputMaybe<Scalars['String']>;
-  /** All values containing the given string. */
-  blurb_contains?: InputMaybe<Scalars['String']>;
-  /** All values ending with the given string. */
-  blurb_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are contained in given list. */
-  blurb_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** All values that are not equal to given value. */
-  blurb_not?: InputMaybe<Scalars['String']>;
-  /** All values not containing the given string. */
-  blurb_not_contains?: InputMaybe<Scalars['String']>;
-  /** All values not ending with the given string */
-  blurb_not_ends_with?: InputMaybe<Scalars['String']>;
-  /** All values that are not contained in given list. */
-  blurb_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  /** All values not starting with the given string. */
-  blurb_not_starts_with?: InputMaybe<Scalars['String']>;
-  /** All values starting with the given string. */
-  blurb_starts_with?: InputMaybe<Scalars['String']>;
   categories_every?: InputMaybe<CategoryWhereInput>;
   categories_none?: InputMaybe<CategoryWhereInput>;
   categories_some?: InputMaybe<CategoryWhereInput>;
@@ -7361,7 +7316,6 @@ export type PageInfoResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type PostResolvers<ContextType = any, ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']> = {
   author?: Resolver<Maybe<ResolversTypes['Author']>, ParentType, ContextType, Partial<PostAuthorArgs>>;
-  blurb?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   categories?: Resolver<Array<ResolversTypes['Category']>, ParentType, ContextType, Partial<PostCategoriesArgs>>;
   content?: Resolver<ResolversTypes['PostContentRichText'], ParentType, ContextType>;
   coverImage?: Resolver<Maybe<ResolversTypes['Asset']>, ParentType, ContextType, Partial<PostCoverImageArgs>>;
