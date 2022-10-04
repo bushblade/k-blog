@@ -10,7 +10,7 @@ import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
 import Header from '~/components/Header'
 
-import type { LoaderFunction, MetaFunction } from 'remix'
+import type { LoaderFunction, MetaFunction } from '@remix-run/node'
 import type { PostWithSmallPreview } from '~/types'
 import type { Author, Category } from '~/graphql/graphcmsTypes'
 

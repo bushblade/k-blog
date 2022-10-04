@@ -11,7 +11,7 @@ import styles from './tailwind.css'
 import Document from './Document'
 import ErrorPage from './components/ErrorPage'
 
-import type { LinksFunction, MetaFunction } from 'remix'
+import type { LinksFunction, MetaFunction } from '@remix-run/node'
 
 export const links: LinksFunction = () => {
   return [

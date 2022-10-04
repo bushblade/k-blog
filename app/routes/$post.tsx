@@ -12,7 +12,11 @@ import Footer from '~/components/Footer'
 
 import { nearestAspectRatio, trimText } from '~/utils'
 
-import type { MetaFunction, LoaderFunction, LinksFunction } from 'remix'
+import type {
+  MetaFunction,
+  LoaderFunction,
+  LinksFunction,
+} from '@remix-run/node'
 import type { Author, Category, Post } from '~/graphql/graphcmsTypes'
 import type { AspectRatio, PostWithSmallCoverImage } from '~/types'
 import { RichTextRenderer } from '~/components/RichTextRenderer'
