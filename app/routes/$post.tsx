@@ -88,7 +88,7 @@ const pageQuery = gql`
           }
           ... on BlenderModel {
             backgroundColour {
-              hex
+              css
             }
             id
             title

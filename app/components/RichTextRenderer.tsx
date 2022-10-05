@@ -127,7 +127,7 @@ export function RichTextRenderer({
                   <React.Suspense fallback={<h1>Loading Blender Model...</h1>}>
                     <ThreeScene
                       glbFileUrl={glbFile.url}
-                      bgColour={backgroundColour.hex}
+                      bgColour={backgroundColour.css}
                     />
                   </React.Suspense>
                 )}
