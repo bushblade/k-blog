@@ -72,6 +72,7 @@ export default function Picture({
     >
       <img
         loading='lazy'
+        onContextMenu={(event) => event.preventDefault()}
         src={src}
         style={{
           width: '100%',
