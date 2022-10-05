@@ -11,17 +11,13 @@ import styles from './tailwind.css'
 import Document from './Document'
 import ErrorPage from './components/ErrorPage'
 
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
+import type { LinksFunction } from '@remix-run/node'
 
 export const links: LinksFunction = () => {
   return [
     { rel: 'stylesheet', href: styles },
     { rel: 'icon', href: '/girl-icon.svg', type: 'image/svg' },
   ]
-}
-
-export const meta: MetaFunction = () => {
-  return { title: `Koyah's blog` }
 }
 
 export default function App() {

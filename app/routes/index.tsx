@@ -84,6 +84,7 @@ export let loader: LoaderFunction = async () => {
 export let meta: MetaFunction = ({ data }: { data: { author: Author } }) => {
   if (data.author)
     return {
+      title: `${data.author.name}'s blog site`,
       'og:title': `${data.author.name}'s blog site`,
       'og:image': data.author.picture.url,
       'og:description': data.author.title,
