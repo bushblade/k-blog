@@ -66,10 +66,7 @@ export function RichTextRenderer({
           </a>
         ),
         img: ({ title, altText, handle, width, height }) => (
-          <div
-            style={{ maxWidth: '800px', maxHeight: '80vh' }}
-            className='mx-auto my-3'
-          >
+          <div style={{ maxWidth: '800px' }} className='mx-auto my-3'>
             {width && height ? (
               <Picture
                 // NOTE: seems I can use image.handle to get image id
@@ -78,7 +75,7 @@ export function RichTextRenderer({
                   width > height ? 'width:800' : 'height:800'
                 }/output=format:webp/${handle}`}
                 alt={altText || title}
-                className='m-auto rounded-box max-w-full max-h-[80vh] shadow-xl shadow-base-300'
+                className='m-auto rounded-box max-w-full shadow-xl shadow-base-300'
                 aspectRatio={nearestAspectRatio(width, height)}
               />
             ) : (

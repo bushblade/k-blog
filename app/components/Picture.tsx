@@ -62,12 +62,19 @@ export default function Picture({
   }
 
   return (
-    <figure className={`aspect-w-${aspectWidth} aspect-h-${aspectHeight}`}>
+    <figure
+      style={{
+        aspectRatio: `${aspectWidth}/${aspectHeight}`,
+        maxHeight: '80vh',
+        margin: 'auto',
+      }}
+      className={blur ? 'animate-pulse' : ''}
+    >
       <img
         loading='lazy'
         src={src}
         style={{
-          // width: '100%',
+          width: '100%',
           filter: blur ? 'blur(10px)' : 'none',
           transition: blur ? 'none' : 'filter 0.2s ease-out',
           objectFit: 'cover',
