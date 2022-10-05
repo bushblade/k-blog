@@ -21,7 +21,7 @@ export default function PostsGrid({
                   largeSrc={post.previewImage.url}
                   smallSrc={post.previewImage.small}
                   alt={post.title}
-                  aspectRatio='16:9'
+                  aspectRatio='16/9'
                 />
               </div>
             </Link>

@@ -95,5 +95,5 @@ export function nearestAspectRatio(
       }
     }
   }
-  return (needsRotation ? normalRatio.reverse() : normalRatio).join(':')
+  return (needsRotation ? normalRatio.reverse() : normalRatio).join('/')
 }

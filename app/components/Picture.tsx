@@ -45,7 +45,7 @@ export default function Picture({
   largeSrc,
   alt,
   className,
-  aspectRatio = '16:9',
+  aspectRatio = '16/9',
 }: PictureProps) {
   const [src, { blur }] = useProgressiveImg(smallSrc, largeSrc)
 
@@ -53,7 +53,7 @@ export default function Picture({
   let aspectHeight: number
 
   if (typeof aspectRatio === 'string') {
-    const ratios = aspectRatio.split(':').map((str) => parseInt(str))
+    const ratios = aspectRatio.split('/').map((str) => parseInt(str))
     aspectWidth = ratios[0]
     aspectHeight = ratios[1]
   } else {

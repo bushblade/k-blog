@@ -146,7 +146,7 @@ export default function PostPage() {
     coverImageAspectRatio =
       post.coverImage.width && post.coverImage.height
         ? nearestAspectRatio(post.coverImage.width, post.coverImage.height)
-        : '16:9'
+        : '16/9'
   }
 
   return (
