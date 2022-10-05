@@ -1,10 +1,7 @@
 import { RichText } from '@graphcms/rich-text-react-renderer'
 
-import { useLoader } from '@react-three/fiber'
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { GLTFLoader } from '../blender-modules/GLTFLoader'
-import { Environment, OrbitControls } from '@react-three/drei'
-
+import { ClientOnly } from 'remix-utils'
+import * as React from 'react'
 import Picture from '~/components/Picture'
 
 import { nearestAspectRatio } from '~/utils'
@@ -15,8 +12,8 @@ import type {
   PostContentRichText,
   Video,
 } from '~/graphql/graphcmsTypes'
-import { Canvas } from '@react-three/fiber'
-import { Suspense } from 'react'
+
+const ThreeScene = React.lazy(() => import('~/components/ThreeScene'))
 
 export function RichTextRenderer({
   content,
@@ -123,29 +120,18 @@ export function RichTextRenderer({
           },
           BlenderModel: ({ nodeId }: EmbedProps<BlenderModel>) => {
             const bModel = content.references.find((ref) => ref.id === nodeId)
-            // if (!bModel)
-            //   return (
-            //     <div className='alert alert-error shadow-xl'>
-            //       <p>
-            //         There should be a Blender Model here but something went
-            //         wrong!
-            //       </p>
-            //     </div>
-            //   )
-            const { glbFile } = bModel as BlenderModel
-            const gltf = useLoader(GLTFLoader, glbFile.url, (event) =>
-              console.log(event)
-            )
+            const { glbFile, backgroundColour } = bModel as BlenderModel
             return (
-              <div id='canvas-container'>
-                <Suspense fallback={<h1>Loading...</h1>}>
-                  <Canvas style={{ width: '100%', aspectRatio: '16/9' }}>
-                    <primitive object={gltf.scene} scale={0.8} />
-                    <OrbitControls />
-                    <Environment preset='sunset' background />
-                  </Canvas>
-                </Suspense>
-              </div>
+              <ClientOnly fallback={<h1>Loading Blender Model...</h1>}>
+                {() => (
+                  <React.Suspense fallback={<h1>Loading Blender Model...</h1>}>
+                    <ThreeScene
+                      glbFileUrl={glbFile.url}
+                      bgColour={backgroundColour.hex}
+                    />
+                  </React.Suspense>
+                )}
+              </ClientOnly>
             )
           },
         },

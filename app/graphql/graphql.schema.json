@@ -9390,6 +9390,22 @@
         "description": "Add a blender model to our post, file type should be a glTF file so export your model in blender as a .glb file",
         "fields": [
           {
+            "name": "backgroundColour",
+            "description": "Choose a colour for the background of your Blender Model",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "Color",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createdAt",
             "description": "The time the document was created",
             "args": [],
@@ -10008,6 +10024,22 @@
         "description": null,
         "fields": null,
         "inputFields": [
+          {
+            "name": "backgroundColour",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "ColorInput",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "createdAt",
             "description": null,
@@ -11047,6 +11079,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "backgroundColour",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "ColorInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "glbFile",
             "description": null,
             "type": {
@@ -11233,11 +11277,11 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "_",
-            "description": "No fields in updateMany data input",
+            "name": "backgroundColour",
+            "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "INPUT_OBJECT",
+              "name": "ColorInput",
               "ofType": null
             },
             "defaultValue": null,

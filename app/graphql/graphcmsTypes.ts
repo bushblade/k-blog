@@ -1328,6 +1328,8 @@ export type BatchPayload = {
 /** Add a blender model to our post, file type should be a glTF file so export your model in blender as a .glb file */
 export type BlenderModel = Node & {
   __typename?: 'BlenderModel';
+  /** Choose a colour for the background of your Blender Model */
+  backgroundColour: Color;
   /** The time the document was created */
   createdAt: Scalars['DateTime'];
   /** User that created this document */
@@ -1425,6 +1427,7 @@ export type BlenderModelConnection = {
 };
 
 export type BlenderModelCreateInput = {
+  backgroundColour: ColorInput;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   glbFile: AssetCreateOneInlineInput;
   title: Scalars['String'];
@@ -1573,6 +1576,7 @@ export enum BlenderModelOrderByInput {
 }
 
 export type BlenderModelUpdateInput = {
+  backgroundColour?: InputMaybe<ColorInput>;
   glbFile?: InputMaybe<AssetUpdateOneInlineInput>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -1595,8 +1599,7 @@ export type BlenderModelUpdateManyInlineInput = {
 };
 
 export type BlenderModelUpdateManyInput = {
-  /** No fields in updateMany data input */
-  _?: InputMaybe<Scalars['String']>;
+  backgroundColour?: InputMaybe<ColorInput>;
 };
 
 export type BlenderModelUpdateManyWithNestedWhereInput = {
@@ -7092,6 +7095,7 @@ export type BatchPayloadResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type BlenderModelResolvers<ContextType = any, ParentType extends ResolversParentTypes['BlenderModel'] = ResolversParentTypes['BlenderModel']> = {
+  backgroundColour?: Resolver<ResolversTypes['Color'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<BlenderModelCreatedByArgs>>;
   documentInStages?: Resolver<Array<ResolversTypes['BlenderModel']>, ParentType, ContextType, RequireFields<BlenderModelDocumentInStagesArgs, 'includeCurrent' | 'inheritLocale' | 'stages'>>;

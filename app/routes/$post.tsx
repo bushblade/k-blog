@@ -87,6 +87,9 @@ const pageQuery = gql`
             youTubeShareUrl
           }
           ... on BlenderModel {
+            backgroundColour {
+              hex
+            }
             id
             title
             glbFile {
