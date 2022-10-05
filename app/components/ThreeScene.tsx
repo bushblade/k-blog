@@ -1,7 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
-import { Suspense } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Suspense, useRef, useState } from 'react'
+import type { Mesh } from 'three'
 
 export default function ThreeScene({
   glbFileUrl,
@@ -10,7 +11,7 @@ export default function ThreeScene({
   glbFileUrl: string
   bgColour: string
 }) {
-  const gltf = useGLTF(glbFileUrl)
+  const [dragging, setDragging] = useState(false)
   return (
     <div
       id='canvas-container'
@@ -22,13 +23,30 @@ export default function ThreeScene({
           aspectRatio: '16/9',
           backgroundColor: bgColour,
         }}
+        onPointerDown={() => setDragging(true)}
+        onPointerUp={() => setDragging(false)}
       >
         <Suspense fallback={null}>
-          <primitive object={gltf.scene} scale={0.8} />
+          <MyMesh glbFileUrl={glbFileUrl} dragging={dragging} />
           <OrbitControls />
           <Environment preset='sunset' background={false} />
         </Suspense>
       </Canvas>
     </div>
   )
+}
+
+function MyMesh({
+  glbFileUrl,
+  dragging,
+}: {
+  glbFileUrl: string
+  dragging: boolean
+}) {
+  const gltf = useGLTF(glbFileUrl)
+  const myMesh = useRef<Mesh>()
+  useFrame(() => {
+    if (myMesh.current && !dragging) myMesh.current.rotation.y += 0.01
+  })
+  return <primitive object={gltf.scene} scale={0.8} ref={myMesh} />
 }
