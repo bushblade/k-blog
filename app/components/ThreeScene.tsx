@@ -1,12 +1,7 @@
 /* eslint-disable react/no-unknown-property */
-import { useLoader } from '@react-three/fiber'
-// FIX: should be able to import from node_modules
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { GLTFLoader } from '../blender-modules/GLTFLoader'
-import { Environment, OrbitControls } from '@react-three/drei'
+import { Environment, OrbitControls, useGLTF } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
-import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export default function ThreeScene({
   glbFileUrl,
@@ -15,7 +10,7 @@ export default function ThreeScene({
   glbFileUrl: string
   bgColour: string
 }) {
-  const gltf: GLTF = useLoader(GLTFLoader, glbFileUrl)
+  const gltf = useGLTF(glbFileUrl)
   return (
     <div
       id='canvas-container'
