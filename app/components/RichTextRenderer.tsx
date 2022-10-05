@@ -120,11 +120,26 @@ export function RichTextRenderer({
           },
           BlenderModel: ({ nodeId }: EmbedProps<BlenderModel>) => {
             const bModel = content.references.find((ref) => ref.id === nodeId)
-            const { glbFile, backgroundColour } = bModel as BlenderModel
+            const { glbFile, backgroundColour, title } = bModel as BlenderModel
             return (
-              <ClientOnly fallback={<h1>Loading Blender Model...</h1>}>
+              <ClientOnly
+                fallback={
+                  <div
+                    className='animate-pulse'
+                    style={{
+                      backgroundColor: backgroundColour.css,
+                      width: '100%',
+                      aspectRatio: '16/9',
+                    }}
+                  >
+                    <div className='text-center h-full w-full flex items-center justify-center'>
+                      <h3 className='text-lg h-12'>Loading {title}...</h3>
+                    </div>
+                  </div>
+                }
+              >
                 {() => (
-                  <React.Suspense fallback={<h1>Loading Blender Model...</h1>}>
+                  <React.Suspense fallback={<h1>...</h1>}>
                     <ThreeScene
                       glbFileUrl={glbFile.url}
                       bgColour={backgroundColour.css}
