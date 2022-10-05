@@ -36,7 +36,6 @@
     "@graphql-codegen/typescript-resolvers": "2.7.3",
     "@remix-run/dev": "^1.7.2",
     "@remix-run/eslint-config": "^1.7.2",
-    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@types/three": "^0.144.0",
