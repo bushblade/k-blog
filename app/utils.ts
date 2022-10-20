@@ -11,7 +11,7 @@ export function getWebPsrc(src: string, width = 800) {
  * @param length -  the length of string to return default 13
  * @returns A string of plain text
  */
-export function trimText(text: string, length: number = 13) {
+export function trimText(text: string, length: number = 20) {
   const t = text
     .replace(/[0-9]\\n|\\n|\/\/|\n/gi, ' ')
     .replace(/\s+/g, ' ')

@@ -38,7 +38,10 @@ export default function PostsGrid({
                 <h2 className='card-title group-hover:link decoration-2 decoration-primary my-3'>
                   {post.title}
                 </h2>
-                <p style={{ whiteSpace: 'pre-wrap' }} className='text-sm my-2'>
+                <p
+                  style={{ whiteSpace: 'pre-wrap' }}
+                  className='text-sm my-2 line-clamp-3'
+                >
                   {trimText(post.content.text)}
                 </p>
               </Link>
