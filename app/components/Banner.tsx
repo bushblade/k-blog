@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Author } from '~/graphql/graphcmsTypes'
 import Header from './Header'
 
-const greetings = ['Hey there!', 'Hi!', `Yep that's me!`]
+const greetings = ['Hey there!', 'Hi!', `Yep that's me!`, 'Hello!', '...']
 
 function randomGreeting() {
   return greetings[Math.floor(Math.random() * greetings.length)]
