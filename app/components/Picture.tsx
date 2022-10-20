@@ -75,6 +75,8 @@ export default function Picture({
         onContextMenu={(event) => event.preventDefault()}
         src={src}
         style={{
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
           width: '100%',
           filter: blur ? 'blur(10px)' : 'none',
           transition: blur ? 'none' : 'filter 0.2s ease-out',

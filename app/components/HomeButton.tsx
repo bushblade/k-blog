@@ -87,7 +87,10 @@ export default function HomeButton() {
       data-tip='Home'
     >
       <Link to='/'>
-        <button className='btn btn-ghost hover:scale-105 transition-transform'>
+        <button
+          className='btn btn-ghost hover:scale-105 transition-transform'
+          name='home'
+        >
           <HomeIcon />
         </button>
       </Link>

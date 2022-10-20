@@ -11,7 +11,9 @@ export default function CategoryLinks({
       {categories.map(({ id, title, slug }) => (
         <li key={id}>
           <Link key={id} to={`category/${slug}`}>
-            <button className='btn btn-ghost'>{title}</button>
+            <button className='btn btn-ghost' name={slug}>
+              {title}
+            </button>
           </Link>
         </li>
       ))}

@@ -45,6 +45,7 @@ export default function Document({
       <body>
         <div className='dropdown dropdown-end absolute top-8 right-8 z-20'>
           <button
+            name='theme'
             tabIndex={0}
             className='btn btn-ghost tooltip tooltip-left tooltip-primary normal-case font-normal'
             data-tip='Change Theme'
@@ -58,6 +59,7 @@ export default function Document({
             {themes.map((t) => (
               <li key={t.name}>
                 <button
+                  name='set-theme'
                   onClick={() => {
                     setTheme(t.name)
                     if (document.activeElement instanceof HTMLElement) {
