@@ -45,7 +45,7 @@ export default function Document({
       <body>
         <div className='dropdown dropdown-end absolute top-8 right-8 z-20'>
           <button
-            name='theme'
+            name='theme-picker'
             tabIndex={0}
             className='btn btn-ghost tooltip tooltip-left tooltip-primary normal-case font-normal'
             data-tip='Change Theme'
