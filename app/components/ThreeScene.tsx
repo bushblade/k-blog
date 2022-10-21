@@ -15,7 +15,7 @@ export default function ThreeScene({
   return (
     <div
       id='canvas-container'
-      className='hover:cursor-grab active:cursor-grabbing'
+      className='hover:cursor-grab active:cursor-grabbing rounded-box bg-base-100'
     >
       <Canvas
         style={{
@@ -25,6 +25,7 @@ export default function ThreeScene({
         }}
         onPointerDown={() => setDragging(true)}
         onPointerUp={() => setDragging(false)}
+        className='rounded-box'
       >
         <Suspense fallback={null}>
           <MyMesh glbFileUrl={glbFileUrl} dragging={dragging} />
