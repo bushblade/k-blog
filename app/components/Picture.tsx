@@ -22,6 +22,7 @@ const useProgressiveImg = (
 }
 
 interface PictureProps {
+  blurUp?: boolean
   smallSrc: string
   largeSrc: string
   alt: string | undefined
@@ -32,6 +33,9 @@ interface PictureProps {
 /**
  * Progressively load an image with blur up effect
  *
+ * @param props.blurUp - should the image use a css filter to blur while loading
+ * defaults to true. If you're noticing performance issues then disabling blurUp
+ * may help.
  * @param props.smallSrc - the start image src should be a tiny image i.e. 16px by 9px
  * @param props.largSrc - the final image to transition to
  * @param props.alt - the alt attribute to pass to the '<img>'
@@ -41,6 +45,7 @@ interface PictureProps {
  */
 
 export default function Picture({
+  blurUp = true,
   smallSrc,
   largeSrc,
   alt,
@@ -68,7 +73,7 @@ export default function Picture({
         maxHeight: '80vh',
         margin: 'auto',
       }}
-      className={blur ? 'animate-pulse' : ''}
+      className={blur && blurUp ? 'animate-pulse' : ''}
     >
       <img
         loading='lazy'
@@ -78,8 +83,8 @@ export default function Picture({
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
           width: '100%',
-          filter: blur ? 'blur(10px)' : 'none',
-          transition: blur ? 'none' : 'filter 0.2s ease-out',
+          filter: blur && blurUp ? 'blur(10px)' : 'none',
+          transition: blur && blurUp ? 'none' : 'filter 0.2s ease-out',
           objectFit: 'cover',
           overflow: 'hidden',
         }}
