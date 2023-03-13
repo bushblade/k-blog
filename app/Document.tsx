@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Links, Meta, useFetcher } from '@remix-run/react'
 import ThemeIcon from './components/ThemeIcon'
 import MoonSVG from './components/MoonSVG'
@@ -16,34 +16,22 @@ const themes = [
 export default function Document({
   children,
   title,
-  isErrorPage = false, // useLoaderData is not available in a ErrorBoundry
 }: {
   children: React.ReactNode
   title?: string
   isErrorPage?: boolean
 }) {
   // this will be the return of the root loader function
-  // FIX: cannot useLoaderData in an errorElement
   const loaderData = useLoaderData()
   const fetcher = useFetcher()
 
   const [theme, setTheme] = useState(
     loaderData?.theme
       ? loaderData.theme
-      : isErrorPage
-      ? 'dracula'
       : window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dracula'
       : 'garden'
   )
-
-  useEffect(() => {
-    // Fallback for themeing if on an error page
-    const storedTheme = localStorage.getItem('theme')
-    if (isErrorPage && storedTheme) {
-      setTheme(storedTheme)
-    }
-  }, [isErrorPage])
 
   return (
     <html lang='en' data-theme={theme}>
@@ -74,8 +62,7 @@ export default function Document({
                   name='set-theme'
                   onClick={() => {
                     setTheme(t.name)
-                    if (!isErrorPage)
-                      fetcher.submit({ theme: t.name }, { method: 'post' })
+                    fetcher.submit({ theme: t.name }, { method: 'post' })
                     // localStorage.setItem('theme', t.name)
                     if (document.activeElement instanceof HTMLElement) {
                       // whatever element has focus when dropdown is open blur

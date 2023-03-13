@@ -9,6 +9,7 @@ import {
 import styles from './tailwind.css'
 
 import Document from './Document'
+import DocumentForBoundry from './DocumentForBoundry'
 import ErrorPage from './components/ErrorPage'
 
 import type { ActionArgs, LinksFunction, LoaderFunction } from '@remix-run/node'
@@ -60,21 +61,21 @@ export default function App() {
 export function CatchBoundary() {
   const caught = useCatch()
   return (
-    <Document title={`Oops! ${caught.status}`} isErrorPage={true}>
+    <DocumentForBoundry title={`Oops! ${caught.status}`}>
       <ErrorPage message={`${caught.status}  ${caught.statusText}`}>
         <p className='text-lg'>I don&apos;t have a page for that</p>
       </ErrorPage>
       <Scripts />
-    </Document>
+    </DocumentForBoundry>
   )
 }
 
 // catch errors
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <Document title='Oh no!' isErrorPage={true}>
+    <DocumentForBoundry title='Oh no!'>
       <ErrorPage message={error.message} />
       <Scripts />
-    </Document>
+    </DocumentForBoundry>
   )
 }
