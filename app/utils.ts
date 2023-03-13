@@ -26,7 +26,7 @@ const dateFormatter = new Intl.DateTimeFormat('en-GB', { dateStyle: 'long' })
 
 /**
  * Takes a valid date string and formats it to en-GB
- * eg. "2022-01-08T14:49:15.586393+00:00" becomes "8 January 2022"
+ * @example "2022-01-08T14:49:15.586393+00:00" becomes "8th January 2022"
  *
  * @param dateStr - must be a valid dateTime string that can be passed to the Date constructor
  * @returns - A UK formatted long date string
