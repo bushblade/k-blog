@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Links, Meta } from '@remix-run/react'
+import { Links, Meta, useSubmit, useTransition } from '@remix-run/react'
 import ThemeIcon from './components/ThemeIcon'
 import MoonSVG from './components/MoonSVG'
 import SunSVG from './components/SunSVG'
+import { useLoaderData } from '@remix-run/react'
 
 const themes = [
   { name: 'garden', dark: false },
@@ -19,19 +20,22 @@ export default function Document({
   children: React.ReactNode
   title?: string
 }) {
-  const [theme, setTheme] = useState('dracula')
+  // this will be the return of the root loader function
+  const loaderData = useLoaderData()
+  const submit = useSubmit()
+  const [theme, setTheme] = useState(
+    loaderData.theme
+      ? loaderData.theme
+      : window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dracula'
+      : 'garden'
+  )
 
   useEffect(() => {
-    const prefersDark = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches
-    const storedTheme = localStorage.getItem('theme')
-    setTheme(storedTheme ? storedTheme : prefersDark ? 'dracula' : 'garden')
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme)
-  }, [theme])
+    const formData = new FormData()
+    formData.append('theme', theme)
+    submit(formData, { method: 'post' })
+  }, [theme, submit])
 
   return (
     <html lang='en' data-theme={theme}>
