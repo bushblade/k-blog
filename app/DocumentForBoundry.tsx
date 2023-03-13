@@ -13,6 +13,7 @@ export default function Document({
   useEffect(() => {
     // Fallback for themeing if on an error page
     const storedTheme = localStorage.getItem('theme')
+    console.log(storedTheme)
     if (storedTheme) {
       setTheme(storedTheme)
     }

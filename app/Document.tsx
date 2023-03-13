@@ -63,6 +63,8 @@ export default function Document({
                   onClick={() => {
                     setTheme(t.name)
                     fetcher.submit({ theme: t.name }, { method: 'post' })
+                    // set theme for when loader data not available i.e. Error
+                    localStorage.setItem('theme', t.name)
                     // localStorage.setItem('theme', t.name)
                     if (document.activeElement instanceof HTMLElement) {
                       // whatever element has focus when dropdown is open blur
