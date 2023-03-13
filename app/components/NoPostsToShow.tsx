@@ -7,7 +7,7 @@ export default function NoPostsToShow({ category }: { category: string }) {
         <img src='/crying-cat.svg' alt='broken-heart' className='w-10 h-10' />{' '}
         Oops!
       </h2>
-      <p>
+      <p style={{ display: 'block' }}>
         I haven&apos;t created any <strong>{category}</strong> posts as yet!
       </p>
       <p className='text-center'>Please try another category.</p>
