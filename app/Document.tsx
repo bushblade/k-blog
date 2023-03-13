@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Links, Meta, useSubmit, useTransition } from '@remix-run/react'
+import { useState } from 'react'
+import { Links, Meta, useFetcher } from '@remix-run/react'
 import ThemeIcon from './components/ThemeIcon'
 import MoonSVG from './components/MoonSVG'
 import SunSVG from './components/SunSVG'
@@ -22,7 +22,8 @@ export default function Document({
 }) {
   // this will be the return of the root loader function
   const loaderData = useLoaderData()
-  const submit = useSubmit()
+  const fetcher = useFetcher()
+
   const [theme, setTheme] = useState(
     loaderData.theme
       ? loaderData.theme
@@ -30,12 +31,6 @@ export default function Document({
       ? 'dracula'
       : 'garden'
   )
-
-  useEffect(() => {
-    const formData = new FormData()
-    formData.append('theme', theme)
-    submit(formData, { method: 'post' })
-  }, [theme, submit])
 
   return (
     <html lang='en' data-theme={theme}>
@@ -66,6 +61,7 @@ export default function Document({
                   name='set-theme'
                   onClick={() => {
                     setTheme(t.name)
+                    fetcher.submit({ theme: t.name }, { method: 'post' })
                     if (document.activeElement instanceof HTMLElement) {
                       // whatever element has focus when dropdown is open blur
                       // it so it loses focus and the dropdown closes
