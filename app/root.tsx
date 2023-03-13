@@ -60,7 +60,7 @@ export default function App() {
 export function CatchBoundary() {
   const caught = useCatch()
   return (
-    <Document title={`Oops! ${caught.status}`}>
+    <Document title={`Oops! ${caught.status}`} isErrorPage={true}>
       <ErrorPage message={`${caught.status}  ${caught.statusText}`}>
         <p className='text-lg'>I don&apos;t have a page for that</p>
       </ErrorPage>
@@ -72,7 +72,7 @@ export function CatchBoundary() {
 // catch errors
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <Document title='Oh no!'>
+    <Document title='Oh no!' isErrorPage={true}>
       <ErrorPage message={error.message} />
       <Scripts />
     </Document>
