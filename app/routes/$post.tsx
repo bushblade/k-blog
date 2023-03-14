@@ -139,7 +139,7 @@ export const meta: MetaFunction = ({ data }: { data: { post: Post } }) => {
 }
 
 export default function PostPage() {
-  const { post, author, categories }: Data = useLoaderData()
+  const { post, author, categories }: Data = useLoaderData<typeof loader>()
 
   let coverImageAspectRatio: AspectRatio | null = null
   if (post.coverImage) {

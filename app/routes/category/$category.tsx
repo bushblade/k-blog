@@ -10,7 +10,7 @@ import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
 import Header from '~/components/Header'
 
-import type { LoaderFunction, MetaFunction } from '@remix-run/node'
+import type { LoaderArgs, LoaderFunction, MetaFunction } from '@remix-run/node'
 import type { PostWithSmallPreview } from '~/types'
 import type { Author, Category } from '~/graphql/graphcmsTypes'
 
@@ -74,11 +74,18 @@ interface Data {
   author: Author
   categories: Category[]
   posts: PostWithSmallPreview[]
+  category: Category
+}
+
+interface LoaderData {
+  author: Author
+  categories: Category[]
+  posts: PostWithSmallPreview[]
   category: string
 }
 
-export let loader: LoaderFunction = async ({ params: { category } }) => {
-  const data = await graphcms.request(query, {
+export async function loader({ params: { category } }: LoaderArgs) {
+  const data: Data = await graphcms.request(query, {
     category,
     authorId: process.env.AUTHOR_ID,
   })
@@ -94,7 +101,7 @@ export let loader: LoaderFunction = async ({ params: { category } }) => {
   }
 }
 
-export let meta: MetaFunction = ({ data }) => {
+export let meta: MetaFunction<typeof loader> = ({ data }) => {
   // NOTE: need to check if we have data otherwise ErrorBoundry will not catch
   // error thrown in loader
   if (data)
@@ -106,7 +113,8 @@ export let meta: MetaFunction = ({ data }) => {
 }
 
 export default function CategoryPage() {
-  let { posts, category, categories, author }: Data = useLoaderData()
+  // NOTE: Remix not correctly getting the type here.
+  let { posts, category, categories, author } = useLoaderData() as LoaderData
 
   return (
     <>

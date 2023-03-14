@@ -9,7 +9,7 @@ import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
 
 import type { Author, Category } from '~/graphql/graphcmsTypes'
-import type { LoaderFunction, MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import type { PostWithSmallPreview } from '~/types'
 // import type { PostWithSmallThumbnail } from '~/types'
 
@@ -71,7 +71,7 @@ interface Data {
   author: Author
 }
 
-export let loader: LoaderFunction = async () => {
+export async function loader() {
   const data: Data = await graphcms.request(query, {
     authorId: process.env.AUTHOR_ID,
   })
@@ -93,7 +93,8 @@ export let meta: MetaFunction = ({ data }: { data: { author: Author } }) => {
 }
 
 export default function Index() {
-  const { categories, author, posts }: Data = useLoaderData()
+  // NOTE: Remix not correctl geting type from loader so need assertion
+  const { categories, author, posts } = useLoaderData<typeof loader>() as Data
   return (
     <>
       <Banner author={author} />
