@@ -10,7 +10,7 @@ import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
 import Header from '~/components/Header'
 
-import type { LoaderArgs, LoaderFunction, MetaFunction } from '@remix-run/node'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import type { PostWithSmallPreview } from '~/types'
 import type { Author, Category } from '~/graphql/graphcmsTypes'
 
@@ -77,20 +77,13 @@ interface Data {
   category: Category
 }
 
-interface LoaderData {
-  author: Author
-  categories: Category[]
-  posts: PostWithSmallPreview[]
-  category: string
-}
-
-export async function loader({ params: { category } }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
   const data: Data = await graphcms.request(query, {
-    category,
+    category: params.category,
     authorId: process.env.AUTHOR_ID,
   })
   if (!data.category) {
-    throw new Error(`No matching category for "${category}"`)
+    throw new Error(`No matching category for "${params.category}"`)
   }
 
   return {
@@ -101,20 +94,19 @@ export async function loader({ params: { category } }: LoaderArgs) {
   }
 }
 
-export let meta: MetaFunction<typeof loader> = ({ data }) => {
-  // NOTE: need to check if we have data otherwise ErrorBoundry will not catch
-  // error thrown in loader
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (data)
-    return {
-      title: `${data.author.name}'s ${data.category} posts`,
-      'og:title': `${data.author.name}'s ${data.category} posts`,
-    }
-  return {}
+    return [
+      {
+        title: `${data.author.name}'s ${data.category} posts`,
+        'og:title': `${data.author.name}'s ${data.category} posts`,
+      },
+    ]
+  throw new Error('No Data')
 }
 
 export default function CategoryPage() {
-  // NOTE: Remix not correctly getting the type here.
-  let { posts, category, categories, author } = useLoaderData() as LoaderData
+  let { posts, category, categories, author } = useLoaderData<typeof loader>()
 
   return (
     <>

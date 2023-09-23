@@ -14,10 +14,10 @@ import { nearestAspectRatio, trimText } from '~/utils'
 
 import type {
   MetaFunction,
-  LoaderFunction,
   LinksFunction,
+  LoaderFunctionArgs,
 } from '@remix-run/node'
-import type { Author, Category, Post } from '~/graphql/graphcmsTypes'
+import type { Author, Category } from '~/graphql/graphcmsTypes'
 import type { AspectRatio, PostWithSmallCoverImage } from '~/types'
 import { RichTextRenderer } from '~/components/RichTextRenderer'
 
@@ -108,13 +108,13 @@ interface Data {
   categories: Category[]
 }
 
-export let loader: LoaderFunction = async ({ params: { post } }) => {
+export async function loader({ params }: LoaderFunctionArgs) {
   const data: Data = await graphcms.request(pageQuery, {
-    slug: post,
+    slug: params.post,
     authorId: process.env.AUTHOR_ID,
   })
-  if (!data.post) throw new Error(`No posts found for "${post}"`)
-  return data
+  if (data) return data
+  throw new Error(`No posts found for "${params.post}"`)
 }
 
 export const links: LinksFunction = () => {
@@ -127,19 +127,22 @@ export const links: LinksFunction = () => {
 }
 
 // NOTE: the meta function gets the loader data available in function args
-export const meta: MetaFunction = ({ data }: { data: { post: Post } }) => {
-  if (!data) return {}
-  if (!data.post) return {}
-  return {
-    title: data.post.title,
-    'og:title': data.post.title,
-    'og:image': data.post.previewImage.url,
-    'og:description': trimText(data.post.content.text),
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (data && data.post) {
+    return [
+      {
+        title: data.post.title,
+        'og:title': data.post.title,
+        'og:image': data.post.previewImage.url,
+        'og:description': trimText(data.post.content.text),
+      },
+    ]
   }
+  throw new Error('No Data')
 }
 
 export default function PostPage() {
-  const { post, author, categories }: Data = useLoaderData<typeof loader>()
+  const { post, author, categories } = useLoaderData<typeof loader>()
 
   let coverImageAspectRatio: AspectRatio | null = null
   if (post.coverImage) {

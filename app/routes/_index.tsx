@@ -9,8 +9,8 @@ import Footer from '~/components/Footer'
 import PostsGrid from '~/components/PostsGrid'
 
 import type { Author, Category } from '~/graphql/graphcmsTypes'
-import type { MetaFunction } from '@remix-run/node'
 import type { PostWithSmallPreview } from '~/types'
+import type { MetaFunction } from '@remix-run/node'
 // import type { PostWithSmallThumbnail } from '~/types'
 
 const query = gql`
@@ -81,20 +81,22 @@ export async function loader() {
   throw new Error('Something went wrong with fetching from CMS')
 }
 
-export let meta: MetaFunction = ({ data }: { data: { author: Author } }) => {
-  if (data.author)
-    return {
-      title: `${data.author.name}'s blog site`,
-      'og:title': `${data.author.name}'s blog site`,
-      'og:image': data.author.picture.url,
-      'og:description': data.author.title,
-    }
-  return {}
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (data && data.author)
+    return [
+      {
+        title: `${data.author.name}'s blog site`,
+        'og:title': `${data.author.name}'s blog site`,
+        'og:image': data.author.picture.url,
+        'og:description': data.author.title,
+      },
+    ]
+  throw new Error('No Data')
 }
 
 export default function Index() {
   // NOTE: Remix not correctl geting type from loader so need assertion
-  const { categories, author, posts } = useLoaderData<typeof loader>() as Data
+  const { categories, author, posts } = useLoaderData()
   return (
     <>
       <Banner author={author} />

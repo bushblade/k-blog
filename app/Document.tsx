@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { Links, Meta, useFetcher } from '@remix-run/react'
+import { Links, Meta, useFetcher, useLoaderData } from '@remix-run/react'
 import ThemeIcon from './components/ThemeIcon'
 import MoonSVG from './components/MoonSVG'
 import SunSVG from './components/SunSVG'
-import { useLoaderData } from '@remix-run/react'
 
 const themes = [
   { name: 'garden', dark: false },

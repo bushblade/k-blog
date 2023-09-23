@@ -3,7 +3,8 @@ import {
   Scripts,
   ScrollRestoration,
   LiveReload,
-  useCatch,
+  useRouteError,
+  isRouteErrorResponse,
 } from '@remix-run/react'
 
 import styles from './tailwind.css'
@@ -12,7 +13,11 @@ import Document from './Document'
 import DocumentForBoundry from './DocumentForBoundry'
 import ErrorPage from './components/ErrorPage'
 
-import type { ActionArgs, LinksFunction, LoaderFunction } from '@remix-run/node'
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  LoaderFunction,
+} from '@remix-run/node'
 import { themeCookie } from './cookies'
 import { json } from '@remix-run/node'
 
@@ -30,7 +35,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return cookie
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const cookieHeader = request.headers.get('Cookie')
   const cookie = (await themeCookie.parse(cookieHeader)) || {}
   const bodyParams = await request.formData()
@@ -57,25 +62,31 @@ export default function App() {
   )
 }
 
-// 404 pages
-export function CatchBoundary() {
-  const caught = useCatch()
-  return (
-    <DocumentForBoundry title={`Oops! ${caught.status}`}>
-      <ErrorPage message={`${caught.status}  ${caught.statusText}`}>
-        <p className='text-lg'>I don&apos;t have a page for that</p>
-      </ErrorPage>
-      <Scripts />
-    </DocumentForBoundry>
-  )
-}
-
 // catch errors
-export function ErrorBoundary({ error }: { error: Error }) {
-  return (
-    <DocumentForBoundry title='Oh no!'>
-      <ErrorPage message={error.message} />
-      <Scripts />
-    </DocumentForBoundry>
-  )
+export function ErrorBoundary() {
+  const error = useRouteError()
+  if (isRouteErrorResponse(error)) {
+    return (
+      <DocumentForBoundry title={`Oops! ${error.status}`}>
+        <ErrorPage message={`${error.status}  ${error.statusText}`}>
+          <p className='text-lg'>I don&apos;t have a page for that</p>
+        </ErrorPage>
+        <Scripts />
+      </DocumentForBoundry>
+    )
+  } else if (error instanceof Error) {
+    return (
+      <DocumentForBoundry title='Oh no!'>
+        <ErrorPage message={error.message} />
+        <Scripts />
+      </DocumentForBoundry>
+    )
+  } else {
+    return (
+      <DocumentForBoundry title='Oh no!'>
+        <ErrorPage message='Unknown Error!' />
+        <Scripts />
+      </DocumentForBoundry>
+    )
+  }
 }

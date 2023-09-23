@@ -2,7 +2,7 @@ import { Link } from '@remix-run/react'
 
 export default function NoPostsToShow({ category }: { category: string }) {
   return (
-    <div className='alert alert-warning shadow-xl flex-col my-8 py-8 max-w-lg m-auto'>
+    <div className='alert alert-warning shadow-xl flex flex-col my-8 py-8 max-w-lg m-auto'>
       <h2 className='text-center text-xl'>
         <img src='/crying-cat.svg' alt='broken-heart' className='w-10 h-10' />{' '}
         Oops!

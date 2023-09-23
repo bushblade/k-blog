@@ -16,7 +16,7 @@ export default function ErrorPage({
         <h1 className='text-center text-4xl'>Oops! Something went wrong.</h1>
       </Header>
       <MainContent>
-        <div className='alert alert-warning shadow-xl flex-col my-8 py-8 max-w-xl m-auto'>
+        <div className='alert alert-warning shadow-xl flex flex-col my-8 py-8 max-w-xl m-auto'>
           {message ? <h2 className='text-xl font-bold'>{message}</h2> : null}
           {children ? children : null}
           <Link to='/' className='btn shadow-xl'>

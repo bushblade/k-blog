@@ -1,6 +1,6 @@
 import { RichText } from '@graphcms/rich-text-react-renderer'
 
-import { ClientOnly } from 'remix-utils'
+import { ClientOnly } from 'remix-utils/client-only'
 import * as React from 'react'
 import Picture from '~/components/Picture'
 
@@ -134,12 +134,10 @@ export function RichTextRenderer({
                 }
               >
                 {() => (
-                  <React.Suspense fallback={<h1>...</h1>}>
-                    <ThreeScene
-                      glbFileUrl={glbFile.url}
-                      bgColour={backgroundColour.css}
-                    />
-                  </React.Suspense>
+                  <ThreeScene
+                    glbFileUrl={glbFile.url}
+                    bgColour={backgroundColour.css}
+                  />
                 )}
               </ClientOnly>
             )
