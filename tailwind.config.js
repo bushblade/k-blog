@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [require('daisyui'), require('@tailwindcss/line-clamp')],
+  plugins: [require('daisyui')],
   daisyui: {
     themes: ['garden', 'lemonade', 'dracula', 'retro', 'business'],
     darkTheme: 'dracula',
