@@ -21,7 +21,7 @@ export default function Document({
   isErrorPage?: boolean
 }) {
   // this will be the return of the root loader function
-  const loaderData = useLoaderData()
+  const loaderData = useLoaderData<{ theme: string }>()
   const fetcher = useFetcher()
 
   const [theme, setTheme] = useState(

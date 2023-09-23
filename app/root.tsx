@@ -5,6 +5,7 @@ import {
   LiveReload,
   useRouteError,
   isRouteErrorResponse,
+  useLoaderData,
 } from '@remix-run/react'
 
 import styles from './tailwind.css'
