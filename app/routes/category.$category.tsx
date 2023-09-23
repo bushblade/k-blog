@@ -116,7 +116,7 @@ export default function CategoryPage() {
         <h1 className='text-5xl inline-block'>{category}</h1>
       </Header>
       <MainContent>
-        <h2 className='text-4xl pt-5'>{category} Posts</h2>
+        <h2 className='text-4xl pt-5'>Posts tagged - {category}</h2>
         <div className='divider'></div>
         {posts.length > 0 ? (
           <PostsGrid posts={posts} />
