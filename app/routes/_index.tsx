@@ -11,7 +11,6 @@ import PostsGrid from '~/components/PostsGrid'
 import type { Author, Category } from '~/graphql/graphcmsTypes'
 import type { PostWithSmallPreview } from '~/types'
 import type { MetaFunction } from '@remix-run/node'
-// import type { PostWithSmallThumbnail } from '~/types'
 
 const query = gql`
   query HomePageQuery($authorId: ID!) {
@@ -95,13 +94,12 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 }
 
 export default function Index() {
-  // NOTE: Remix not correctl geting type from loader so need assertion
-  const { categories, author, posts } = useLoaderData()
+  const { categories, author, posts } = useLoaderData<typeof loader>()
   return (
     <>
       <Banner author={author} />
       <MainContent>
-        <h2 className='text-4xl pt-5'>Posts</h2>
+        <h2 className='text-4xl pt-5'>All Posts</h2>
         <div className='divider'></div>
 
         <CategoryLinks categories={categories} />
