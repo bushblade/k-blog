@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
     "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
     "postinstall": "remix setup node",
-    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config"
+    "codegen": "graphql-codegen --config codegen.ts -r dotenv/config"
   },
   "dependencies": {
     "@graphcms/rich-text-react-renderer": "^0.6.1",
